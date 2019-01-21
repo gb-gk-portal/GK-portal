@@ -108,6 +108,14 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.1</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/support_boot_db?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</url>
+                    <user>support_boot</user>
+                    <password>mngMhjhb6556Q#@</password>
+                    <schemas>
+                        <schema>geek_market</schema>
+                    </schemas>
+                </configuration>
             </plugin>
         </plugins>
     </build>
