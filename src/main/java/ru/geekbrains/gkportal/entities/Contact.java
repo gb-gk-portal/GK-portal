@@ -13,7 +13,7 @@ public class Contact {
 
     @Id
     @Column(name = "id")
-    private UUID uuid;
+    private String uuid = UUID.randomUUID().toString();
 
     @ManyToOne
     @JoinColumn(name = "contact_type_id")

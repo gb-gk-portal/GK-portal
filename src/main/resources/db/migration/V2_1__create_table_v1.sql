@@ -99,14 +99,24 @@ CREATE TABLE `communication_type` (
 DROP TABLE IF EXISTS `contact`;
 
 CREATE TABLE `contact` (
-  `id` char(32) NOT NULL,
-  `contact_type_id` char(32) NOT NULL,
+  `id` char(36) NOT NULL,
+  `contact_type_id` char(36) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_contact_type_id1_idx` (`contact_type_id`),
   CONSTRAINT `fk_contact_type_id1` FOREIGN KEY (`contact_type_id`) REFERENCES `contact_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `contact_type` */
+
+DROP TABLE IF EXISTS `contact_type`;
+
+CREATE TABLE `contact_type` (
+  `id` char(36) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `contact_flat` */
@@ -120,16 +130,6 @@ CREATE TABLE `contact_flat` (
   KEY `fk_users_has_flats_flats1_idx` (`flat_id`),
   CONSTRAINT `fk_users_has_flats_flats1` FOREIGN KEY (`flat_id`) REFERENCES `flat` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_flats_users1` FOREIGN KEY (`contact_id`) REFERENCES `contact` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `contact_type` */
-
-DROP TABLE IF EXISTS `contact_type`;
-
-CREATE TABLE `contact_type` (
-  `id` char(32) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `flat` */

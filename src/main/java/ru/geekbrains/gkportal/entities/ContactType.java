@@ -16,7 +16,7 @@ public class ContactType {
 
     @Id
     @Column(name = "id")
-    private UUID uuid;
+    private String uuid = UUID.randomUUID().toString();
 
     @Column(name = "description")
     @NotNull(message = "Couldn't be empty!")

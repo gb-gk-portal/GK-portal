@@ -7,6 +7,6 @@ import ru.geekbrains.gkportal.entities.ContactType;
 import java.util.UUID;
 
 @Repository
-public interface ContactTypeRepository extends JpaRepository<ContactType, UUID> {
+public interface ContactTypeRepository extends JpaRepository<ContactType, String> {
 
 }
