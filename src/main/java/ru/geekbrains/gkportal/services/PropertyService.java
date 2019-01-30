@@ -18,6 +18,7 @@ public class PropertyService {
 
     public String getPropertyValue(String propertyName, PropertyType type) {
         Property property = propertiesRepository.findByNameAndPropertyType(propertyName, type);
+
         return property.getValue();
     }
 
