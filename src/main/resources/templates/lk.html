@@ -33,6 +33,23 @@
             <td>Вы являетесь:</td>
             <td th:text="${contact.getContactType().getDescription()}">...</td>
         </tr>
+        <tr>
+            <td colspan="2" align="center">Контакты :</td>
+        </tr>
+        <tr th:each="communication : ${communications}" >
+            <td th:text="${communication.getCommunicationType().getDescription()}">...</td>
+            <td th:text="${communication.getIdentify()}">...</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">Квартиры :</td>
+        </tr>
+        <tr th:each="flat , iter : ${flats}" >
+            <td th:utext="${iter.index + 1 } + '.'">...</td>
+            <td >Номер Дома:</td>
+            <td th:text="${flat.getHouseBuild()}">...</td>
+            <td >Номер квартиры:</td>
+            <td th:text="${flat.getFlatNumber()}">...</td>
+        </tr>
 
     </table>
 </div>

@@ -6,9 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.geekbrains.gkportal.entity.Account;
+import ru.geekbrains.gkportal.entity.Communication;
 import ru.geekbrains.gkportal.entity.Contact;
+import ru.geekbrains.gkportal.entity.Flat;
 import ru.geekbrains.gkportal.repository.AccountRepository;
+import ru.geekbrains.gkportal.repository.CommunicationRepository;
+import ru.geekbrains.gkportal.repository.FlatRepository;
 import ru.geekbrains.gkportal.service.AuthenticateService;
+
+import java.util.Collection;
+
 
 
 @Controller
@@ -27,7 +34,6 @@ public class PersonAreaController {
         this.accountRepository = accountRepository;
     }
 
-
     @GetMapping("/user/profile")
     public String showProfile(Model model) {
         if (authenticateService.isCurrentUserAuthenticated()) {
@@ -35,7 +41,11 @@ public class PersonAreaController {
             if (account != null) {
                 Contact contact = account.getContact();
                 if (contact != null) {
+                    Collection<Communication> communications = contact.getCommunications();
+                    Collection<Flat> flats = contact.getFlats();
                     model.addAttribute("contact", contact);
+                    model.addAttribute("communications", communications);
+                    model.addAttribute("flats", flats);
                     return "lk";
                 }
             }
@@ -46,7 +56,7 @@ public class PersonAreaController {
     }
 
     @GetMapping("/lk/{login}")
-    //todo fix it
+    //todo fix it можно адаптировать под палень для отображение информации администратору
     public String personArea(@PathVariable(name = "login") String login, Model model) {
         Account account = accountRepository.findOneByLogin(login);
         if (account != null && !account.isActive()) {
