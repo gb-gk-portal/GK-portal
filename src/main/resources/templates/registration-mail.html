@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<!--<h2 th:text="#{mail.page.authentication.head}"/>-->
+<h2>Регистрация на сайте ЖК Город </h2>
+<p><span>Здравствуйте,  </span><span th:text="${user} + '!'"/></p>
+<p><span> Вы зарегистрировались на сайте ЖК Город, для завершения регистрации перейдите по ссылке</p>
+<p></p>
+<p><a th:href="${password}"><span th:text="${password}"> ссылка</span> </a></p>
+
+
+<!--<p><span th:text="#{mail.page.authentication.hi} + ' ' + ${user.getEmail()} + '!'"/></p>-->
+<!--<p><span th:text="#{mail.page.authentication.password_message} + ' '"/><span th:text="${password}"/></p>-->
+<!--Заготовка для уникальной ссылки-->
+    <!--<a th:href="@{letstalkbuddy.com/registration(id=${user.getId()})}">подтвердить e-mail</a>-->
+</body>
+</html>

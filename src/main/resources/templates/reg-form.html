@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <script th:src="@{/js/main.js}" type="text/javascript"></script>
+    <script th:src="@{/js/regboard.js}" type="text/javascript"></script>
+    <script id="flatTemplate" type="text/x-jrender">
+        <div class="gk-flat-chooser">
+                <div class="gk-select-house">
+                    <label>Номер Дома (почтовый номер, где 3 - колодец)</label>
+                    <select name="flats[{{:num}}].housingNumber" id="flats{{:num}}.housingNumber">
+                        <option multiple="false" value=""></option>
+                        <option multiple="false" value="1">1</option>
+                        <option multiple="false" value="2">2</option>
+                        <option multiple="false" value="3">3</option>
+                    </select>
+                </div>
+                <div>
+                    <div class="gk-select-porch">
+                        <label>Номер Подъезда</label>
+                        <select id="flats{{:num}}.porchNumber" name="flats[{{:num}}].porchNumber">
+                        </select>
+                    </div>
+                </div>
+                <div class="div_show_flat"></div>
+                <div class="gk-reg-floor-number"><label>Номер Этажа<input readonly="readonly" id="flats{{:num}}.floorNumber" name="flats[{{:num}}].floorNumber" value="">
+                    </label></div>
+                <div class="gk-reg-flat-number"><label>Номер Квартиры<input readonly="readonly" id="flats{{:num}}.flatNumber" name="flats[{{:num}}].flatNumber" value="">
+                    </label>
+				</div>
+                <div><label>Число комнат в квартире<select id="flats{{:num}}.roomCount" name="flats[{{:num}}].roomCount">
+						<option value="1">1 комната</option>
+						<option value="2">2 комнаты</option>
+						<option value="3">3 комнаты</option>
+						<option value="4">4 комнаты</option>
+					</select></label>
+				</div>
+            </div>
+
+
+    </script>
+    <title>Регистрация нового пользователя</title>
+
+
+</head>
+<body>
+
+<div class="gk-form-container">
+    <form th:action=" @{'/userRegister'}" th:object="${systemUser}" method="post">
+        <!-- <div th:if="${registrationError != null}" class="form-group">
+             <div class="col-xs-6">
+                 <div class="alert alert-danger col-xs-offset-1 col-xs-10" th:text="${registrationError}"></div>
+             </div>
+         </div>-->
+        <div><label>Адрес электронной почты<input th:field="*{email}" type="email"></label>
+            <span class="error" th:errors="*{email}"></span></div>
+
+        <div><label>Пароль <input th:field="*{password}" type="password" placeholder="Very stRong paSS"></label>
+            <span class="error" th:errors="*{password}"></span></div>
+
+        <div><label>Повтор пароля<input th:field="*{matchingPassword}" type="password"
+                                        placeholder="Very stRong paSS"></label>
+            <span class="error" th:errors="*{matchingPassword}"></span></div>
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:for="phoneNumber">Номер телефона +7 </label>
+            <div class="col-sm-3">
+                <input class="form-control" placeholder="9151234567" th:field="*{phoneNumber}">
+                <div class="gk-error" th:errors="*{phoneNumber}" th:if="${#fields.hasErrors('phoneNumber')}"></div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:for="lastName">Фамилия</label>
+            <div class="col-sm-3">
+                <input class="form-control" th:field="*{lastName}" placeholder="Иванов">
+                <div class="gk-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:for="firstName">Имя</label>
+            <div class="col-sm-3">
+                <input class="form-control" th:field="*{firstName}" placeholder="Иван">
+                <div class="gk-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:for="middleName">Отчество</label>
+            <div class="col-sm-3">
+                <input class="form-control" th:field="*{middleName}" placeholder="Иванович">
+                <div class="gk-error" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></div>
+            </div>
+        </div>
+        <div id="gk-reg-flats">
+            <div class="gk-flat-chooser" th:each="flat, flatStat : *{flats}">
+                <div class="gk-select-house">
+                    <label>Номер Дома (почтовый номер, где 3 - колодец)</label>
+                    <select th:field="*{flats[__${flatStat.index}__].housingNumber}"
+                            th:name="housingNumber">
+                        <option multiple="false" th:each="item: ${housingList}" th:text="${item}" th:value="${item}">
+                            Пункт 1
+                        </option>
+                    </select>
+                    <span class="error" th:errors="*{flats[__${flatStat.index}__].housingNumber}"></span></div>
+                <div>
+                    <div class="gk-select-porch">
+                        <label>Номер Подъезда</label>
+                        <select th:field="*{flats[__${flatStat.index}__].porchNumber}">
+                            <!-- <option multiple="false" th:each="item: ${porchList}" th:text="${item}" th:value="${item}">Пункт
+                                 1
+                             </option>-->
+                        </select>
+                        <span class="error" th:errors="*{flats[__${flatStat.index}__].porchNumber}"></span></div>
+                </div>
+                <div class="div_show_flat"></div>
+                <div class="gk-reg-floor-number"><label>Номер Этажа<input readonly="readonly"
+                                                                          th:field="*{flats[__${flatStat.index}__].floorNumber}">
+                    <span class="error" th:errors="*{flats[__${flatStat.index}__].floorNumber}"></span></label></div>
+                <div class="gk-reg-flat-number"><label>Номер Квартиры<input readonly="readonly"
+                                                                            th:field="*{flats[__${flatStat.index}__].flatNumber}">
+                    <span class="error" th:errors="*{flats[__${flatStat.index}__].flatNumber}"></span></label></div>
+                <div><label>Число комнат в квартире<select th:field="*{flats[__${flatStat.index}__].roomCount}">
+                    <option value="1">1 комната</option>
+                    <option value="2">2 комнаты</option>
+                    <option value="3">3 комнаты</option>
+                    <option value="4">4 комнаты</option>
+                </select></label></div>
+            </div>
+            <button id="add-flat" type="button">Добавить квартиру</button>
+        </div>
+        <div><label>Ваш статус<select th:field="*{contactType.uuid}">
+            <option th:each="type : ${userTypes}" th:value="${type.uuid}" th:text="${type.description}"></option>
+        </select></label>
+        </div>
+
+        <!--/*<div><p>У меня есть место в подземном паркинге</p>
+            <label><input type="radio" th:field="*{boughtParkingPlace}" value="true">Да</label>
+            <label><input type="radio" th:field="*{boughtParkingPlace}" value="false" th:checked="checked">Нет</label>
+        </div>
+        <div><p>Мне инересны</p>
+            <ul>
+                <li th:each="boxValue: ${interests}">
+                    <input type="checkbox" th:field="*{interestedIn}" th:value="${boxValue}"><label
+                        th:text="${boxValue}" th:for="${#ids.prev('interestedIn')}"></label>
+                </li>
+            </ul>
+            <p>Дополнительные интересы</p>
+            <textarea th:field="*{extraInterests}"></textarea>
+        </div>
+        <div><label>Число автомобилей в семье<select th:field="*{carsInFamily}">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select></label></div>*/-->
+        <div class="form-group row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-3">
+                <div class="form-check"><input class="form-check-input" type="checkbox"
+                                               th:field="*{allowContactsSharing}" value="true">
+                    <label class="form-check-label" th:for="allowContactsSharing1">Я разрешаю делиться моими контактами
+                        с соседями</label></div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-5">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

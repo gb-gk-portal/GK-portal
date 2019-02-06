@@ -1,0 +1,22 @@
+<div class="porch" th:each="porch: ${house.porchList}" th:fragment="house-view" xmlns:th="http://www.thymeleaf.org">
+    <h2 th:text="${porch.description.porchID}+' подъезд'"></h2>
+    <table>
+
+        <tbody th:attr="data-porch-number=${porch.description.porchID}">
+        <tr th:attr="data-floor-number=${floor.number}" th:each="floor:${porch.floors}">
+            <td class="gk-floor-number" th:text="${floor.number}+' этаж'"></td>
+            <td class="gk-flat-holder" th:attr="data-rizer-number=${iter}"
+                th:each="iter: ${#numbers.sequence( 0, porch.description.flatCountOnFloor - 1)}">
+                <div th:attr="data-flat-id=${flat.uuid.toString()}"
+                     th:class="gk-flat"
+                     th:classappend="${flat.accountCount}>0 ? 'gk-occupied' : 'gk'" th:each="flat:${floor.flats}"
+                     th:if="${flat.riser==iter }">
+                    <div class="gk-flat-number" th:text="${flat.flatNumber}"></div>
+                    <div class="gk-flat-build-number" th:text="${flat.flatNumberBuild}"></div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>

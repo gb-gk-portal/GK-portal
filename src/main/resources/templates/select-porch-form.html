@@ -1,0 +1,8 @@
+<div class="porch" id="div_porch_inner" th:fragment="porch-view" th:object="${systemUser}"
+     xmlns:th="http://www.thymeleaf.org">
+    <label>Номер Подъезда</label>
+    <select id="pochNumber" name="porchNumber" onChange="onChangePorch(this)" th:field="*{porchNumber}">
+        <option multiple="false" th:each="item: ${porchList}" th:text="${item}" th:value="${item}">Пункт 1</option>
+    </select>
+    <span class="error" th:errors="*{porchNumber}"></span></div>
+

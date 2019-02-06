@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Login Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="padding-site">
+        <h2>Авторизация</h2>
+        <form th:action="@{/authenticateTheUser}" method="POST" class="login-form">
+            <div class="col-xs-15">
+                <div>
+                    <div th:if="${param.error} != null">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            Invalid username and password.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" value="admin_login" name="username" class="form-control" id="inputLogin"
+                           placeholder="Логин">
+                </div>
+                <div class="form-group col-md-6">
+                    <input class="form-control" type="password" value="13456789" name="password" id="inputPassword">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-primary btn-lg">Войти</button>
+            <a class="btn btn-outline-secondary btn-lg" role="button" th:href="@{/reg}">Регистрация</a>
+
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

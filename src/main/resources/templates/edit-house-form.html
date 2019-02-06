@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script th:src="@{/js/main.js}" type="text/javascript"></script>
+    <script th:src="@{/js/editboard.js}" type="text/javascript"></script>
+    <title>Title</title>
+
+
+</head>
+<body>
+<div th:replace="~{house-view :: house-view}"></div>
+<!--<div th:each="porch: ${house.porchList}" class="porch">
+    <h2 th:text="${porch.description.porchID}+' подъезд'"></h2>
+    <table border="1">
+
+        <tbody>
+        <tr th:each="floor:${porch.floors}">
+            <td th:text="${floor.number}+' этаж'" style="font-style: italic; border: hidden"></td>
+            <td class="gk-flat-holder" th:each="iter: ${#numbers.sequence( 0, porch.description.flatCountOnFloor - 1)}">
+                <div class="gk-flat" th:each="flat:${floor.flats}" th:attr="data-flat-id=${flat.id}" th:if="${flat.riser==iter }">
+                    <div class="gk-flat-number" th:text="${flat.flatNumber}" ></div>
+                    <div class="gk-flat-build-number" th:text="${flat.flatNumberBuild}"></div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>-->
+<div><button id="edit">Редактирование</button>
+<button id="stopEdit">Перестать редактировать</button></div>
+<div>
+ <textarea id="area"></textarea>
+</div>
+</body>
+</html>

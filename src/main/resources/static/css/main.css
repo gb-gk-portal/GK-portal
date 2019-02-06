@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.gk-flat {
+    border-radius: 3px;
+    border: 1px solid;
+    text-align: center;
+    cursor: auto;
+    border-color: black;
+}
+
+
+.gk-flat:hover {
+    cursor: pointer;
+    border-color: crimson;
+}
+
+
+.porch {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.porch h2 {
+    text-align: center;
+}
+
+.porch table td {
+    border: 1px dotted royalblue;
+    align-content: center;
+    padding: 3px;
+}
+
+.gk-floor-number {
+    border-bottom-style: none;
+    border-top-style: none;
+    background-color: beige;
+}
+
+.porch table {
+    border-collapse: collapse;
+    border: 3px solid;
+}
+
+/*form {
+    width: min-content;
+}*/
+
+.login-form{
+width: 300px;
+}
+
+.container {
+    max-width: 1366px;
+    flex-direction: column;
+    margin: 0 auto;
+    display: flex;
+    min-height: 100%;
+}
+
+.padding-site {
+    padding-left: 110px;
+    padding-right: 110px;
+}
+
+/*form label {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    white-space: nowrap;
+}*/
+
+/*form li {
+    white-space: nowrap;
+}*/
+
+.gk-flat-number {
+    background-color: #ffe0c8
+}
+
+.gk-flat-build-number {
+    background-color: #e6f5ff
+}
+.gk-form-container{
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+.gk-occupied .gk-flat-number {
+    background-color: crimson;
+}
+.gk-occupied .gk-flat-build-number{
+    background-color : darkcyan;
+}
+.gk-flat-holder {
+    min-width: 50px;
+}
+
+.error {
+    color: red;
+    background-color: aliceblue;
+}
+
+.gk-error {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+    margin-left: 5%;
+}
+
+

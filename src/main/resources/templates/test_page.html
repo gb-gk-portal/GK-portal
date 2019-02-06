@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h2>Тестирвоание страницы доступной только для админа</h2>
+<p><span>Пользователь: </span><span th:text="${#authentication.getName()}"/></p>
+<p><span>Роли: </span><span th:text="${#authentication.getAuthorities()}"/></p>
+
+<p>uuid</p>
+<a th:each="iteam : ${committees}" th:text="${#ids.seq('')} + '.  ' + ${iteam.getName()}"
+   th:href="@{'/committees/' + ${iteam.getId()}}" class="list-group-item list-group-item-action"></a>
+<p>Сгенерированне uuid</p>
+<ul th:each="iteam : ${uuids}">
+    <li th:text="${iteam}"></li>
+</ul>
+
+</body>
+</html>
