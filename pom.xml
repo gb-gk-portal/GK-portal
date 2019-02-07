@@ -14,13 +14,85 @@
     <artifactId>gk-portal</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gk-portal</name>
-    <description>Demo project for Spring Boot</description>
+    <description>GK-Portal</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
+
+    <developers>
+        <developer>
+            <id>ivanez81</id>
+            <name>Ivan Blinov</name>
+            <email>ivan.blinov@gmail.com</email>
+            <url>https://github.com/Ivanez81</url>
+            <organization>GeekBrains</organization>
+            <organizationUrl>https://geekbrains.ru/</organizationUrl>
+            <roles>
+                <role>developer backend</role>
+                <role>server setup</role>
+            </roles>
+            <timezone>Europe/Moscow</timezone>
+            <properties>
+                <picUrl>https://geekbrains-uploads.s3.amazonaws.com/assets/000/691/561/cacb4f64448af7e8ed74eaad61c126866764b795.png</picUrl>
+            </properties>
+        </developer>
+
+        <developer>
+            <id>karelalex</id>
+            <name>Alexander Karelin</name>
+            <email>karelin_alex@inbox.ru</email>
+            <url>https://github.com/karelalex</url>
+            <organization>GeekBrains</organization>
+            <organizationUrl>https://geekbrains.ru/</organizationUrl>
+            <roles>
+                <role>developer frontend</role>
+            </roles>
+            <timezone>Europe/Moscow</timezone>
+            <properties>
+                <picUrl>https://geekbrains-uploads.s3.amazonaws.com/assets/000/652/130/7645b237214a58376a50443419be9ff0064a87a4.JPG</picUrl>
+            </properties>
+        </developer>
+
+        <developer>
+            <id>uatilman</id>
+            <name>Yury Tilman</name>
+            <email>uatilman@gmail.com</email>
+            <url>https://github.com/uatilman</url>
+            <organization>GeekBrains</organization>
+            <organizationUrl>https://geekbrains.ru/</organizationUrl>
+            <roles>
+                <role>developer backend</role>
+                <role>team lid</role>
+            </roles>
+            <timezone>Europe/Moscow</timezone>
+            <properties>
+                <picUrl>https://geekbrains-uploads.s3.amazonaws.com/assets/000/022/280/6c8625c20e05e5cd06046f030c055f3ad512d639.jpg</picUrl>
+            </properties>
+        </developer>
+        <developer>
+            <id>chertenokru</id>
+            <name>Vladimir Konkov</name>
+            <email>admin@chertenok.ru</email>
+            <url>https://github.com/chertenokru</url>
+            <organization>GeekBrains</organization>
+            <organizationUrl>https://geekbrains.ru/</organizationUrl>
+            <roles>
+                <role>project architect</role>
+                <role>database architect</role>
+                <role>developer backend</role>
+            </roles>
+            <timezone>Europe/Moscow</timezone>
+            <properties>
+                <picUrl>
+                    https://geekbrains-uploads.s3.amazonaws.com/assets/000/287/065/b774fff6c5c973ebf72240647507026d26678990.jpg
+                </picUrl>
+            </properties>
+        </developer>
+
+    </developers>
 
     <dependencies>
         <dependency>
@@ -97,7 +169,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.6</version>
+            <version>2.9.8</version>
         </dependency>
 
     </dependencies>

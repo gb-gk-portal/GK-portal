@@ -3,7 +3,7 @@ package ru.geekbrains.gkportal.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.geekbrains.gkportal.entities.BuildPorchConfig;
+import ru.geekbrains.gkportal.entity.BuildPorchConfig;
 
 import java.util.List;
 

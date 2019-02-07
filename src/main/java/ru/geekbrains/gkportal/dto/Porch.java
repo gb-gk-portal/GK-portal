@@ -1,7 +1,7 @@
 package ru.geekbrains.gkportal.dto;
 
 import lombok.Data;
-import ru.geekbrains.gkportal.entities.BuildPorchConfig;
+import ru.geekbrains.gkportal.entity.BuildPorchConfig;
 
 import java.util.ArrayList;
 import java.util.List;

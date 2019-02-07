@@ -1,7 +1,7 @@
 package ru.geekbrains.gkportal.exception;
 
 import ru.geekbrains.gkportal.dto.FlatRegDTO;
-import ru.geekbrains.gkportal.entities.Flat;
+import ru.geekbrains.gkportal.entity.Flat;
 
 import java.util.NoSuchElementException;
 

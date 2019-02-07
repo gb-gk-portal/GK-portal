@@ -38,7 +38,7 @@ $(document).ready(function () {
                     })
                 }
             },
-        }).disableSelection;
+        }).disableSelection();
     });
     $('#stopEdit').click(function () {
         $('.gk-flat-holder').sortable('destroy');

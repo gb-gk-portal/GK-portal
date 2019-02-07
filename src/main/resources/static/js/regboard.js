@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    var currentNum={num : 0};
+    var currentNum = {num: 0};
+    var opsList = $('#gk-reg-flats').children('.gk-flat-chooser').first().find('.gk-select-house select').html();
     $('.gk-flat').click(function clickFlat(th) {
         var flat = constructFlatObject($(th));
         $('#porchNumber').val(flat.porch);
@@ -13,11 +14,12 @@ $(document).ready(function () {
 
     $.templates("flatTemplate", "#flatTemplate");
     $('#add-flat').click(function () {
-        currentNum.num=currentNum.num+1;
+        currentNum.num = currentNum.num + 1;
         var html = $.render.flatTemplate(currentNum);
-        $('#gk-reg-flats').append(html);
+        $('#gk-reg-flats').children('.gk-flat-chooser').last().after(html);
+        $('#gk-reg-flats').children('.gk-flat-chooser').last().find('.gk-select-house select').html(opsList);
     });
-    $('#gk-reg-flats').on('change', '.gk-select-house select', function(){
+    $('#gk-reg-flats').on('change', '.gk-select-house select', function () {
         var caller = $(this).parents('.gk-flat-chooser');
         var houseNum = $(this).val();
         fillPorchChooser(caller, houseNum);
@@ -34,28 +36,26 @@ $(document).ready(function () {
 
         caller.find('.gk-reg-floor-number input').val(flat.floor);
         caller.find('.gk-reg-flat-number input').val(flat.flatNumber);
+        $(this).parents('.div_show_flat').empty();
     })
-
-
 
 
 });
 
 function fillPorchChooser(caller, houseNum) {
-    var jsonData;
     $.ajax({
-        url: '/rest/house/'+houseNum+'/porches',
+        url: '/rest/house/' + houseNum + '/porches',
         success: function (data) {
             console.log(data.length);
             //$('#div_porch').html(data);
-            jsonData=data;
+            var jsonData = data;
             console.log(jsonData);
             var selector = caller.find('.gk-select-porch select');
             selector.empty();
             selector.append('<option>Выбирай</option>');
             console.log(jsonData);
-            for (var i = 0; i<jsonData.length; i++){
-                var option = '<option multiple="false" value="'+jsonData[i]+'">'+jsonData[i]+'</option>';
+            for (var i = 0; i < jsonData.length; i++) {
+                var option = '<option multiple="false" value="' + jsonData[i] + '">' + jsonData[i] + '</option>';
                 selector.append(option);
             }
         }
@@ -68,9 +68,13 @@ function showFlatChooser(caller, houseNum, porchNum) {
         url: '/showPorch/' + houseNum + '/' + porchNum + '/',
         success: function (data) {
             console.log(data);
-            var div= caller.find('.div_show_flat')
-           div.html(data);
+            var div = caller.find('.div_show_flat');
+            div.html(data);
 
         }
     });
+}
+
+function chooseFlat() {
+    
 }

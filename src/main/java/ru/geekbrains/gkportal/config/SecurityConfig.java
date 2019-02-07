@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.geekbrains.gkportal.services.AccountService;
+import ru.geekbrains.gkportal.service.AccountService;
 
 /**
  * Аннотация @EnableGlobalMethodSecurity позволяет использовать аннотации для защиты на уровне

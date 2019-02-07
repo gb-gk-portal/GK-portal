@@ -1,7 +1,7 @@
 package ru.geekbrains.gkportal.dto;
 
 import lombok.Data;
-import ru.geekbrains.gkportal.entities.Flat;
+import ru.geekbrains.gkportal.entity.Flat;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,19 +14,17 @@
     <script th:src="@{/js/regboard.js}" type="text/javascript"></script>
     <script id="flatTemplate" type="text/x-jrender">
         <div class="gk-flat-chooser">
-                <div class="gk-select-house">
+                 <div class="gk-select-house">
                     <label>Номер Дома (почтовый номер, где 3 - колодец)</label>
                     <select name="flats[{{:num}}].housingNumber" id="flats{{:num}}.housingNumber">
-                        <option multiple="false" value=""></option>
-                        <option multiple="false" value="1">1</option>
-                        <option multiple="false" value="2">2</option>
-                        <option multiple="false" value="3">3</option>
+
                     </select>
                 </div>
                 <div>
                     <div class="gk-select-porch">
                         <label>Номер Подъезда</label>
                         <select id="flats{{:num}}.porchNumber" name="flats[{{:num}}].porchNumber">
+                        <option>Cначала выбери номер дома</option>
                         </select>
                     </div>
                 </div>
@@ -43,7 +41,10 @@
 						<option value="4">4 комнаты</option>
 					</select></label>
 				</div>
-            </div>
+
+         </div>
+
+
 
     </script>
     <title>Регистрация нового пользователя</title>
@@ -102,41 +103,46 @@
             </div>
         </div>
         <div id="gk-reg-flats">
-            <div class="gk-flat-chooser" th:each="flat, flatStat : *{flats}">
-                <div class="gk-select-house">
-                    <label>Номер Дома (почтовый номер, где 3 - колодец)</label>
-                    <select th:field="*{flats[__${flatStat.index}__].housingNumber}"
-                            th:name="housingNumber">
-                        <option multiple="false" th:each="item: ${housingList}" th:text="${item}" th:value="${item}">
-                            Пункт 1
-                        </option>
-                    </select>
-                    <span class="error" th:errors="*{flats[__${flatStat.index}__].housingNumber}"></span></div>
-                <div>
-                    <div class="gk-select-porch">
-                        <label>Номер Подъезда</label>
-                        <select th:field="*{flats[__${flatStat.index}__].porchNumber}">
-                            <!-- <option multiple="false" th:each="item: ${porchList}" th:text="${item}" th:value="${item}">Пункт
-                                 1
-                             </option>-->
+
+                <div class="gk-flat-chooser" th:each="flat, flatStat : *{flats}">
+                    <div class="gk-select-house">
+                        <label>Номер Дома (почтовый номер, где 3 - колодец)</label>
+                        <select th:field="*{flats[__${flatStat.index}__].housingNumber}" required>
+                            <option multiple="false" value="-3" >Выбирай</option>
+                            <option multiple="false" th:each="item: ${housingList}" th:text="${item}"
+                                    th:value="${item}">
+                                Пункт 1
+                            </option>
                         </select>
-                        <span class="error" th:errors="*{flats[__${flatStat.index}__].porchNumber}"></span></div>
+                        <span class="error" th:errors="*{flats[__${flatStat.index}__].housingNumber}"></span></div>
+                    <div>
+                        <div class="gk-select-porch">
+                            <label>Номер Подъезда</label>
+                            <select th:field="*{flats[__${flatStat.index}__].porchNumber}" required>
+                                <option multiple="false" value="-3" >Сначала выбери номер дома</option>
+                                 <span th:if="${flat.housingNumber!=null}"><option multiple="false"  th:each="item: ${houseService.getHousingPorchNumbers(flat.housingNumber)}" th:text="${item}" th:value="${item}">Пункт
+                                     1
+                                 </option></span>
+                            </select>
+                            <span class="error" th:errors="*{flats[__${flatStat.index}__].porchNumber}"></span></div>
+                    </div>
+                    <div class="div_show_flat"></div>
+                    <div class="gk-reg-floor-number"><label>Номер Этажа<input readonly="readonly"
+                                                                              th:field="*{flats[__${flatStat.index}__].floorNumber}">
+                        <span class="error" th:errors="*{flats[__${flatStat.index}__].floorNumber}"></span></label>
+                    </div>
+                    <div class="gk-reg-flat-number"><label>Номер Квартиры<input readonly="readonly"
+                                                                                th:field="*{flats[__${flatStat.index}__].flatNumber}">
+                        <span class="error" th:errors="*{flats[__${flatStat.index}__].flatNumber}"></span></label></div>
+                    <div><label>Число комнат в квартире<select th:field="*{flats[__${flatStat.index}__].roomCount}">
+                        <option value="1">1 комната</option>
+                        <option value="2">2 комнаты</option>
+                        <option value="3">3 комнаты</option>
+                        <option value="4">4 комнаты</option>
+                    </select></label></div>
                 </div>
-                <div class="div_show_flat"></div>
-                <div class="gk-reg-floor-number"><label>Номер Этажа<input th:field="*{flats[__${flatStat.index}__].floorNumber}"
-                                              readonly="readonly">
-                    <span class="error" th:errors="*{flats[__${flatStat.index}__].floorNumber}"></span></label></div>
-                <div class="gk-reg-flat-number"><label>Номер Квартиры<input th:field="*{flats[__${flatStat.index}__].flatNumber}"
-                                                 readonly="readonly">
-                    <span class="error" th:errors="*{flats[__${flatStat.index}__].flatNumber}"></span></label></div>
-                <div><label>Число комнат в квартире<select th:field="*{flats[__${flatStat.index}__].roomCount}">
-                    <option value="1">1 комната</option>
-                    <option value="2">2 комнаты</option>
-                    <option value="3">3 комнаты</option>
-                    <option value="4">4 комнаты</option>
-                </select></label></div>
-            </div>
-            <button id="add-flat" type="button">Добавить квартиру</button>
+            <button id="add-flat" type="button"> Добавить квартиру</button>
+            <button id="del-flat" type="button">Удалить квартиру</button>
         </div>
         <div><label>Ваш статус<select th:field="*{contactType.uuid}">
             <option th:each="type : ${userTypes}" th:value="${type.uuid}" th:text="${type.description}"></option>
