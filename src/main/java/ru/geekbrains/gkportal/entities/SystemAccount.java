@@ -2,8 +2,7 @@ package ru.geekbrains.gkportal.entities;
 
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
-import ru.geekbrains.gkportal.DTO.FlatRegDTO;
+import ru.geekbrains.gkportal.dto.FlatRegDTO;
 import ru.geekbrains.gkportal.validation.PasswordsNotEqual;
 import ru.geekbrains.gkportal.validation.ValidPhoneNumber;
 

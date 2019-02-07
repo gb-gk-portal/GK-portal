@@ -2,10 +2,10 @@ package ru.geekbrains.gkportal.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.gkportal.DTO.FlatDTO;
-import ru.geekbrains.gkportal.DTO.Floor;
-import ru.geekbrains.gkportal.DTO.House;
-import ru.geekbrains.gkportal.DTO.Porch;
+import ru.geekbrains.gkportal.dto.FlatDTO;
+import ru.geekbrains.gkportal.dto.Floor;
+import ru.geekbrains.gkportal.dto.House;
+import ru.geekbrains.gkportal.dto.Porch;
 import ru.geekbrains.gkportal.entities.BuildPorchConfig;
 import ru.geekbrains.gkportal.entities.Flat;
 import ru.geekbrains.gkportal.repository.BuildPorchConfigRepository;

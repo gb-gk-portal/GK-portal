@@ -5,15 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.gkportal.DTO.FlatRegDTO;
-import ru.geekbrains.gkportal.DTO.House;
-import ru.geekbrains.gkportal.DTO.Porch;
+import ru.geekbrains.gkportal.dto.FlatRegDTO;
+import ru.geekbrains.gkportal.dto.Porch;
 import ru.geekbrains.gkportal.entities.Contact;
 import ru.geekbrains.gkportal.entities.SystemAccount;
 import ru.geekbrains.gkportal.services.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.geekbrains.gkportal.DTO.House;
-import ru.geekbrains.gkportal.DTO.SystemUser;
+import ru.geekbrains.gkportal.dto.House;
+import ru.geekbrains.gkportal.dto.SystemUser;
 import ru.geekbrains.gkportal.services.HouseService;
 
 @Controller

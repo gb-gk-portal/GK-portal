@@ -1,8 +1,6 @@
-package ru.geekbrains.gkportal.DTO;
+package ru.geekbrains.gkportal.dto;
 
 import lombok.Data;
-
-import javax.naming.Name;
 
 @Data
 public class SystemUser {

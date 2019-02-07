@@ -1,4 +1,4 @@
-package ru.geekbrains.gkportal.DTO;
+package ru.geekbrains.gkportal.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;

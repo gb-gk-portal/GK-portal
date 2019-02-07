@@ -2,14 +2,13 @@ package ru.geekbrains.gkportal.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.gkportal.DTO.FlatRegDTO;
+import ru.geekbrains.gkportal.dto.FlatRegDTO;
 import ru.geekbrains.gkportal.entities.Contact;
 import ru.geekbrains.gkportal.entities.Flat;
 import ru.geekbrains.gkportal.entities.SystemAccount;
 import ru.geekbrains.gkportal.repository.ContactRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
