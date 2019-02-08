@@ -81,6 +81,19 @@ width: 300px;
     white-space: nowrap;
 }*/
 
+.gk-button-group{
+    margin-bottom: 15px;
+}
+.gk-flat-chooser {
+    padding: 10px;
+    border-style: solid;
+    border-width: thin;
+    border-color: darkgrey;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 70%;
+}
+
 .gk-flat-number {
     background-color: #ffe0c8
 }

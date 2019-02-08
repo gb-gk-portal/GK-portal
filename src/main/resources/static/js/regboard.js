@@ -1,23 +1,19 @@
 $(document).ready(function () {
     var currentNum = {num: 0};
+    currentNum.num=$('#gk-reg-flats').children('.gk-flat-chooser').length-1;
     var opsList = $('#gk-reg-flats').children('.gk-flat-chooser').first().find('.gk-select-house select').html();
-    $('.gk-flat').click(function clickFlat(th) {
-        var flat = constructFlatObject($(th));
-        $('#porchNumber').val(flat.porch);
-        $('#floorNumber').val(flat.floor);
-        $('#flatNumber').val(flat.flatNumber);
-    }).disableSelection().mouseenter(function () {
-        $('body').css({cursor: 'pointer'})
-    }).mouseleave(function () {
-        $('body').css({cursor: 'auto'})
-    });
-
     $.templates("flatTemplate", "#flatTemplate");
     $('#add-flat').click(function () {
         currentNum.num = currentNum.num + 1;
         var html = $.render.flatTemplate(currentNum);
         $('#gk-reg-flats').children('.gk-flat-chooser').last().after(html);
-        $('#gk-reg-flats').children('.gk-flat-chooser').last().find('.gk-select-house select').html(opsList);
+        $('#gk-reg-flats').children('.gk-flat-chooser').last().find('.gk-select-house select').html(opsList).val(-3);
+    });
+    $('#del-flat').click(function () {
+        if (currentNum.num==0) return;
+        currentNum.num = currentNum.num -1;
+        $('#gk-reg-flats').children('.gk-flat-chooser').last().remove();
+
     });
     $('#gk-reg-flats').on('change', '.gk-select-house select', function () {
         var caller = $(this).parents('.gk-flat-chooser');
