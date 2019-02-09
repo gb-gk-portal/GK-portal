@@ -24,7 +24,7 @@ public class SystemAccountToOwnerShip {
     @Size(min = 2, max = 25, message = "2-5 символа")
     private String lastName;
     @NotNull(message = "Поле обязательно")
-    @Size(min = 0, max = 25, message = "от 0 до 25 символов")
+    @Size(min = 2, max = 25, message = "от 2 до 25 символов")
     private String middleName;
     @NotNull(message = "Поле обязательно")
     @Size(min = 6, max = 25, message = "6-25 символов")
