@@ -2,7 +2,10 @@ $(document).ready(function () {
     $('label:contains("Проголосовал. Бюллетень передал/передам в УК")').each(function () {
         var forInput = $(this).attr('for');
         $('#' + forInput).on('change', function () {
-            $(this).parents('.form-group').nextAll().find('input[type = radio]').prop('disabled', false);
+            $(this).parents('.form-group').nextAll().find('input[type = radio]').prop({
+                'disabled': false,
+                'checked': false
+            });
         })
     });
     $('label:contains("Я не принимаю участия в голосовании")').each(function () {

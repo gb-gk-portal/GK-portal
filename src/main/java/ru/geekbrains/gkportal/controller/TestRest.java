@@ -67,15 +67,9 @@ public class TestRest {
                 new Answer("Я не принимаю участия в голосовании (бюллетень остался у меня)", 2)
         ));
 
-        List<Answer> answerList6 = new ArrayList<>(Arrays.asList(
-                new Answer("Первом корпусе", 1),
-                new Answer("Втором корпусе", 2),
-                new Answer("Третьем корпусе (колодец)", 3),
-                new Answer("Паркинге", 4)
-        ));
 
         Question question1 = Question.builder()
-                .name("Ваше решение по работе УК Еврогород *")
+                .name("№ 8. Ваше решение о заключении договора с УК Еврогород ? *")
                 .sortNumber(3)
                 .required(true)
                 .single(true)
@@ -84,7 +78,7 @@ public class TestRest {
                 .build();
 
         Question question2 = Question.builder()
-                .name("Ваше решение о ставке 35 рублей за квадратный метр *")
+                .name("№ 13. Ваше решение о ставке 34.90 руб./кв.м. ? *")
                 .sortNumber(4)
                 .required(true)
                 .single(true)
@@ -93,7 +87,7 @@ public class TestRest {
                 .build();
 
         Question question3 = Question.builder()
-                .name("Ваше решение об охране? *")
+                .name("№ 17. Ваше решение об охране за 17.5 руб./кв.м.? *")
                 .sortNumber(5)
                 .required(true)
                 .single(true)
@@ -102,7 +96,7 @@ public class TestRest {
                 .build();
 
         Question question4 = Question.builder()
-                .name("Ваше решение об электронном голосовании? *")
+                .name("№ 22. Ваше решение об электронном голосовании ? *")
                 .sortNumber(6)
                 .required(true)
                 .single(true)
@@ -120,22 +114,14 @@ public class TestRest {
                 .answers(answerList5)
                 .build();
 
-        Question question6 = Question.builder()
-                .name("Объект вашей собственности расположен в (строительные номера корпусов) *")
-                .sortNumber(1)
-                .required(true)
-                .single(true)
-                .externalNumber(2)
-                .answers(answerList6)
-                .build();
 
         answerList1.forEach(answer -> answer.setQuestion(question1));
         answerList2.forEach(answer -> answer.setQuestion(question2));
         answerList3.forEach(answer -> answer.setQuestion(question3));
         answerList4.forEach(answer -> answer.setQuestion(question4));
         answerList5.forEach(answer -> answer.setQuestion(question5));
-        answerList6.forEach(answer -> answer.setQuestion(question6));
-        List<Question> questionList = Arrays.asList(question1, question2, question3, question4, question5, question6);
+
+        List<Question> questionList = Arrays.asList(question1, question2, question3, question4, question5);
 //        questionList.sort(Comparator.comparingInt(Question::getSortNumber));
 
         Questionnaire questionnaire = Questionnaire.builder()
@@ -145,8 +131,8 @@ public class TestRest {
                 .description("Члены инициативной группы входящие в состав счетной комиссии выборочно проверят " +
                         "соответствие информации в данном опросе и в бюллетенях в момент подведения итогов первого " +
                         "общего собрания собственников. Доступ к данным имеют ограниченное число членов инициативной " +
-                        "группы ЖК Город. Форму должен заполнить каждый собственник отдельно по каждому объекту " +
-                        "недвижимости(квартиры, машиноместа), где у него есть доля.")
+                        "группы ЖК Город. Форму должен заполнить каждый собственник, включив все имеющиеся в собственности " +
+                        "объекты недвижимости(квартиры, машиноместа), где у него есть доля.")
                 .open(true)
                 .active(true)
                 .inBuildNum(true)
@@ -159,7 +145,7 @@ public class TestRest {
         question3.setQuestionnaire(questionnaire);
         question4.setQuestionnaire(questionnaire);
         question5.setQuestionnaire(questionnaire);
-        question6.setQuestionnaire(questionnaire);
+
 
         questionnaireService.save(questionnaire);
 
