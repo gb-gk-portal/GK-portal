@@ -141,6 +141,16 @@ public class RegistrationController {
             return "reg-question-form";
         }
 
+        if (contactService.isContactExist(systemAccount)){
+            // TODO: 09.02.2019  email to @chertenokru
+            createErrorModel(systemAccount, model, "Вы уже ответили на анкету. " +
+                    "Если в первой анкети вы не указали один из объектов недвижемости или допустили ошибку, " +
+                    "свяжитесь с администратором системы Владимир (+7...). Мы удалим все ваши ответы, " +
+                    "и вы сможите ответить заново" +
+                    "А если в нашем ЖК появилось два тезки, то наша система пока ни такая умная, но мы работаем над этим");
+
+            return "reg-question-form";
+        }
         if (accountService.isLoginExist(systemAccount.getEmail())) {
             createErrorModel(systemAccount, model, "Указанный логин уже существует");
             return "reg-question-form";

@@ -33,14 +33,6 @@ public class SystemAccountToOwnerShip {
 //    @Size(min = 2, max = 25, message = MIN_MAX_VALIDATION_MESSAGE)
     private String middleName;
 
-//    @NotNull(message = "Поле обязательно")
-//    @Size(min = 6, max = 25, message = MIN_MAX_VALIDATION_MESSAGE)
-    private String password;
-
-//    @NotNull(message = "Поле обязательно")
-//    @Size(min = 6, max = 25, message = MIN_MAX_VALIDATION_MESSAGE)
-    private String matchingPassword;
-
     @Email(message = "Почта указана не корректна")
     @NotNull(message = "Поле обязательно")
     @Size(min = 5, max = 25, message = MIN_MAX_VALIDATION_MESSAGE)

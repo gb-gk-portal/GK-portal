@@ -110,6 +110,9 @@ public class ContactService {
         return contact;
     }
 
+    public boolean isContactExist(SystemAccountToOwnerShip systemAccount) {
+        return getContact(systemAccount) != null;
+    }
     private Contact getContact(SystemAccountToOwnerShip systemAccount) {
         //todo обрезать пробелы, первую букву к верхнему регистру, остальные к нижнему
         return contactRepository.findByFirstNameAndLastNameAndMiddleName(systemAccount.getFirstName(),
