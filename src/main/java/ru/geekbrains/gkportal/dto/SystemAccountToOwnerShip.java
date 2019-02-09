@@ -48,6 +48,8 @@ public class SystemAccountToOwnerShip {
     private Boolean allowContactsSharing;
 
     private AnswerResultDTO answerResultDTO;
+
+    private String uuid;
     // Пока бесполезная фигня, но потом прикрутим.
 
     //private List<String> interestedIn;

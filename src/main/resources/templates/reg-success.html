@@ -7,17 +7,23 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script th:src="@{/js/regboard.js}" type="text/javascript"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <title>Title</title>
-
-
 </head>
 <body>
+<div class="container">
+    <div style="width: 800px; margin-top: 50px;">
+        <h1 style="margin-bottom: 50px">Поздравляем. <br>Регистрация прошла успешно</h1>
+        <p>Для завершения регистрации проверьте почту.</p>
+        <a class="btn btn-primary" th:href="@{/regQuestion(uuid=${uuid})}" role="button">Заполнить заново</a>
+    </div>
 
-<H1>Поздравляем. Регистрация прошла успешно</H1>
-<p></p>
-<p></p>
-<p></p>
-<p>Для завершения регистрации проверьте почту.</p>
+
+</div>
+
+
 
 
 </body>

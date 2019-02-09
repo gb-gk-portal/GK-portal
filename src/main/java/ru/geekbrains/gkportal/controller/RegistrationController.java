@@ -4,23 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.gkportal.dto.*;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.questionnaire.Question;
 import ru.geekbrains.gkportal.entity.questionnaire.Questionnaire;
 import ru.geekbrains.gkportal.service.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class RegistrationController {
 
+    private final static String QUESTIONNAIRE_ID = "bb2248ae-2d7e-427d-85ef-7b85888f0319";
     private HouseService houseService;
     private ContactTypeService contactTypeService;
     private AccountService accountService;
@@ -107,27 +107,41 @@ public class RegistrationController {
         }
     }
 
-
     @GetMapping("/regQuestion")
-    public String regQuestion(Model model) {
-        SystemAccountToOwnerShip account = new SystemAccountToOwnerShip();
-        account.getOwnerships().add(new OwnershipRegDTO());
-        account.setContactType(contactTypeService.getContactTypeByDescription(ContactTypeService.OWNER_TYPE));
-        //model.addAttribute("flat", new FlatRegDTO());
-
-        //List<String> housingList = houseService.getHousingNumList();
-
-        //housingList.add(0, "");
-        //model.addAttribute("housingList", housingList);
-
+    public String regQuestion(@RequestParam(name = "uuid", required = false) String uuid, Model model, HttpSession session) {
+        SystemAccountToOwnerShip account = null;
         Questionnaire questionnaire = putQuestionnaireToModel(model);
-        if (questionnaire != null) {
-            AnswerResultDTO form = new AnswerResultDTO(questionnaire.getQuestions(), questionnaire.getUuid());
-            account.setAnswerResultDTO(form);
-        }
-        model.addAttribute("systemUser", account);
 
-        model.addAttribute("ownershipTypes", ownershipTypeService.getAllOwnershipTypesByIsUseInQuestionnaire());
+        if (uuid != null) {
+            account = (SystemAccountToOwnerShip) session.getAttribute("systemUser");
+            if (account != null) {
+                if (!account.getUuid().equals(uuid)) {
+                    account = null;
+                } else {
+                    account.setEmail(null);
+                    account.setPhoneNumber(null);
+                    account.setFirstName(null);
+                    account.setMiddleName(null);
+                    account.setLastName(null);
+                }
+            }
+        }
+        if (account == null) {
+            account = new SystemAccountToOwnerShip();
+            account.getOwnerships().add(new OwnershipRegDTO());
+            account.setContactType(contactTypeService.getContactTypeByDescription(ContactTypeService.OWNER_TYPE));
+            //model.addAttribute("flat", new FlatRegDTO());
+            //List<String> housingList = houseService.getHousingNumList();
+            //housingList.add(0, "");
+            //model.addAttribute("housingList", housingList);
+            if (questionnaire != null) {
+                AnswerResultDTO form = new AnswerResultDTO(questionnaire.getQuestions(), questionnaire.getUuid());
+                account.setAnswerResultDTO(form);
+            }
+        }
+
+        model.addAttribute("systemUser", account);
+        putOwnershipTypes(model);
 
         return "reg-question-form";
     }
@@ -135,7 +149,8 @@ public class RegistrationController {
 
     @PostMapping(value = "/userQuestionRegister")
     public String registerQuestionUser(@Valid @ModelAttribute("systemUser") SystemAccountToOwnerShip systemAccount,
-                                       BindingResult bindingResult, Model model) {
+
+                                       BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
             createErrorModel(systemAccount, model, "Не все поля заполнены правильно!");
             return "reg-question-form";
@@ -162,35 +177,25 @@ public class RegistrationController {
         }
 
         try {
-
             if (contact == null) contact = contactService.getOrCreateContact(systemAccount);
-
             answerResultService.saveAnswerResultDTO(systemAccount.getAnswerResultDTO(), contactService.save(contact));
-
-
+            systemAccount.setUuid(UUID.randomUUID().toString());
+            session.setAttribute("systemUser", systemAccount);
+            model.addAttribute("uuid", systemAccount.getUuid());
             return "reg-success";
         } catch (Throwable throwable) {
             throwable.printStackTrace(); // TODO: 02.02.2019 to Log
-            createErrorModel(systemAccount, model, "Произошла непредвиденная ошибка");
+            createErrorModel(systemAccount, model, "Произошла непредвиденная ошибка. Обновите страницу и попробуйте снова");
             return "reg-question-form";
         }
     }
 
-
-    private Questionnaire putQuestionnaireToModel(Model model) {
-        Questionnaire questionnaire;
-        String questionnaireId = "bb2248ae-2d7e-427d-85ef-7b85888f0319";
-
-        if ((questionnaire = questionnaireService.findByIdAndSortAnswers(questionnaireId)) == null) {
-            model.addAttribute("notFoundNumber", questionnaireId);
-            model.addAttribute("questionnaireList", questionnaireService.findAll());
-            return null;
-        }
-        questionnaire.getQuestions().sort(Comparator.comparingInt(Question::getSortNumber));
-        model.addAttribute("questionnaire", questionnaire);
-        return questionnaire;
-    }
-
+//    @GetMapping("reg-success")
+//    public String registerSuccess(@Valid @ModelAttribute("systemUser") SystemAccountToOwnerShip systemAccount,
+//                                  BindingResult bindingResult, Model model) {
+//        System.out.println("stop");
+//        return "reg-success";
+//    }
 
     @GetMapping("/showPorch/{build}/{porch}")
     public String showPorch(@PathVariable(name = "build") int build, @PathVariable(name = "porch") int porchNum, Model model) {
@@ -222,7 +227,6 @@ public class RegistrationController {
         return "confirm-mail";
     }
 
-
     private void createErrorModel(SystemAccount systemAccount, Model model, String error) {
         //House house = houseService.build(systemAccount.getHousingNumber());
         List<String> housingList = houseService.getHousingNumList();
@@ -244,15 +248,33 @@ public class RegistrationController {
     }
 
     private void createErrorModel(SystemAccountToOwnerShip systemAccount, Model model, String error) {
-
-        model.addAttribute("ownershipTypes", ownershipTypeService.getAllOwnershipTypes());
+        putOwnershipTypes(model);
         model.addAttribute("registrationError", error);
-        Questionnaire questionnaire = putQuestionnaireToModel(model);
-
-
+        putQuestionnaireToModel(model);
     }
 
+//    private void createModel(SystemAccountToOwnerShip systemAccount, Model model) {
+//        putOwnershipTypes(model);
+//        putQuestionnaireToModel(model);
+//    }
 
+    private void putOwnershipTypes(Model model) {
+        model.addAttribute("ownershipTypes", ownershipTypeService.getAllOwnershipTypes());
+    }
+
+    private Questionnaire putQuestionnaireToModel(Model model) {
+        Questionnaire questionnaire;
+        String questionnaireId = QUESTIONNAIRE_ID;
+
+        if ((questionnaire = questionnaireService.findByIdAndSortAnswers(questionnaireId)) == null) {
+            model.addAttribute("notFoundNumber", questionnaireId);
+            model.addAttribute("questionnaireList", questionnaireService.findAll());
+            return null;
+        }
+        questionnaire.getQuestions().sort(Comparator.comparingInt(Question::getSortNumber));
+        model.addAttribute("questionnaire", questionnaire);
+        return questionnaire;
+    }
 
    /* @ModelAttribute("interests")
     public String[] getMultiCheckboxAllValues() {
