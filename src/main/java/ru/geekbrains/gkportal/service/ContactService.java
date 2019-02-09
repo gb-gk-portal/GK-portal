@@ -102,8 +102,7 @@ public class ContactService {
 
 
         List<Ownership> ownershipsArray = new ArrayList<>();
-        for (OwnershipRegDTO ownershipRegDTO : systemAccount.getOwnerships()
-        ) {
+        for (OwnershipRegDTO ownershipRegDTO : systemAccount.getOwnerships()) {
             ownershipsArray.add(ownershipService.createOrGetOwnership(ownershipRegDTO, contact, true));
         }
 

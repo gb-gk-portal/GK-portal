@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.gkportal.dto.SystemAccount;
 import ru.geekbrains.gkportal.dto.SystemAccountToOwnerShip;
 import ru.geekbrains.gkportal.entity.Communication;
+import ru.geekbrains.gkportal.entity.CommunicationType;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.repository.CommunicationRepository;
 
@@ -82,37 +83,42 @@ public class CommunicationService {
 
     public List<Communication> createIfNotExistCommunication(SystemAccountToOwnerShip systemAccount, Contact contact) throws Throwable {
 
-        Communication phoneCommunication =
-                communicationRepository.findCommunicationByCommunicationTypeAndIdentify(communicationTypeService.findPhoneType(),
-                        systemAccount.getPhoneNumber());
-        if (phoneCommunication == null) {
-            phoneCommunication = Communication.builder()
-                    .communicationType(communicationTypeService.findPhoneType())
-                    .identify(systemAccount.getPhoneNumber())
-                    .confirmCode(UUID.randomUUID().toString())
-                    .confirmCodeDate(LocalDateTime.now())
-                    .confirmed(false)
-                    .description(DEFAULT_DESCRIPTION)
-                    .contact(contact)
-                    .build();
-        }
+        Communication phoneCommunication = createIfNotExistCommunication(
+                systemAccount,
+                contact,
+                communicationTypeService.findPhoneType(),
+                systemAccount.getPhoneNumber());
 
-        Communication emailCommunication =
-                communicationRepository.findCommunicationByCommunicationTypeAndIdentify(communicationTypeService.findEmailType(),
-                        systemAccount.getEmail());
-        if (emailCommunication == null) {
-            emailCommunication = Communication.builder()
-                    .communicationType(communicationTypeService.findEmailType())
-                    .identify(systemAccount.getEmail())
-                    .confirmCode(UUID.randomUUID().toString())
-                    .confirmCodeDate(LocalDateTime.now())
-                    .confirmed(false)
-                    .description(DEFAULT_DESCRIPTION)
-                    .contact(contact)
-                    .build();
-        }
+        Communication emailCommunication = createIfNotExistCommunication(
+                systemAccount,
+                contact,
+                communicationTypeService.findEmailType(),
+                systemAccount.getEmail());
 
         return Arrays.asList(phoneCommunication, emailCommunication);
+    }
+
+    private Communication createIfNotExistCommunication(SystemAccountToOwnerShip systemAccount, Contact contact, CommunicationType communicationType, String identify) {
+        Communication communication;
+        if ((communication = communicationRepository.findCommunicationByCommunicationTypeAndIdentify(communicationType, identify)) == null) {
+            communication = createCommunication(systemAccount, contact, communicationType);
+        }
+        return communication;
+    }
+
+
+    private Communication createCommunication(SystemAccountToOwnerShip systemAccount, Contact contact, CommunicationType communicationType) {
+        Communication emailCommunication;
+        emailCommunication = Communication.builder()
+                .communicationType(communicationType)
+                .identify(systemAccount.getEmail())
+                .confirmCode(UUID.randomUUID().toString())
+                .confirmCodeDate(LocalDateTime.now())
+                .confirmed(false)
+                .description(DEFAULT_DESCRIPTION)
+                .contact(contact)
+                .build();
+        return emailCommunication;
     }
 
 
