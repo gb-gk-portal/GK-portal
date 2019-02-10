@@ -19,14 +19,20 @@ import ru.geekbrains.gkportal.service.AccountService;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AccountService accountService;
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    @Autowired
+    public void setCustomAuthenticationSuccessHandler(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Override
@@ -39,14 +45,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("admin")
                 .antMatchers("/test/manager").hasAuthority("manager")
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/authenticateTheUser")
+                .successHandler(customAuthenticationSuccessHandler)
                 .permitAll()
+
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login")
+
                 .and()
                 .csrf().disable(); // todo убарть когда будет создана кнопка на post /logout
     }

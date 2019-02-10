@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.gkportal.dto.SystemAccountToOwnerShip;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.questionnaire.Answer;
+import ru.geekbrains.gkportal.entity.questionnaire.Question;
 import ru.geekbrains.gkportal.entity.questionnaire.Questionnaire;
 import ru.geekbrains.gkportal.entity.questionnaire.QuestionnaireContactConfirm;
 import ru.geekbrains.gkportal.repository.QuestionnaireContactConfirmRepository;
@@ -47,6 +48,12 @@ public class QuestionnaireService {
         return questionnaire;
     }
 
+    public Questionnaire findByIdAndSortQuestionsAndAnswers(String id) {
+        Questionnaire questionnaire = findByIdAndSortAnswers(id);
+        questionnaire.getQuestions().sort(Comparator.comparingInt(Question::getSortNumber));
+        return questionnaire;
+    }
+
     public Questionnaire findById(String id) {
         return questionnaireRepository.findById(id).orElse(null);
     }
@@ -58,7 +65,6 @@ public class QuestionnaireService {
     public boolean isQuestionnaireContactExist(Questionnaire questionnaire, Contact contact) {
         return (questionnaireContactConfirmRepository.getByQuestionnaireAndContact(questionnaire, contact) != null);
     }
-
 
 
     public List<Questionnaire> findAll() {
