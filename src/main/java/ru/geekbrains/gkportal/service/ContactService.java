@@ -3,9 +3,9 @@ package ru.geekbrains.gkportal.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.geekbrains.gkportal.dto.FlatRegDTO;
 import ru.geekbrains.gkportal.dto.OwnershipRegDTO;
 import ru.geekbrains.gkportal.dto.SystemAccount;
+import ru.geekbrains.gkportal.dto.SystemAccountDTO;
 import ru.geekbrains.gkportal.dto.SystemAccountToOwnerShip;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.Flat;
@@ -66,21 +66,20 @@ public class ContactService {
         return contactRepository.save(contact);
     }
 
-    public Contact createContact(SystemAccount systemAccount) throws Throwable {
-        List<Flat> flatArray = new ArrayList<>();
-        for (FlatRegDTO flatDTO : systemAccount.getFlats()
-        ) {
-            flatArray.add(flatsService.createFlat(flatDTO));
-        }
-        Contact contact = Contact.builder()
-                .contactType(systemAccount.getContactType())
-                .firstName(systemAccount.getFirstName())
-                .lastName(systemAccount.getLastName())
-                .middleName(systemAccount.getMiddleName())
-                .flats(flatArray)
-                .build();
+    public Contact getOrCreateContact(SystemAccount systemAccount) throws Throwable {
 
-        contact.setCommunications(communicationService.createCommunication(systemAccount, contact));
+        Contact contact = getContact(systemAccount);
+        if (contact == null) {
+            contact = Contact.builder()
+                    .contactType(systemAccount.getContactType())
+                    .firstName(systemAccount.getFirstName())
+                    .lastName(systemAccount.getLastName())
+                    .middleName(systemAccount.getMiddleName())
+                    .flats(flatsService.createFlats(systemAccount))
+                    .build();
+        }
+
+        contact.setCommunications(communicationService.getOrCreateCommunications(systemAccount, contact));
         return contact;
     }
 
@@ -96,7 +95,7 @@ public class ContactService {
                     .build();
         }
 
-        contact.setCommunications(communicationService.createIfNotExistCommunication(systemAccount, contact));
+        contact.setCommunications(communicationService.getOrCreateCommunications(systemAccount, contact));
 
         //todo А если контакт уже существует и есть недвижимость ?!!
         List<Ownership> ownershipsArray = new ArrayList<>();
@@ -126,40 +125,37 @@ public class ContactService {
         }
 
 
-
         return contact;
     }
 
-    public boolean isContactExist(SystemAccountToOwnerShip systemAccount) {
-        return getContact(systemAccount) != null;
+    public Contact getContact(SystemAccountDTO systemAccount) {
+        return contactRepository.findByFirstNameAndLastNameAndMiddleName(
+                systemAccount.getFirstName(),
+                systemAccount.getLastName(),
+                systemAccount.getMiddleName()
+        );
     }
 
+//    public Contact getContact(SystemAccountToOwnerShip systemAccount) {
+//        return contactRepository.findByFirstNameAndLastNameAndMiddleName(
+//                systemAccount.getFirstName(),
+//                systemAccount.getLastName(),
+//                systemAccount.getMiddleName()
+//        );
+//    }
+//
+//    public Contact getContact(SystemAccount systemAccount) {
+//        return contactRepository.findByFirstNameAndLastNameAndMiddleName(
+//                systemAccount.getFirstName(),
+//                systemAccount.getLastName(),
+//                systemAccount.getMiddleName()
+//        );
+//    }
 
-    public Contact getContact(SystemAccountToOwnerShip systemAccount) {
-        //todo обрезать пробелы, первую букву к верхнему регистру, остальные к нижнему
-        return contactRepository.findByFirstNameAndLastNameAndMiddleName(systemAccount.getFirstName(),
-                systemAccount.getLastName(), systemAccount.getMiddleName());
-    }
 
     public Contact getContactByID(String guid) {
         return contactRepository.findById(guid).get();
     }
 
-
-
-    /*public Contact createContact(AnswerResultDTO answerResultDTO) throws Throwable {
-
-        Contact contact = Contact.builder()
-                .contactType(contactTypeService.getContactTypeByDescription("Собственник"))
-                .firstName(answerResultDTO.getFullName())
-                .lastName("TOSPLIT")
-                .build();
-
-        //contact.setCommunications(communicationService.createCommunication(answerResultDTO, contact));
-        return contact;
-
-
-    }
-*/
 }
 

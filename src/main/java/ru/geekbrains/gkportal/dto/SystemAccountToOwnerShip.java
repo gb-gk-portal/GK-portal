@@ -13,8 +13,7 @@ import java.util.List;
 
 
 @Data
-
-public class SystemAccountToOwnerShip {
+public class SystemAccountToOwnerShip implements SystemAccountDTO {
 
     private final static String MIN_MAX_VALIDATION_MESSAGE = "от {min} до {max} символов";
     private final static String MIN_VALIDATION_MESSAGE = "Минимум {min} символов";

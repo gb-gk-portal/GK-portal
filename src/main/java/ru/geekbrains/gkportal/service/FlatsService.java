@@ -3,10 +3,13 @@ package ru.geekbrains.gkportal.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.gkportal.dto.FlatRegDTO;
+import ru.geekbrains.gkportal.dto.SystemAccount;
 import ru.geekbrains.gkportal.entity.Flat;
 import ru.geekbrains.gkportal.exception.FlatNotFoundException;
 import ru.geekbrains.gkportal.repository.FlatRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 @Service
@@ -28,6 +31,14 @@ public class FlatsService {
                 flatRegDTO.getFloorNumber(),
                 flatRegDTO.getFlatNumber()
         ).orElseThrow((Supplier<Throwable>) () -> new FlatNotFoundException(flatRegDTO));
+    }
+
+    public List<Flat> createFlats(SystemAccount systemAccount) throws Throwable {
+        List<Flat> flatArrayList = new ArrayList<>();
+        for (FlatRegDTO flatDTO : systemAccount.getFlats()) {
+            flatArrayList.add(createFlat(flatDTO));
+        }
+        return flatArrayList;
     }
 
     public Flat getFlatByHouseAndFlatNum(int houseNum, int flatNum, boolean isBiuldNum) {

@@ -16,7 +16,6 @@ import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.Role;
 import ru.geekbrains.gkportal.repository.AccountRepository;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -65,8 +64,8 @@ public class AccountService implements UserDetailsService {
                 .active(false)
                 .login(systemAccount.getEmail())
                 .passwordHash(encoder.encode(systemAccount.getPassword()))
-                .contact(contactService.createContact(systemAccount))
-                .roles(Arrays.asList(roleService.getDefaultRole()))
+                .contact(contactService.getOrCreateContact(systemAccount))
+                .roles(roleService.getDefaultRoleList())
                 .build());
     }
 

@@ -17,6 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.geekbrains.gkportal.service.ContactTypeService.OWNER_TYPE;
+
 @Controller
 public class RegistrationController {
 
@@ -86,14 +88,11 @@ public class RegistrationController {
     @GetMapping("/reg")
     public String reg(Model model) {
         SystemAccount account = new SystemAccount();
-        account.setContactType(contactTypeService.getContactTypeByDescription(ContactTypeService.OWNER_TYPE));
+        account.setContactType(contactTypeService.getContactTypeByDescription(OWNER_TYPE));
         account.getFlats().add(new FlatRegDTO());
-        //model.addAttribute("flat", new FlatRegDTO());
-        model.addAttribute("systemUser", account);
-        List<String> housingList = houseService.getHousingNumList();
 
-        //housingList.add(0, "");
-        model.addAttribute("housingList", housingList);
+        model.addAttribute("systemUser", account);
+        model.addAttribute("housingList", houseService.getHousingNumList());
         model.addAttribute("userTypes", contactTypeService.getAllContactTypes());
         return "reg-form";
     }
@@ -142,7 +141,7 @@ public class RegistrationController {
         if (systemAccount == null) {
             systemAccount = new SystemAccountToOwnerShip();
             systemAccount.getOwnerships().add(new OwnershipRegDTO());
-            systemAccount.setContactType(contactTypeService.getContactTypeByDescription(ContactTypeService.OWNER_TYPE));
+            systemAccount.setContactType(contactTypeService.getContactTypeByDescription(OWNER_TYPE));
             //model.addAttribute("flat", new FlatRegDTO());
             //List<String> housingList = houseService.getHousingNumList();
             //housingList.add(0, "");
@@ -162,7 +161,6 @@ public class RegistrationController {
 
     @PostMapping(value = "/userQuestionRegister")
     public String registerQuestionUser(@Valid @ModelAttribute("systemUser") SystemAccountToOwnerShip systemAccount,
-
                                        BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors() | ownershipService.checkOwnerships(systemAccount.getOwnerships())) {
@@ -172,7 +170,7 @@ public class RegistrationController {
 
 
         // заплатка - теряется с формы
-        systemAccount.setContactType(contactTypeService.getContactTypeByDescription(ContactTypeService.OWNER_TYPE));
+        systemAccount.setContactType(contactTypeService.getContactTypeByDescription(OWNER_TYPE));
 
         Contact contact = contactService.getContact(systemAccount);
         if (contact != null) {
@@ -203,13 +201,6 @@ public class RegistrationController {
             return "reg-question-form";
         }
     }
-
-//    @GetMapping("reg-success")
-//    public String registerSuccess(@Valid @ModelAttribute("systemUser") SystemAccountToOwnerShip systemAccount,
-//                                  BindingResult bindingResult, Model model) {
-//        System.out.println("stop");
-//        return "reg-success";
-//    }
 
     @GetMapping("/showPorch/{build}/{porch}")
     public String showPorch(@PathVariable(name = "build") int build, @PathVariable(name = "porch") int porchNum, Model model) {

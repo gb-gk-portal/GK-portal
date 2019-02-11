@@ -7,6 +7,8 @@ import ru.geekbrains.gkportal.entity.Role;
 import ru.geekbrains.gkportal.exception.RoleNotFoundException;
 import ru.geekbrains.gkportal.repository.RoleRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 @Service
@@ -21,7 +23,7 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role save(Role role){
+    public Role save(Role role) {
         return roleRepository.save(role);
     }
 
@@ -32,6 +34,12 @@ public class RoleService {
 
     public Role getDefaultRole() throws Throwable {
         return findRoleByDescription(DEFAULT_ROLE_DESCRIPTION);
+    }
+
+    public List<Role> getDefaultRoleList() throws Throwable {
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(getDefaultRole());
+        return roleList;
     }
 
 }
