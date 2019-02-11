@@ -82,7 +82,7 @@ public class CommunicationService {
 
         }
         if (communicationType.getDescription().equals(CommunicationTypeService.EMAIL_DESCRIPTION) && !communication.isConfirmed()) {
-            mailService.sendRegistrationMail(contact, communication);
+//            mailService.sendRegistrationMail(contact, communication);
         }
 
         return communication;
