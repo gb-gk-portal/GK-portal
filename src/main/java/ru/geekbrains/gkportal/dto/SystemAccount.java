@@ -23,7 +23,7 @@ public class SystemAccount implements SystemAccountDTO {
 
     @Size(
             min = 3,
-            max = 25,
+            max = 100,
             message = "Имя ${validatedValue} должно быть от {min} до {max} символов."
     )
     @NotBlank(message = "Имя не может быть пустным.")

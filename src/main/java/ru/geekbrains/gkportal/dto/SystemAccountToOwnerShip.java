@@ -33,7 +33,7 @@ public class SystemAccountToOwnerShip implements SystemAccountDTO {
 
     @Email(message = "Почта указана не корректна")
     @NotNull(message = "Поле обязательно")
-    @Size(min = 5, max = 25, message = MIN_MAX_VALIDATION_MESSAGE)
+    @Size(min = 5, max = 100, message = MIN_MAX_VALIDATION_MESSAGE)
     private String email;
 
     @ValidPhoneNumber(message = "Телефон указан не корректно")
