@@ -3,6 +3,8 @@
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body>
 
@@ -22,7 +24,7 @@
 
         <tbody>
         <tr th:each="contact: ${contactList}">
-            <th:block th:if="${contact.questionnaireContactConfirm} != null">
+            <!--<th:block th:if="${contact.questionnaireContactConfirm} != null">-->
                 <td th:text="${contact.lastName} + ' ' + ${contact.firstName} +  ' ' + ${contact.middleName}"></td>
                 <td>
                     <th:block th:each="communication : ${contact.communications}">
@@ -38,6 +40,13 @@
                 <td>
                     <th:block th:each="ownership : ${contact.ownerships}">
                         <div style="margin-bottom: 20px">
+                            <th:block th:switch="${ownership.ownershipType.name} ">
+                                <i th:case="'Квартира'" class="far fa-building"></i>
+                                <i th:case="'Машиноместо'" class="fas fa-parking"></i>
+                                <i th:case="'Автомобиль'" class="fas fa-car"></i>
+                                <i th:case="'Нежилое помещение'" class="far fa-building"></i>
+                            </th:block>
+
                             <p th:text="'стр. № дома ' + ${ownership.houseBuildNum} + ', '"></p>
                             <p th:text="'стр. № квартиры ' + ${ownership.buildNumber} + ', '"></p>
                             <p th:text="'(S' + ${ownership.square} + ' кв.м, ' + ${ownership.percentageOfOwner} + '%)' "></p>
