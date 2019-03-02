@@ -11,6 +11,7 @@ import ru.geekbrains.gkportal.entity.Account;
 import ru.geekbrains.gkportal.entity.Communication;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.Flat;
+import ru.geekbrains.gkportal.entity.Ownership;
 import ru.geekbrains.gkportal.repository.AccountRepository;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.AnswerResultService;
@@ -53,9 +54,11 @@ public class PersonAreaController {
                 if (contact != null) {
                     Collection<Communication> communications = contact.getCommunications();
                     Collection<Flat> flats = contact.getFlats();
+                    Collection<Ownership> ownerships = contact.getOwnerships();
                     model.addAttribute("contact", contact);
                     model.addAttribute("communications", communications);
                     model.addAttribute("flats", flats);
+                    model.addAttribute("ownerships",ownerships);
                     return "lk";
                 }
             }

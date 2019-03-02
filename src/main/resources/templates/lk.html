@@ -21,7 +21,7 @@
 
 <table class="table"  >
     <tr>
-        <td align="center" class="btn-primary" colspan="5">ФИО :</td>
+        <td align="center" class="btn-primary" colspan="8">ФИО :</td>
     <tr>
             <td>Фамилия:</td>
             <td th:text="${contact.getLastName()}">...</td>
@@ -45,14 +45,36 @@
             <td th:text="${communication.getCommunicationType().getDescription()}">...</td>
             <td th:text="${communication.getIdentify()}">...</td>
         </tr>
+
+            <td align="center" class="btn-primary" colspan="8">Объекты :</td>
+        <tr th:each="ownership , iter : ${ownerships}" >
+            <td th:utext="${iter.index + 1 } + '.'">...</td>
+            <td >Тип:</td>
+            <td th:text="${ownership.getOwnershipType()}">...</td>
+            <td th:if="${ownership.is_build_num()}">
+                <td > Строительный номер дома: </td>
+                <td th:text="${ownership.getHouseBuildNum()}">...</td>
+                <td > Строительный номер объекта: </td>
+                <td th:text="${ownership.getBuildNumber()}">...</td>
+            </td>
+            <td th:unless="${ownership.is_build_num()}">
+                <td > Номер дома: </td>
+                <td th:text="${ownership.getHouseNum()}">...</td>
+                <td > Номер объекта: </td>
+                <td th:text="${ownership.getNumber()}">...</td>
+            </td>
+            <td >Доля владения:</td>
+            <td th:text="${ownership.getPercentageOfOwner()}">...%</td>
+        </tr>
+
         <tr>
-            <td align="center" class="btn-primary" colspan="5">Квартиры :</td>
+            <td align="center" class="btn-primary" colspan="8">Квартиры :</td>
         </tr>
         <tr th:each="flat , iter : ${flats}" >
             <td th:utext="${iter.index + 1 } + '.'">...</td>
-            <td >Номер Дома:</td>
+            <td >Номер Дома : </td>
             <td th:text="${flat.getHouseBuild()}">...</td>
-            <td >Номер квартиры:</td>
+            <td >Номер квартиры :</td>
             <td th:text="${flat.getFlatNumber()}">...</td>
         </tr>
 

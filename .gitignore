@@ -125,3 +125,4 @@ flyway.conf
 *.log
 # End of https://www.gitignore.io/api/java,windows,intellij
 
+src/main/java/ru/geekbrains/gkportal/GkPortalApplication.java
