@@ -12,7 +12,7 @@
     <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.2/jsrender.min.js"></script>
     <script type="text/javascript" th:src="@{/js/add-questionnaire.js}"></script>
-    <script id="questionTemplate" type="text/x-jrender">
+    <script id="questionTemplate" type="text/x-jsrender">
             <div class="question-create-block question-template" questionnumber="{{:questionIndex}}">
                     <div class="form-group">
                         <label>Вопрос</label>
@@ -23,7 +23,7 @@
 
                 </div>
     </script>
-    <script id="answerTemplate" type="text/x-jrender">
+    <script id="answerTemplate" type="text/x-jsrender">
         <div class="input-group mb-2 answer-container" answerindex="{{:answerIndex}}">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Вариант {{:answerIndex+1}}</div>
