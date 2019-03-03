@@ -16,6 +16,7 @@ import ru.geekbrains.gkportal.repository.QuestionnaireConfirmedTypeRepository;
 import ru.geekbrains.gkportal.repository.QuestionnaireContactConfirmRepository;
 import ru.geekbrains.gkportal.repository.QuestionnaireRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -46,26 +47,26 @@ public class QuestionnaireService {
         this.questionnaireRepository = questionnaireRepository;
     }
 
-    public List<QuestionResultFromView> getQuestionaryResultsForPieDiograms(String questionaryId){
+    public List<QuestionResultFromView> getQuestionaryResultsForPieDiograms(String questionaryId) {
         List<QuestionnaireRepository.QuestAns> questAnses = questionnaireRepository.getQuestionaryResultByQuestionaryId(questionaryId);
         System.out.println(questAnses.size());
         List<QuestionResultFromView> resultList = new ArrayList<>();
-        for (QuestionnaireRepository.QuestAns qa: questAnses
-             ) {
+        for (QuestionnaireRepository.QuestAns qa : questAnses
+        ) {
             String question = qa.getQuestion_name();
             AnswerFromViewDTO answerDTO = new AnswerFromViewDTO();
             answerDTO.setAnswerName(qa.getAnswer_name());
             answerDTO.setVoteCount(qa.getVote_count());
             boolean isAdded = false;
-            for (QuestionResultFromView qr: resultList
-                 ) {
-                if(qr.getQuestionName().equals(question)){
+            for (QuestionResultFromView qr : resultList
+            ) {
+                if (qr.getQuestionName().equals(question)) {
                     qr.getAnswers().add(answerDTO);
                     isAdded = true;
                     break;
                 }
             }
-            if(!isAdded){
+            if (!isAdded) {
                 QuestionResultFromView questionResultFromView = new QuestionResultFromView();
                 questionResultFromView.setQuestionName(question);
                 questionResultFromView.getAnswers().add(answerDTO);
@@ -75,6 +76,7 @@ public class QuestionnaireService {
         System.out.println(resultList.size());
         return resultList;
     }
+
     @Autowired
     public void setQuestionnaireConfirmedTypeRepository(QuestionnaireConfirmedTypeRepository questionnaireConfirmedTypeRepository) {
         this.questionnaireConfirmedTypeRepository = questionnaireConfirmedTypeRepository;
@@ -155,7 +157,7 @@ public class QuestionnaireService {
 
     }
 
-    public boolean confirmQuetionnaire(Contact contact, String code) {
+    public boolean confirmQuestionnaire(Contact contact, String code) {
         QuestionnaireContactConfirm confirm = questionnaireContactConfirmRepository.getByContactAndConfirmCode(contact, code);
         if (confirm != null) {
             confirm.setConfirmed(true);
@@ -163,5 +165,39 @@ public class QuestionnaireService {
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * Подгоавливает пустой опрос для вывода на фронт, с предзаполненными данными
+     *
+     * @param questionCount число вопросов
+     * @param answersCount число ответов ы каждом вопросе
+     * @return предзаполненый опрос
+     */
+    public Questionnaire createEmptyQuestion(int questionCount, int answersCount) {
+        Questionnaire questionnaire = Questionnaire.builder()
+                .name("Опрос жителей ЖК Город о ...")
+                .description("Опрос направлен на ...")
+                .questions(new ArrayList<>())
+                .from(LocalDateTime.now().withHour(10).withMinute(0))
+                .to(LocalDateTime.now().plusMonths(1L).withHour(10).withMinute(0))
+//                .active(true)
+                .build();
+
+        Question question = Question.builder()
+                .questionnaire(questionnaire)
+                .answers(new ArrayList<>())
+                .build();
+
+        for (int i = 0; i < answersCount; i++) {
+            question.getAnswers().add(new Answer());
+        }
+
+        for (int i = 0; i < questionCount; i++) {
+            questionnaire.getQuestions().add(question);
+        }
+
+        return questionnaire;
     }
 }

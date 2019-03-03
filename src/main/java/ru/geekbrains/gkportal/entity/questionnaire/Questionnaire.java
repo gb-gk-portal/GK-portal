@@ -2,6 +2,7 @@ package ru.geekbrains.gkportal.entity.questionnaire;
 
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.geekbrains.gkportal.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -27,10 +28,12 @@ public class Questionnaire extends AbstractEntity {
 
     @Column(name = "start_date")
     @NotNull(message = "Couldn't be empty!")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime from;
 
     @Column(name = "end_date")
     @NotNull(message = "Couldn't be empty!")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime to;
 
     @Column(name = "description")

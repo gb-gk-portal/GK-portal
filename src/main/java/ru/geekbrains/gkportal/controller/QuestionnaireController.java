@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.gkportal.dto.AnswerResultDTO;
 import ru.geekbrains.gkportal.dto.QuestionResultFromView;
 import ru.geekbrains.gkportal.entity.Contact;
-import ru.geekbrains.gkportal.entity.questionnaire.Answer;
 import ru.geekbrains.gkportal.entity.questionnaire.Question;
 import ru.geekbrains.gkportal.entity.questionnaire.Questionnaire;
 import ru.geekbrains.gkportal.security.IsAdmin;
@@ -18,10 +17,8 @@ import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 @Controller
@@ -141,34 +138,16 @@ public class QuestionnaireController {
     //    @IsAdmin
     @GetMapping("add")
     public String addQuestionnaire(Model model) {
-        // подготовительная работа для вывода на фронт, чтобы фронт был более универсальным
-        Questionnaire questionnaire = Questionnaire.builder()
-                .name("Опрос о голосовании ЖК Город")
-                .description("Члены инициативной группы ...")
-                .questions(new ArrayList<Question>())
-                .build();
-        Question question = Question.builder()
-                .questionnaire(questionnaire)
-                .answers(new ArrayList<Answer>())
-                .build();
-        question.getAnswers().add(new Answer());
-        question.getAnswers().add(new Answer());
-        questionnaire.getQuestions().add(question);
-        questionnaire.getQuestions().add(question);
-        // конец подготовки
-        model.addAttribute("questionnaire", questionnaire);
+        model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(2, 2));
         return "add-questionnaire";
     }
 
     @PostMapping("saveQuestionnaire")
     public String saveQuestionnaire(@ModelAttribute("questionnaire") Questionnaire questionnaire, Model model) {
-        questionnaire.setFrom(LocalDateTime.now());
 
-        questionnaire.setTo(LocalDateTime.now().plusMonths(1L));
-        questionnaire.setOpen(true);
-        questionnaire.setActive(true);
-        questionnaire.setInBuildNum(true);
-        questionnaire.setUseRealEstate(true);
+        if (questionnaire.getFrom().isBefore(LocalDateTime.now()) && questionnaire.getTo().isAfter(LocalDateTime.now())){
+            questionnaire.setActive(true);
+        }
 
         int[] idxQuestion = {1};
         questionnaire.getQuestions().forEach(question -> {

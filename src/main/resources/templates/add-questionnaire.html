@@ -22,6 +22,7 @@
                     <button class="btn btn-outline-primary add-answer-button" type="button"><i class="fas fa-plus-circle">Добавить вариант</i></button>
 
                 </div>
+
     </script>
     <script id="answerTemplate" type="text/x-jsrender">
         <div class="input-group mb-2 answer-container" answerindex="{{:answerIndex}}">
@@ -30,7 +31,12 @@
                             </div>
                             <input class="form-answer form-control" type="text" id="questions{{:questionIndex}}.answers{{:answerIndex}}.name" name="questions[{{:questionIndex}}].answers[{{:answerIndex}}].name" value="">
                         </div>
+
     </script>
+    <style type="text/css">
+        .add-questionnaire-checkbox-group {
+        }
+    </style>
 
 </head>
 <body>
@@ -42,10 +48,54 @@
             <div class="form-group">
                 <input class="form-control" id="questionnaire-uuid" type="text" th:field="*{uuid}">
             </div>
+
             <div class="form-group">
                 <label for="questionnaire-name">Название</label>
                 <input class="form-control" id="questionnaire-name" type="text" th:field="*{name}">
             </div>
+
+            <!--Блок ввода дат проведения опроса-->
+            <div class="form-row align-items-center add-questionnaire-date-group">
+                <div class="col-auto">
+                    <label class="sr-only" for="from">Начало</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Начало</div>
+                        </div>
+                        <input class="form-control" type="datetime-local" id="from" th:field="*{from}">
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label class="sr-only" for="to">Окончание</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Окончание</div>
+                        </div>
+                        <input class="form-control" id="to" type="datetime-local" th:field="*{to}">
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="add-questionnaire-checkbox-group">
+                &lt;!&ndash;                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="open" th:field="*{open}">
+                                    <label class="form-check-label" for="open">Открытый</label>
+                                </div>&ndash;&gt;
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
+                    <label class="form-check-label" for="active">Активный</label>
+                </div>
+                &lt;!&ndash;                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inBuildNum" th:field="*{inBuildNum}">
+                                    <label class="form-check-label" for="inBuildNum">В строительных номерах</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="useRealEstate" th:field="*{useRealEstate}">
+                                    <label class="form-check-label" for="useRealEstate">Использовать реальную недвижимость</label>
+                                </div>&ndash;&gt;
+            </div>-->
+
             <div class="form-group">
                 <label for="questionnaire-description">Описание</label>
                 <textarea class="form-control" id="questionnaire-description" type="text" th:field="*{description}"
@@ -54,20 +104,23 @@
 
 
             <div id="question-group">
-                <div  th:each="question:${questionnaire.questions}" th:attr="questionNumber = ${questionStat.index}" class="question-create-block question-template">
+                <div th:each="question:${questionnaire.questions}" th:attr="questionNumber = ${questionStat.index}"
+                     class="question-create-block question-template">
                     <div class="form-group">
                         <label>Вопрос</label>
-                        <input class="form-question form-control" type="text" th:field="*{questions[__${questionStat.index}__].name}">
+                        <input class="form-question form-control" type="text"
+                               th:field="*{questions[__${questionStat.index}__].name}">
                     </div>
 
 
-                        <div th:each="answer:${question.answers}" class="input-group mb-2 answer-container" th:attr="answerIndex = ${answerStat.index}">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text" th:text="'Вариант ' + ${answerStat.index + 1}"></div>
-                            </div>
-                            <input class="form-answer form-control" type="text"
-                                   th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].name}">
+                    <div th:each="answer:${question.answers}" class="input-group mb-2 answer-container"
+                         th:attr="answerIndex = ${answerStat.index}">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" th:text="'Вариант ' + ${answerStat.index + 1}"></div>
                         </div>
+                        <input class="form-answer form-control" type="text"
+                               th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].name}">
+                    </div>
 
                     <button class="btn btn-outline-primary add-answer-button"
                             type="button"><i class="fas fa-plus-circle">Добавить вариант</i></button>
