@@ -14,6 +14,7 @@ import ru.geekbrains.gkportal.security.IsAdmin;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.*;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -138,13 +139,13 @@ public class QuestionnaireController {
     @GetMapping("add")
     public String addQuestionnaire(Model model) {
         model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(2, 2));
-        return "add-questionnaire";
+        return returnShablon(model, QUESTIONNAIRE_ADD_FORM);
     }
 
     @PostMapping("saveQuestionnaire")
     public String saveQuestionnaire(@ModelAttribute("questionnaire") Questionnaire questionnaire, Model model) {
 
-        if (questionnaire.getFrom().isBefore(LocalDateTime.now()) && questionnaire.getTo().isAfter(LocalDateTime.now())){
+        if (questionnaire.getFrom().isBefore(LocalDateTime.now()) && questionnaire.getTo().isAfter(LocalDateTime.now())) {
             questionnaire.setActive(true);
         }
 
@@ -166,7 +167,7 @@ public class QuestionnaireController {
         questionnaireService.checkedAndSave(questionnaire);
 
 
-        return "questionnaire";
+        return returnShablon(model, QUESTIONNAIRE_LIST_FORM);
     }
 
 }

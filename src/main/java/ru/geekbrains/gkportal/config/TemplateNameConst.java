@@ -23,6 +23,8 @@ public class TemplateNameConst {
     public static final String REGISTRATION_MAIL = "registration/reg-question-success";
 
     // ============= регистрация с опросом ======================
+    //Форма создания опроса
+    public static final String QUESTIONNAIRE_ADD_FORM = "questionnaire/add-questionnaire";
     // Форма регистрации с опросом
     public static final String REGISTRATION_QUESTIONNAIRE_FORM = "registration/reg-question-form";
     // Письмо для подтверждения регистрации с опросом
