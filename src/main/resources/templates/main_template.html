@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragment/header :: header}"/>
+    <div th:replace="${content}::header"/>
+</head>
+
+
+<body>
+
+<!-- Start Preloader -->
+<div class="preloader">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+<!-- End Preloader -->
+
+
+<!--  Left Panel -->
+<div class="br-sideleft overflow-y-auto" th:replace="~{fragment/panel :: left}"/>
+
+<!-- Header Panel -->
+<div class="br-header" th:replace="~{fragment/panel :: top}"/>
+
+
+<!-- Start Main Panel -->
+<div class="br-mainpanel">
+
+    <div class="br-pagebody" th:replace="${content}::body">
+        <!-- this is where your contents will be added -->
+    </div><!-- br-pagebody -->
+
+    <!-- Footer Panel -->
+    <div class="br-header" th:replace="~{fragment/panel :: bottom}"/>
+
+</div><!-- br-mainpanel -->
+<!-- End Main Panel -->
+
+</body>

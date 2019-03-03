@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.geekbrains.gkportal.dto.House;
 import ru.geekbrains.gkportal.service.HouseService;
 
+import static ru.geekbrains.gkportal.config.TemplateNameConst.SCHEME_ADMIN_EDIT_HOUSE_FORM;
+import static ru.geekbrains.gkportal.config.TemplateNameConst.returnShablon;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -27,6 +30,6 @@ public class AdminController {
     public String showHouse(@PathVariable(name = "number") int number, Model model){
         House house = houseService.build(number);
         model.addAttribute("house", house);
-        return "edit-house-form";
+        return returnShablon(model, SCHEME_ADMIN_EDIT_HOUSE_FORM);
     }
 }

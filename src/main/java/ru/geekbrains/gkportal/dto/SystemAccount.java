@@ -8,7 +8,8 @@ import ru.geekbrains.gkportal.dto.interfaces.SystemAccountDTO;
 import ru.geekbrains.gkportal.entity.ContactType;
 import ru.geekbrains.gkportal.validation.PasswordsNotEqual;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class SystemAccount extends AbstractSystemAccount implements SystemAccoun
     //private Boolean boughtParkingPlace;
 
     private Boolean allowContactsSharing; // Пока бесполезная фигня, но потом прикрутим.
+    private Boolean fastRegistration;
 
     //private List<String> interestedIn;
 

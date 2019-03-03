@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <title>Список голосований</title>
+</header>
+<body>
+<div class="container card " th:fragment="body">
+    <div class="padding-site">
+        <p th:if="${completed} != null"></p>
+        <th:block th:if="${questionnaireList} != null">
+            <ul style="margin-top: 100px">
+                <li th:each="item :${questionnaireList}">
+                    <p th:text="${item.name}"></p>
+                    <p>
+                        <a th:href="@{/questionnaire(questionnaireId = ${item.uuid})}">Участвовать </a><br>
+                        <a th:href="@{/questionnaire/result(questionnaireId = ${item.uuid})}">Результаты </a><br>
+                        <a th:href="@{/questionnaire/questionnaire-result-datatable(questionnaireId = ${item.uuid})}">Результаты
+                            с поиском</a><br>
+                        <a th:href="@{/questionnaire/pie(questionnaireId = ${item.uuid})}">Графики</a><br>
+                    </p>
+                </li>
+            </ul>
+        </th:block>
+
+        <th:block th:if="${notFoundNumber} != null">
+            <p><span>Анкета под номером </span><span th:text="${notFoundNumber}"></span><span> не найдена</span></p>
+        </th:block>
+
+        <th:block th:if="${questionnaire} != null">
+            <h1 th:text="${questionnaire.name}"></h1>
+            <p style="font-style: italic" th:text="${questionnaire.description}"></p>
+            <form class="questionnaire-form" method="POST" th:action="@{/templates/questionnaire}" th:object="${form}">
+                <input th:field="*{questionnaireId}" th:value="${form.questionnaireId}" type="hidden">
+
+
+
+
+                <!--<div class="form-group"></div>-->
+
+                <th:block th:each="question: ${questionnaire.questions}">
+
+
+                    <div class="form-group">
+                        <label th:text="${question.name}"></label>
+                        <th:block th:each="answer, itemStat  : ${question.answers}">
+                            <div class="form-check">
+                                <input class="form-check-input" th:attr="value=${answer.uuid}"
+                                       th:field="*{questionAnswerUuids[__${question.uuid}__]}" th:id="${answer.uuid}"
+                                       required type="radio">
+                                <label class="form-check-label" th:attr="for=${answer.uuid}"
+                                       th:text="${answer.name}"></label>
+                            </div>
+
+                        </th:block>
+                    </div>
+                </th:block>
+                <button class="btn btn-primary" type="submit">Отправить</button>
+
+            </form>
+        </th:block>
+
+    </div>
+</div>
+</body>
+</html>

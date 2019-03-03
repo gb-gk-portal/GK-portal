@@ -3,6 +3,7 @@ package ru.geekbrains.gkportal.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -68,16 +69,22 @@ public class AccountService implements UserDetailsService {
     }
 
     @Transactional
-    public void createAccount(SystemAccount systemAccount) throws Throwable {
-        accountRepository.save(Account.builder()
+    public Account createAccount(SystemAccount systemAccount) throws Throwable {
+        return createAccount(systemAccount, null);
+    }
+
+    @Transactional
+    public Account createAccount(SystemAccount systemAccount, @Nullable Contact contact) throws Throwable {
+        return accountRepository.save(Account.builder()
                 .confirmed(false)
                 .active(false)
                 .login(systemAccount.getEmail())
                 .passwordHash(encoder.encode(systemAccount.getPassword()))
-                .contact(contactService.getOrCreateContact(systemAccount))
+                .contact((contact == null) ? contactService.getOrCreateContact(systemAccount) : contact)
                 .roles(roleService.getDefaultRoleList())
                 .build());
     }
+
 
 
     public boolean confirmAccount(Contact contact) {
@@ -90,21 +97,40 @@ public class AccountService implements UserDetailsService {
         } else return false;
     }
 
+    /**
+     * Процедура авторизации юзера по логину
+     *
+     * @param login логин
+     * @return Spring UserDetail
+     * @throws UsernameNotFoundException
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        //todo прокинуть на фронт сообщения об ошибке
         Account account = accountRepository.findOneByLogin(login);
         if (account == null) {
             if (logger.isDebugEnabled()){
                 logger.debug("Invalid username or password");
             }
-            throw new UsernameNotFoundException("Invalid username or password");
+            throw new UsernameNotFoundException("Ошибка в имени пользователя или пароле!");
+        } else if (!account.isActive()) {
+            throw new UsernameNotFoundException("Пользователь не активен!");
+        } else if (!account.isConfirmed()) {
+            throw new UsernameNotFoundException("Сначала подтвердите регистрацию по почте!");
         }
         return new org.springframework.security.core.userdetails.User(account.getLogin(), account.getPasswordHash(),
                 mapRolesToAuthorities(account.getRoles()));
     }
 
 
+    /** Ищет пользователя по логину,
+     *  если не находит выбрасывает экцепшен,
+     *  если находит то возвращает контакт
+     * @param login логин
+     * @return Contact
+     * @throws UsernameNotFoundException
+     */
     @Transactional
     public Contact getContactByLogin(String login) throws UsernameNotFoundException {
         Account account = accountRepository.findOneByLogin(login);
@@ -113,7 +139,7 @@ public class AccountService implements UserDetailsService {
             if (logger.isDebugEnabled()){
                 logger.debug("Invalid username or password");
             }
-            throw new UsernameNotFoundException("Invalid username or password");
+            throw new UsernameNotFoundException("Ошибка в имени пользователя или пароле!");
         }
 
         return account.getContact();

@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.geekbrains.gkportal.dto.*;
 import ru.geekbrains.gkportal.dto.QuestionnaireContactResult;
-import ru.geekbrains.gkportal.entity.Account;
-import ru.geekbrains.gkportal.entity.Communication;
-import ru.geekbrains.gkportal.entity.Contact;
-import ru.geekbrains.gkportal.entity.Flat;
+import ru.geekbrains.gkportal.entity.*;
 import ru.geekbrains.gkportal.repository.AccountRepository;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.AnswerResultService;
@@ -21,6 +18,8 @@ import ru.geekbrains.gkportal.service.FlatsService;
 import ru.geekbrains.gkportal.service.HouseService;
 
 import java.util.*;
+
+import static ru.geekbrains.gkportal.config.TemplateNameConst.*;
 
 
 @Controller
@@ -66,10 +65,12 @@ public class PersonAreaController {
                 if (contact != null) {
                     Collection<Communication> communications = contact.getCommunications();
                     Collection<Flat> flats = contact.getFlats();
+                    Collection<Ownership> ownerships = contact.getOwnerships();
                     model.addAttribute("contact", contact);
                     model.addAttribute("communications", communications);
                     model.addAttribute("flats", flats);
-                    return "lk";
+                    model.addAttribute("ownerships", ownerships);
+                    return returnShablon(model, LK_MAIN_FORM);
                 }
             }
             if (logger.isDebugEnabled()) {
@@ -77,20 +78,20 @@ public class PersonAreaController {
             }
             return "404";
         } else {
-            return "login";
+            return returnShablon(model, LOGIN_FORM);
         }
     }
 
     @GetMapping("/lk/{login}")
     //todo fix it можно адаптировать под палень для отображение информации администратору
     public String personArea(@PathVariable(name = "login") String login, Model model) {
-        Account account = accountRepository.findOneByLogin(login);
+        Account account = accountRepository.findOneByLogin(authenticateService.getCurrentUser().getUsername());
         if (account != null && !account.isActive()) {
-            return "login";
+            return returnShablon(model, LOGIN_FORM);
         }
         Contact contact = account.getContact();
         model.addAttribute("contact", contact);
-        return "lk";
+        return returnShablon(model, LK_MAIN_FORM);
     }
 
     @GetMapping("/lk/questionnaire-answer-result")
@@ -98,7 +99,7 @@ public class PersonAreaController {
     public String showAnswerResult(Model model) {
         Account account = accountRepository.findOneByLogin(authenticateService.getCurrentUser().getUsername());
         if (account == null) {
-            return "redirect:/login";
+            return returnShablon(model, LOGIN_FORM);
         }
 
         Contact contact = account.getContact();
@@ -107,7 +108,7 @@ public class PersonAreaController {
 
         model.addAttribute("questionnaireContactResultList", questionnaireContactResultList);
 
-        return "lk-questionnaire-answer-result";
+        return returnShablon(model, LK_QUESTIONNAIRE_RESULT);
     }
 
     @IsAuthenticated

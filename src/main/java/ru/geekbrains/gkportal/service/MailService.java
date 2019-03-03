@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import ru.geekbrains.gkportal.config.MailConfig;
 import ru.geekbrains.gkportal.entity.Communication;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.PropertyType;
@@ -17,6 +18,7 @@ import ru.geekbrains.gkportal.util.MailMessageBuilder;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,14 +56,40 @@ public class MailService {
     }
 
 
-    public void sendMail(List<String> emails, String subject, String text, boolean isHtml) {
+    public List<Boolean> sendMail(List<String> emails, String subject, String text, boolean isHtml) {
+        List<Boolean> res = new ArrayList<>();
         for (String mail : emails) {
-            sendMail(mail, subject, text, isHtml);
+            res.add(sendMail(mail, subject, text, isHtml));
         }
+        return res;
     }
+
+    /**
+     * Отправка писем через сайт по списку контактов
+     *
+     * @param toEmails
+     * @param fromEmail
+     * @param subject
+     * @param text
+     * @param isHtml
+     * @return
+     */
+    public boolean sendMail(List<Contact> toEmails, Contact fromEmail, String subject, String text, boolean isHtml) {
+
+        for (Contact contact : toEmails) {
+            //res.add(sendMail(mail, subject, text, isHtml));
+        }
+        return false;
+    }
+
+
 
     public boolean sendMail(String email, String subject, String text) {
         return sendMail(email, subject, text, true);
+    }
+
+    public boolean sendMailToAdmin(String subject, String text) {
+        return sendMail(MailConfig.ADMIN_MAIL, subject, text, true);
     }
 
     public boolean sendMail(String email, String subject, String text, boolean isHtml) {
@@ -91,8 +119,10 @@ public class MailService {
         return sendMail(email, "Регистрация на сайте  ЖК Город", builder.buildRegistrationEmail());
     }
 
-    public boolean sendRegistrationMail(Contact contact, Communication email) {
+    public boolean sendRegistrationMail(Contact contact) {
         String url = getCurentURL();
+        Communication email = contactService.getEmailCommunication(contact);
+
         return sendMail(email.getIdentify(),
                 "Регистрация на сайте ЖК Город",
                 builder.buildRegistrationEmail(contact.getLastName() + " " + contact.getFirstName() + " " + contact.getMiddleName() + " ",

@@ -2,16 +2,18 @@ package ru.geekbrains.gkportal.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.gkportal.dto.OwnershipRegDTO;
 import ru.geekbrains.gkportal.dto.SystemAccount;
-import ru.geekbrains.gkportal.dto.interfaces.SystemAccountDTO;
 import ru.geekbrains.gkportal.dto.SystemAccountToOwnerShip;
+import ru.geekbrains.gkportal.dto.interfaces.ContactDTO;
+import ru.geekbrains.gkportal.dto.interfaces.SystemAccountDTO;
+import ru.geekbrains.gkportal.entity.Communication;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.Flat;
 import ru.geekbrains.gkportal.entity.Ownership;
-import ru.geekbrains.gkportal.dto.interfaces.ContactDTO;
 import ru.geekbrains.gkportal.repository.ContactRepository;
 
 import java.util.ArrayList;
@@ -80,8 +82,13 @@ public class ContactService {
     }
 
     public Contact getOrCreateContact(SystemAccount systemAccount) throws Throwable {
+        return getOrCreateContact(systemAccount, null);
+    }
 
-        Contact contact = getContact(systemAccount);
+    public Contact getOrCreateContact(SystemAccount systemAccount, @Nullable Contact contact) throws Throwable {
+        // если контакт не передан, то ищём его
+        if (contact == null) contact = getContact(systemAccount);
+        // если контакт не найден то создаём
         if (contact == null) {
             contact = Contact.builder()
                     .contactType(systemAccount.getContactType())
@@ -97,7 +104,15 @@ public class ContactService {
     }
 
     public Contact getOrCreateContact(SystemAccountToOwnerShip systemAccount) throws Throwable {
-        Contact contact = getContact(systemAccount);
+        return getOrCreateContact(systemAccount, null);
+    }
+
+
+    // todo объединить повторяющийся код с тем что выше
+    public Contact getOrCreateContact(SystemAccountToOwnerShip systemAccount, @Nullable Contact contact) throws Throwable {
+        // если контакт не передан, то ищём его
+        if (contact == null) contact = getContact(systemAccount);
+        // если контакт не найден то создаём
         if (contact == null) {
             //todo обрезать пробелы, первую букву к верхнему регистру, остальные к нижнему
             contact = Contact.builder()
@@ -180,6 +195,11 @@ public class ContactService {
     public String getEmail(Contact contact) {
         return communicationService.getMail(contact.getCommunications());
     }
+
+    public Communication getEmailCommunication(Contact contact) {
+        return communicationService.getMailCommunication(contact.getCommunications());
+    }
+
 
     public Collection<Contact> getContaсtListByEmail(String mail) throws Throwable {
         return communicationService.getContactListByEmail(mail);

@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
@@ -59,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login")
+
+                .and().rememberMe().key("irememberyou").userDetailsService(accountService).tokenValiditySeconds(173000)
 
                 .and()
                 .csrf().disable(); // todo убарть когда будет создана кнопка на post /logout

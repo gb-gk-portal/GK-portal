@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Start Left Panel -->
+
+<div class="br-sideleft overflow-y-auto" th:fragment="left">
+    <label class="sidebar-label pd-x-15 mg-t-20">Навигация</label>
+    <div class="br-sideleft-menu">
+
+
+        <div sec:authorize="isAuthenticated()">
+            <a class="br-menu-link" th:href="@{/user/profile}">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-information tx-20"></i>
+                    <span class="menu-item-label">Личный кабинет</span>
+
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+
+            <a class="br-menu-link" th:href="@{/questionnaire}">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-help tx-20"></i>
+                    <span class="menu-item-label">Опросы</span>
+
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+
+            <a class="br-menu-link" th:href="@{/logout}">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-power tx-20"></i>
+                    <span class="menu-item-label">Выход</span>
+
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+        </div>
+
+        <div sec:authorize="hasAuthority('admin')">
+            <a class="br-menu-link" href="#">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-settings tx-20"></i>
+                    <span class="menu-item-label">Конфигурация домов</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub nav flex-column">
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/showHouse/1}">Дом 1</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/showHouse/2}">Дом 2</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/showHouse/3}">Дом 3</a></li>
+            </ul>
+            <a class="br-menu-link" href="#">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-hammer tx-20"></i>
+                    <span class="menu-item-label">Для тестирования</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub nav flex-column">
+                <li class="nav-item"><a class="nav-link" th:href="@{/rest/test}">Сгенерить опрос для теста</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/test/uuidGenerator}">Сгенерить uuid</a></li>
+
+            </ul>
+
+
+        </div>
+
+        <div sec:authorize="isAnonymous()">
+
+            <a class="br-menu-link" href="#">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-ios-compose tx-20"></i>
+                    <span class="menu-item-label">Регистрация</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+            <ul class="br-menu-sub nav flex-column">
+                <li class="nav-item"><a class="nav-link" th:href="@{/reg}">Новый пользователь</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/reg?fast=true}">Участвовал в опросе</a></li>
+            </ul>
+
+            <a class="br-menu-link" href="\login">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-android-contact tx-20"></i>
+                    <span class="menu-item-label">Войти</span>
+
+                </div><!-- menu-item -->
+            </a><!-- br-menu-link -->
+
+        </div>
+
+
+    </div><!-- br-sideleft-menu -->
+</div><!-- br-sideleft -->
+<!-- end Left Panel -->
+
+<!-- Start Header Panel -->
+<div class="br-header" th:fragment="top">
+    <div class="br-header-left">
+        <div class="navicon-left hidden-md-down"><a href="" id="btnLeftMenu"><i class="icon ion-navicon-round"></i></a>
+        </div>
+        <div class="navicon-left hidden-lg-up"><a href="" id="btnLeftMenuMobile"><i class="icon ion-navicon-round"></i></a>
+        </div>
+        <!--<div class="input-group hidden-xs-down wd-170 transition">
+            <input id="searchbox" type="text" class="form-control" placeholder="Search">
+            <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+        </span>
+        </div>
+        -->
+        <!-- input-group -->
+        <div class="br-logo"><a href="/"><span>[</span>ЖК Город<span>]</span></a></div>
+    </div><!-- br-header-left -->
+
+
+</div><!-- br-header -->
+<!-- End Header Panel -->
+
+
+<!-- Start Footer Panel -->
+<div th:fragment="bottom">
+
+    <footer class="br-footer">
+        <div class="footer-left">
+            <div class="mg-b-2">Copyright &copy; 2019. All Rights Reserved.</div>
+
+        </div>
+        <div class="footer-right d-flex align-items-center">
+
+        </div>
+    </footer>
+</div>
+<!-- End Footer Panel -->
+
+</body>
+</html>

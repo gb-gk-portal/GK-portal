@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+
+</header>
+<body>
+<div class="br-pagebody  card" th:fragment="body">
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Тестирвоание страницы доступной только для админа',description='Генерация UUID',iconClass='icon ion-wrench') "/>
+
+
+    <p><span>Пользователь: </span><span th:text="${#authentication.getName()}"/></p>
+<p><span>Роли: </span><span th:text="${#authentication.getAuthorities()}"/></p>
+
+<p>uuid</p>
+<a th:each="iteam : ${committees}" th:text="${#ids.seq('')} + '.  ' + ${iteam.getName()}"
+   th:href="@{'/committees/' + ${iteam.getId()}}" class="list-group-item list-group-item-action"></a>
+<p>Сгенерированне uuid</p>
+<ul th:each="iteam : ${uuids}">
+    <li th:text="${iteam}"></li>
+</ul>
+</div>
+</body>
+</html>

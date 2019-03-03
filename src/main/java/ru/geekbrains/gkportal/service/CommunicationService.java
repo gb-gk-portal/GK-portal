@@ -116,6 +116,17 @@ public class CommunicationService {
         return null;
     }
 
+    //todo может же быть несколько емейлов, нужно понять который из них главный
+    public Communication getMailCommunication(Collection<Communication> communications) {
+        for (Communication communication : communications) {
+            if (communication.getCommunicationType().getUuid().equals(CommunicationTypeService.EMAIL_TYPE_GUID)) {
+                return communication;
+            }
+
+        }
+        return null;
+    }
+
     public Collection<Contact> getContactListByIdentify(CommunicationType communicationType, String identidy) {
         List<Communication> communicationList =
                 communicationRepository.findAllByCommunicationTypeAndIdentify(communicationType, identidy);
