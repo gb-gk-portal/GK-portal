@@ -23,6 +23,9 @@ public class MailConfig {
     private final static String TRUST = "*";
     private final static String SOCKET_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
+    public static final String ADMIN_MAIL = "admin@chertenok.ru";
+
+
 
     @Autowired
     public void setPropertyService(PropertyService propertyService) {

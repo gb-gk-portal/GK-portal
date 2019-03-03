@@ -1,29 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<header th:fragment="header">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
     <script th:src="@{/js/regboard.js}" type="text/javascript"></script>
     <script th:src="@{/js/opros.js}" type="text/javascript"></script>
-
     <script id="flatTemplate" type="text/x-jrender">
         <div class="gk-flat-chooser">
-
            <div class="gk-select-ownership form-group row"><label class="col-form-label col-sm-2">Вид недвижимости</label>
                     <div class="col-sm-3">
-
-
-
                     <select class="custom-select" required id="ownerships{{:num}}.ownershipType.name" name = "ownerships[{{:num}}].ownershipType.uuid">
-
                     </select></div>
                 </div>
                 <div class="gk-select-house form-group row">
@@ -54,19 +40,13 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
     </script>
     <th:block th:if="${questionnaire} != null">
         <title th:text="${questionnaire.name}"> Опрос </title>
     </th:block>
-</head>
+</header>
 <body>
-<div class="container">
+<div class="container" th:fragment="body">
         <th:block th:if="${questionnaire} != null">
             <h1 th:text="${questionnaire.name}"></h1>
             <p style="font-style: italic" th:text="${questionnaire.description}"></p>
@@ -266,7 +246,8 @@
                         <th:block th:if="${questionnaireList} != null">
                             <ul req style="margin-top: 100px">
                                 <li th:each="item :${questionnaireList}">
-                                    <a th:href="@{/questionnaire(questionnaireId = ${item.uuid})}" th:text="${item.name}"></a>
+                                    <a th:href="@{/templates/questionnaire(questionnaireId = ${item.uuid})}"
+                                       th:text="${item.name}"></a>
                                 </li>
                             </ul>
                         </th:block>

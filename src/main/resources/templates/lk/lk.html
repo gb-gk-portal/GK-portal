@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <title>Личный кабинет</title>
+</header>
+<body>
+<div class="card" th:fragment="body">
+<p></p>
+<h1 align="center"> Добро пожаловать в личный кабинет </h1>
+<p></p>
+
+    <table class="table"  >
+        <tr>
+            <td align="center" class="btn-primary" colspan="8">ФИО :</td>
+        <tr>
+            <td>Фамилия:</td>
+            <td th:text="${contact.getLastName()}">...</td>
+        </tr>
+        <tr>
+            <td>Имя:</td>
+            <td th:text="${contact.getFirstName()}">...</td>
+        </tr>
+        <tr>
+            <td>Отчество:</td>
+            <td th:text="${contact.getMiddleName()}">...</td>
+        </tr>
+        <tr>
+            <td>Вы являетесь:</td>
+            <td th:text="${contact.getContactType().getDescription()}">...</td>
+        </tr>
+        <tr>
+            <td align="center" class="btn-primary" colspan="8">Контакты :</td>
+        </tr>
+        <tr th:each="communication : ${communications}" >
+            <td th:text="${communication.getCommunicationType().getDescription()}">...</td>
+            <td th:text="${communication.getIdentify()}">...</td>
+        </tr>
+
+        <td align="center" class="btn-primary" colspan="8">Объекты :</td>
+        <tr th:each="ownership,iter : ${ownerships}">
+            <td th:utext="${iter.index+1} + '.'">...</td>
+            <td>Тип: <p th:text="${ownership.getOwnershipType().getDescription()}">...</p></td>
+            <div th:if="${ownership.is_build_num()}">
+                <td> Строительный номер дома:</td>
+                <td th:text="${ownership.getHouseBuildNum()}">...</td>
+                <td> Строительный номер объекта:</td>
+                <td th:text="${ownership.getBuildNumber()}">...</td>
+            </div>
+            <div th:unless="${ownership.is_build_num()}">
+                <td> Номер дома:</td>
+                <td th:text="${ownership.getHouseNum()}">...</td>
+                <td> Номер объекта:</td>
+                <td th:text="${ownership.getNumber()}">...</td>
+            </div>
+            <td>Доля владения:</td>
+            <td th:text="${ownership.getPercentageOfOwner()}">...%</td>
+        </tr>
+
+        <tr>
+            <td align="center" class="btn-primary" colspan="8">Квартиры :</td>
+        </tr>
+        <tr th:each="flat , iter : ${flats}" >
+            <td th:utext="${iter.index + 1 } + '.'">...</td>
+            <td>Номер Дома :</td>
+            <td th:text="${flat.getHouseBuild()}">...</td>
+            <td>Номер квартиры :</td>
+            <td th:text="${flat.getFlatNumber()}">...</td>
+        </tr>
+
+    </table>
+<p></p>
+<p></p>
+<a type="button" class="btn btn-primary btn-sm btn-block" th:href="@{/lk/questionnaire-answer-result}">Показать результаты ваших голосования</a>
+
+    <p></p>
+<a href="/">Вернуться на главную</a>
+</div>
+
+</body>
+</html>

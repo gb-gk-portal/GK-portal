@@ -1,8 +1,6 @@
 package ru.geekbrains.gkportal.controller;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +14,10 @@ import ru.geekbrains.gkportal.security.IsAdmin;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.*;
 
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+
+import static ru.geekbrains.gkportal.config.TemplateNameConst.*;
 
 
 @Controller
@@ -67,7 +66,7 @@ public class QuestionnaireController {
         model.addAttribute("questionnaire", questionnaireService.findByIdAndSortQuestionsAndAnswers(questionnaireId));
         model.addAttribute("contactList", contactList);
         model.addAttribute("confirmedCount", contactService.countQuestionnaireContactConfirm(contactList));
-        return "questionnaire-result/result";
+        return returnShablon(model, QUESTIONNAIRE_RESULT_FORM);
     }
 
     @IsAdmin
@@ -81,16 +80,16 @@ public class QuestionnaireController {
         model.addAttribute("contactList", contactList);        // TODO: 20.02.19 облегчить запросы , вероятно сделать нативными
         model.addAttribute("confirmedCount", contactService.countQuestionnaireContactConfirm(contactList));
 
-        logger.log(Level.toLevel(Priority.WARN_INT), "Время обработки showQuestionnaireResultsDataTable " + (System.currentTimeMillis() - t));
+        logger.info("Время обработки showQuestionnaireResultsDataTable " + (System.currentTimeMillis() - t));
 
-        return "questionnaire-result/datatable";
+        return returnShablon(model, QUESTIONNAIRE_RESULT_FIND_FORM);
     }
 
     @GetMapping("pie")
     public String showQuestionnairePieResults(@RequestParam String questionnaireId, Model model) {
         List<QuestionResultFromView> qr = questionnaireService.getQuestionaryResultsForPieDiograms(questionnaireId);
         model.addAttribute("results", qr);
-        return "pie-diog";
+        return returnShablon(model, QUESTIONNAIRE_PIE);
     }
 
     @IsAuthenticated
@@ -99,7 +98,7 @@ public class QuestionnaireController {
 //        if (!authenticateService.isCurrentUserAuthenticated()) return "403";
         if (questionnaireId == null) {
             model.addAttribute("questionnaireList", questionnaireService.findAll());
-            return "questionnaire";
+            return returnShablon(model, QUESTIONNAIRE_LIST_FORM);
         }
 
         Questionnaire questionnaire;
@@ -107,14 +106,14 @@ public class QuestionnaireController {
         if ((questionnaire = questionnaireService.findByIdAndSortAnswers(questionnaireId)) == null) {
             model.addAttribute("notFoundNumber", questionnaireId);
             model.addAttribute("questionnaireList", questionnaireService.findAll());
-            return "questionnaire";
+            return returnShablon(model, QUESTIONNAIRE_LIST_FORM);
         }
 
         questionnaire.getQuestions().sort(Comparator.comparingInt(Question::getSortNumber));
         AnswerResultDTO form = new AnswerResultDTO(questionnaire.getQuestions(), questionnaireId);
         model.addAttribute("questionnaire", questionnaire);
         model.addAttribute("form", form);
-        return "questionnaire";
+        return returnShablon(model, QUESTIONNAIRE_LIST_FORM);
     }
 
     @IsAuthenticated

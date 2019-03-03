@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
+<header th:fragment="header">
+
+</header>
 <body>
-<h2>Тестирвоание страницы доступной только для админа</h2>
-<p><span>Пользователь: </span><span th:text="${#authentication.getName()}"/></p>
+<div class="br-pagebody  card" th:fragment="body">
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Тестирвоание страницы доступной только для админа',description='Генерация UUID',iconClass='icon ion-wrench') "/>
+
+
+    <p><span>Пользователь: </span><span th:text="${#authentication.getName()}"/></p>
 <p><span>Роли: </span><span th:text="${#authentication.getAuthorities()}"/></p>
 
 <p>uuid</p>
@@ -15,6 +19,6 @@
 <ul th:each="iteam : ${uuids}">
     <li th:text="${iteam}"></li>
 </ul>
-
+</div>
 </body>
 </html>

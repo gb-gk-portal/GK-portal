@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script th:src="@{/js/main.js}" type="text/javascript"></script>
+<header th:fragment="hedaer">
     <script th:src="@{/js/editboard.js}" type="text/javascript"></script>
-    <title>Title</title>
-
-
-</head>
+    <title>Просмотр/редактирование дома</title>
+</header>
 <body>
-<div th:replace="~{house-view :: house-view}"></div>
+<div th:fragment="body">
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Просмотр и редактирование дома',description='',iconClass='icon ion-wrench') "/>
+
+
+    <div th:replace="~{/scheme/house-view :: house-view}"></div>
 <!--<div th:each="porch: ${house.porchList}" class="porch">
     <h2 th:text="${porch.description.porchID}+' подъезд'"></h2>
     <table border="1">
@@ -37,5 +34,7 @@
 <div>
  <textarea id="area"></textarea>
 </div>
+</div>
+
 </body>
 </html>

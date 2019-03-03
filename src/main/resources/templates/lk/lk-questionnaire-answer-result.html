@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<header th:fragment="header">
     <link type="text/css" rel="stylesheet" th:href="@{/css/lk-questionarire-filter-table.css}"/>
     <script th:src="@{/js/lk-questionarire-filter-table.js}" type="text/javascript"></script>
     <title>Личный кабинет - история голосований</title>
-</head>
+</header>
 <body>
 <br>
-<div class="container" th:fragment="lk-answer-result">
+<div class="container" th:fragment="body">
     <h3> Личный кабинет - история голосований</h3>
     <hr>
 

@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import ru.geekbrains.gkportal.config.MailConfig;
 import ru.geekbrains.gkportal.entity.Communication;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.PropertyType;
@@ -63,8 +64,32 @@ public class MailService {
         return res;
     }
 
+    /**
+     * Отправка писем через сайт по списку контактов
+     *
+     * @param toEmails
+     * @param fromEmail
+     * @param subject
+     * @param text
+     * @param isHtml
+     * @return
+     */
+    public boolean sendMail(List<Contact> toEmails, Contact fromEmail, String subject, String text, boolean isHtml) {
+
+        for (Contact contact : toEmails) {
+            //res.add(sendMail(mail, subject, text, isHtml));
+        }
+        return false;
+    }
+
+
+
     public boolean sendMail(String email, String subject, String text) {
         return sendMail(email, subject, text, true);
+    }
+
+    public boolean sendMailToAdmin(String subject, String text) {
+        return sendMail(MailConfig.ADMIN_MAIL, subject, text, true);
     }
 
     public boolean sendMail(String email, String subject, String text, boolean isHtml) {

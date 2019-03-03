@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.geekbrains.gkportal.config.TemplateNameConst.returnShablon;
+
 @Controller
 @RequestMapping("/test")
 public class TestWebController {
@@ -60,12 +62,12 @@ public class TestWebController {
 //        roleManager.setDescription("manager");
 //        roleService.save(role);
 
-        return "test_page";
+        return returnShablon(model, "test/test_page");
     }
 
     @GetMapping("manager")
     public String managerPage() {
-        return "test_page";
+        return "/test/test_page";
     }
 
     @GetMapping("serverErr")

@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<header th:fragment="header">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
     <script th:src="@{/js/regboard.js}" type="text/javascript"></script>
     <script id="flatTemplate" type="text/x-jrender">
@@ -18,9 +11,7 @@
                     <label class="col-sm-5 col-form-label">Номер Дома (почтовый номер, где 3 - колодец)</label>
                     <div class="col-sm-3">
                         <select class="custom-select" required id="flats{{:num}}.housingNumber" name="flats[{{:num}}].housingNumber">
-
                         </select>
-
                     </div>
                 </div>
                 <div>
@@ -61,13 +52,16 @@
     <title>Регистрация нового пользователя</title>
 
 
-</head>
+</header>
 <body>
-<div class="container">
+<div class="card shadow-base container" th:fragment="body">
 
 
-    <div class="gk-reg-conteiner gk-form-container">
-        <h1>Полная регистрация,<br> для новых пользователей</h1>
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Полная регистрация',description='для новых пользователей',iconClass='ion-ios-compose') "/>
+
+
+    <div class="gk-reg-conteiner gk-form-container br-pagebody ">
         <form th:action=" @{'/userRegister'}" th:object="${systemUser}" method="post">
             <div th:if="${registrationError != null}" class="form-group">
                 <div class="col-xs-6">

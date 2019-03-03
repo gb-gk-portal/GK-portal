@@ -1,25 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<header th:fragment="header">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
     <script th:src="@{/js/regboard.js}" type="text/javascript"></script>
     <title>Регистрация нового пользователя</title>
-
-
-</head>
+</header>
 <body>
-<div class="container">
+<div class="card shadow-base container " th:fragment="body">
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Быстрая регистрация',description='если Вы уже участвовали в опросе',iconClass='ion-ios-compose') "/>
+
     <div class="gk-reg-conteiner">
-        <h1>Быстрая регистрация,<br> если Вы уже участвовали в опросе</h1>
         <form method="post" th:action=" @{'/userRegister'}" th:object="${systemUser}">
             <div class="form-group" th:if="${registrationError != null}">
                 <div class="col-xs-6">

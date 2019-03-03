@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-</head>
+<header th:fragment="header">
+    <title>Просмотр результатом голосования</title>
+</header>
 <body>
 
-<div class="container">
+<div class="container card" th:fragment="body">
     <h1 th:text="${questionnaire.name}"></h1>
     <h2>
         <span th:text="'Проголосовало ' + ${contactList.size()} + ' человек, '"></span>
