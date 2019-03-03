@@ -11,4 +11,5 @@ public class FlatDTO {
     private int flatNumber;
     private int riser;
     private int flatNumberBuild;
+    private int house;
 }

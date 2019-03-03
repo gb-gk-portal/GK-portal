@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Тестирование</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/dataTables.checkboxes.js}"></script>
+    <script type="text/javascript" th:src="@{/js/dataTables.checkboxes.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/neighbors-datatable.js}"></script>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/css/dataTables.checkboxes.css}"/>
+
+</head>
+<body>
+<div class="container">
+    <h3>Личный кабинет сообщение соседям</h3>
+    <hr>
+
+    <div class="creatediv1 marginTop30">
+        <form id="frm-flat-neighbors"  method="POST">
+
+            <div class="row margin-top-10">
+                <div class="col form-group">
+                    <h5 class="panel-title">Выберите один из вариантов отображения</h5>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="table-primary">
+                            <th class="font-weight-bold">Наименование</th>
+                        </thead>
+                        </tr>
+                        <tbody>
+                        <tr th:each="filterTypeId:${filterTypeMap.keySet()}">
+                            <td th:text="${filterTypeMap.get(filterTypeId)}" class="menu-link" th:link="${filterTypeId}"
+                                th:label="${accountId}"/>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col form-group">
+
+                    <table id="flat-neighbors" class="table table-hover display table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Квартира</th>
+                            <th>Дом</th>
+                            <th>Подъезд</th>
+                            <th>Этаж</th>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+
+            <hr>
+            <br>
+            <div class="form-group">
+                <label class="control-label " for="message">Написать сообщение</label>
+                <textarea class="form-control" id="message" name="message" rows="5"></textarea>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary " name="submit" type="submit">Отправить</button>
+            </div>
+        </form>
+
+        <hr>
+        <a type="button" class="btn btn-outline-primary" th:href="@{/user/profile}">Назад в личный кабинет</a>
+    </div>
+</div>
+</body>
+</html>

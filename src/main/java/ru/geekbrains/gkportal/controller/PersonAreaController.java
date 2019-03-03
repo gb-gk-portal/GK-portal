@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.geekbrains.gkportal.dto.*;
 import ru.geekbrains.gkportal.dto.QuestionnaireContactResult;
 import ru.geekbrains.gkportal.entity.Account;
 import ru.geekbrains.gkportal.entity.Communication;
@@ -15,9 +17,10 @@ import ru.geekbrains.gkportal.repository.AccountRepository;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.AnswerResultService;
 import ru.geekbrains.gkportal.service.AuthenticateService;
+import ru.geekbrains.gkportal.service.FlatsService;
+import ru.geekbrains.gkportal.service.HouseService;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -28,6 +31,8 @@ public class PersonAreaController {
     private AccountRepository accountRepository;
     private AuthenticateService authenticateService;
     private AnswerResultService answerResultService;
+    private HouseService houseService;
+    private FlatsService flatsService;
 
     @Autowired
     public void setAuthenticateService(AuthenticateService authenticateService) {
@@ -43,6 +48,14 @@ public class PersonAreaController {
     public void setAnswerResultService(AnswerResultService answerResultService) {
         this.answerResultService = answerResultService;
     }
+
+    @Autowired
+    public void setHouseService(HouseService houseService){
+        this.houseService = houseService;
+    }
+
+    @Autowired
+    public void setFlatsService(FlatsService flatsService) {this.flatsService = flatsService;}
 
     @GetMapping("/user/profile")
     public String showProfile(Model model) {
@@ -88,10 +101,6 @@ public class PersonAreaController {
             return "redirect:/login";
         }
 
-//        if (account != null && !account.isActive()) {
-//            return "redirect:/login";
-//        }
-
         Contact contact = account.getContact();
 
         List<QuestionnaireContactResult> questionnaireContactResultList = answerResultService.getAllByContact(contact);
@@ -100,4 +109,29 @@ public class PersonAreaController {
 
         return "lk-questionnaire-answer-result";
     }
+
+    @IsAuthenticated
+    @GetMapping("/lk/neighbors-message")
+    public String showNeighborsMessagePage(Model model) {
+
+        Account account = accountRepository.findOneByLogin(authenticateService.getCurrentUser().getUsername());
+        if (account == null) {
+            return "redirect:/login";
+        }
+
+        Map<Integer, String> filterTypeMap = new HashMap<>();
+        filterTypeMap.put(FilterUserProfileFlat.FLOOR, "Соседи по этажу");
+
+        if (account.getRoles().stream().anyMatch(x->x.getDescription().equals("admin")))
+        {
+            filterTypeMap.put(FilterUserProfileFlat.RISER, "Соседи по стояку");
+            filterTypeMap.put(FilterUserProfileFlat.PORCH, "Соседи по подъезду");
+            filterTypeMap.put(FilterUserProfileFlat.HOUSE, "Соседи по дому");
+        }
+
+        model.addAttribute("filterTypeMap", filterTypeMap);
+
+        return "lk-neighbors-message";
+    }
+
 }
