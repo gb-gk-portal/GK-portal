@@ -10,6 +10,7 @@
 
 
     <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.2/jsrender.min.js"></script>
     <script type="text/javascript" th:src="@{/js/add-questionnaire.js}"></script>
 
 
@@ -35,21 +36,21 @@
 
 
             <div id="question-group">
-                <div id="question-template" th:attr="questionNumber = ${0}" class="question-create-block">
+                <div id="question-template" th:each="question:${questionnaire.questions}" th:attr="questionNumber = ${questionStat.index}" class="question-create-block">
                     <div class="form-group">
                         <label>Вопрос</label>
-                        <input class="form-question form-control" type="text" th:field="*{questions[0].name}">
+                        <input class="form-question form-control" type="text" th:field="*{questions[__${questionStat.index}__].name}">
                     </div>
 
-                    <th:block th:each="answer : ${#numbers.sequence(1,2)}">
-                        <div class="input-group mb-2" th:attr="answerIndex = ${answerStat.index + 1}">
+
+                        <div th:each="answer:${question.answers}" class="input-group mb-2" th:attr="answerIndex = ${answerStat.index}">
                             <div class="input-group-prepend">
                                 <div class="input-group-text" th:text="'Вариант ' + ${answerStat.index + 1}"></div>
                             </div>
                             <input class="form-answer form-control" type="text"
-                                   th:field="*{questions[0].answers[__${answerStat.index}__].name}">
+                                   th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].name}">
                         </div>
-                    </th:block>
+
                     <button class="btn btn-outline-primary question-button"
                             type="button"><i class="fas fa-plus-circle">Добавить вариант</i></button>
 

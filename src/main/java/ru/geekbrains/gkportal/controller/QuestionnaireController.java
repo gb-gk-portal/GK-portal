@@ -18,6 +18,7 @@ import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -140,11 +141,20 @@ public class QuestionnaireController {
     //    @IsAdmin
     @GetMapping("add")
     public String addQuestionnaire(Model model) {
+        // подготовительная работа для вывода на фронт, чтобы фронт был более универсальным
         Questionnaire questionnaire = Questionnaire.builder()
                 .name("Опрос о голосовании ЖК Город")
                 .description("Члены инициативной группы ...")
+                .questions(new ArrayList<Question>())
                 .build();
-
+        Question question = Question.builder()
+                .questionnaire(questionnaire)
+                .answers(new ArrayList<Answer>())
+                .build();
+        question.getAnswers().add(new Answer());
+        question.getAnswers().add(new Answer());
+        questionnaire.getQuestions().add(question);
+        // конец подготовки
         model.addAttribute("questionnaire", questionnaire);
         return "add-questionnaire";
     }
