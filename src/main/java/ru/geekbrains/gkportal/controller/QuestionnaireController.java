@@ -154,6 +154,7 @@ public class QuestionnaireController {
         question.getAnswers().add(new Answer());
         question.getAnswers().add(new Answer());
         questionnaire.getQuestions().add(question);
+        questionnaire.getQuestions().add(question);
         // конец подготовки
         model.addAttribute("questionnaire", questionnaire);
         return "add-questionnaire";
