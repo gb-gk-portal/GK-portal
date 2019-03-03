@@ -151,8 +151,6 @@ public class QuestionnaireController {
 
         int[] idxQuestion = {1};
         questionnaire.getQuestions().forEach(question -> {
-            question.setSortNumber(0);
-            question.setRequired(true);
             question.setSingle(true);
             question.setQuestionnaire(questionnaire);
             question.setExternalNumber(idxQuestion[0]);
@@ -166,10 +164,10 @@ public class QuestionnaireController {
             });
         });
 
-        questionnaireService.save(questionnaire);
+        questionnaireService.checkedAndSave(questionnaire);
 
 
-        return "add-questionnaire";
+        return "questionnaire";
     }
 
 }

@@ -121,6 +121,12 @@ public class QuestionnaireService {
         return questionnaireRepository.save(questionnaire);
     }
 
+    public Questionnaire checkedAndSave(Questionnaire questionnaire) {
+        // TODO: 03.03.2019 вынести логику с контроллера
+
+        return questionnaireRepository.save(questionnaire);
+    }
+
     public boolean isQuestionnaireContactExist(Questionnaire questionnaire, Contact contact) {
         return (questionnaireContactConfirmRepository.getByQuestionnaireAndContact(questionnaire, contact) != null);
     }
@@ -172,7 +178,7 @@ public class QuestionnaireService {
      * Подгоавливает пустой опрос для вывода на фронт, с предзаполненными данными
      *
      * @param questionCount число вопросов
-     * @param answersCount число ответов ы каждом вопросе
+     * @param answersCount  число ответов ы каждом вопросе
      * @return предзаполненый опрос
      */
     public Questionnaire createEmptyQuestion(int questionCount, int answersCount) {
@@ -182,21 +188,21 @@ public class QuestionnaireService {
                 .questions(new ArrayList<>())
                 .from(LocalDateTime.now().withHour(10).withMinute(0))
                 .to(LocalDateTime.now().plusMonths(1L).withHour(10).withMinute(0))
-//                .active(true)
                 .build();
 
-        Question question = Question.builder()
-                .questionnaire(questionnaire)
-                .answers(new ArrayList<>())
-                .build();
-
-        for (int i = 0; i < answersCount; i++) {
-            question.getAnswers().add(new Answer());
-        }
 
         for (int i = 0; i < questionCount; i++) {
+            Question question = Question.builder()
+                    .questionnaire(questionnaire)
+                    .answers(new ArrayList<>())
+                    .sortNumber(i + 1)
+                    .build();
+            for (int j = 0; j < answersCount; j++) {
+                question.getAnswers().add(new Answer());
+            }
             questionnaire.getQuestions().add(question);
         }
+
 
         return questionnaire;
     }
