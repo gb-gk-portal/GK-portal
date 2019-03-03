@@ -61,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/login")
 
+                .and().rememberMe().key("irememberyou").userDetailsService(accountService).tokenValiditySeconds(173000)
+
                 .and()
                 .csrf().disable(); // todo убарть когда будет создана кнопка на post /logout
     }

@@ -35,6 +35,12 @@
                 <div class="form-group col-md-6">
                     <input class="form-control" id="inputPassword" name="password" type="password" value="">
                 </div>
+                <div class="form-group col-md-6">
+                    <input class="form-check-input" id="inputRemember" name="remember-me" type="checkbox">
+                    <label class="form-check-label" for="inputRemember">
+                        Запомнить вход
+                    </label>
+                </div>
             </div>
             <button type="submit" class="btn btn-outline-primary btn-lg">Войти</button>
             <a class="btn btn-outline-secondary btn-lg" role="button" th:href="@{/reg}">Регистрация</a>
