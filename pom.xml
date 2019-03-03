@@ -92,6 +92,23 @@
             </properties>
         </developer>
 
+        <developer>
+            <id>RinatShangareev</id>
+            <name>Rinat Shangareev</name>
+            <email>ShangareevRR@mail.ru</email>
+            <url>https://github.com/RinatShangareev</url>
+            <organization>GeekBrains</organization>
+            <organizationUrl>https://geekbrains.ru/</organizationUrl>
+            <roles>
+                <role>developer backend</role>
+            </roles>
+            <timezone>Europe/Ufa</timezone>
+            <properties>
+                <picUrl>
+                    https://uploads.hb.cldmail.ru/avatar/920849/attachment/thumb-5e357eafc7b40055f7b968b03ad8745e.jpg
+                </picUrl>
+            </properties>
+        </developer>
     </developers>
 
     <dependencies>
