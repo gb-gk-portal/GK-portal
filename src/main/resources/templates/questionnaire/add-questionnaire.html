@@ -37,7 +37,7 @@
 <div class="container-gk-portal card" th:fragment="body">
     <div class="padding-site">
         <h1>Создание анкеты</h1>
-        <form method="post" th:action="@{questionnaire/saveQuestionnaire}" th:object="${questionnaire}">
+        <form method="post" th:action="@{saveQuestionnaire}" th:object="${questionnaire}">
 
             <div class="form-group">
                 <input class="form-control" id="questionnaire-uuid" type="text" th:field="*{uuid}">
@@ -100,7 +100,6 @@
                         </div>
                     </div>
 
-
                     <div th:each="answer:${question.answers}" class="input-group mb-2 answer-container"
                          th:attr="answerIndex = ${answerStat.index}">
                         <div class="input-group-prepend">
@@ -112,7 +111,6 @@
 
                     <button class="btn btn-outline-primary add-answer-button"
                             type="button"><i class="fas fa-plus-circle">Добавить вариант</i></button>
-
                 </div>
             </div>
 

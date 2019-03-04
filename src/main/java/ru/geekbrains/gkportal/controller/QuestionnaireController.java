@@ -137,7 +137,7 @@ public class QuestionnaireController {
 
     //    @IsAdmin
     @GetMapping("add")
-    public String addQuestionnaire(Model model) {
+    public String addQuestionnaire(Model model) { //todo добавить редактирование @RequestParam (required = false) String questionnaireId,
         model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(2, 2));
         return returnShablon(model, QUESTIONNAIRE_ADD_FORM);
     }
@@ -167,7 +167,7 @@ public class QuestionnaireController {
         questionnaireService.checkedAndSave(questionnaire);
 
 
-        return returnShablon(model, QUESTIONNAIRE_LIST_FORM);
+        return "redirect:/questionnaire?questionnaireId="+questionnaire.getUuid();
     }
 
 }
