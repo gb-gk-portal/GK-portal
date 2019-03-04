@@ -14,8 +14,6 @@ import java.util.Properties;
 @Configuration
 public class MailConfig {
 
-
-
     private Environment env;
     private PropertyService propertyService;
 
@@ -24,8 +22,6 @@ public class MailConfig {
     private final static String SOCKET_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
     public static final String ADMIN_MAIL = "admin@chertenok.ru";
-
-
 
     @Autowired
     public void setPropertyService(PropertyService propertyService) {

@@ -102,11 +102,11 @@ public class HouseService {
             flat.setFlatNumber(flatDTO.getFlatNumber());
             flat.setRiser(flatDTO.getRiser());
             flat.setFlatNumberBuild(flatDTO.getFlatNumberBuild());
+            logger.debug("Save flat: " + flat);
             return flatRepository.save(flat);
         }
-        System.out.println("Ничего не нашлось");
+        logger.error("No flat in DB");
         return null;
-
     }
 
 

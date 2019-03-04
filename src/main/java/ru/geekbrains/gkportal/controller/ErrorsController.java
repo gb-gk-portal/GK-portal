@@ -29,26 +29,25 @@ public class ErrorsController implements ErrorController {
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
 
-                if (logger.isDebugEnabled()){
+                if (logger.isDebugEnabled()) {
                     logger.debug("404");
                 }
                 return "errors/404";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                if (logger.isDebugEnabled()){
+                if (logger.isDebugEnabled()) {
                     logger.debug("500");
                 }
                 return "errors/500";
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                if (logger.isDebugEnabled()){
+                if (logger.isDebugEnabled()) {
                     logger.debug("403");
                 }
                 return "errors/403";
             }
         }
-        if (logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.debug("404");
         }
         return "errors/404";
-
     }
 }

@@ -1,4 +1,4 @@
-package ru.geekbrains.gkportal;
+package ru.geekbrains.gkportal.service.mail;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource("/application-secret.properties")
-public class MailTest {
+public class MailServiceTest {
 
     private MailService mailService;
     @Autowired
@@ -37,16 +37,13 @@ public class MailTest {
         mockMvc.perform(get("/test/mymail"))
                 .andDo(print());
         // .andExpect(xpath("/html/body").string("200"));
-
         // .andExpect(authenticated());
         //.andExpect(xpath("/html/body/div[2]/h1").string("admin"));
     }
 
     @Test
     public void sendEmail() {
-        mailService.sendMail("ShangareevRR@mail.ru", "тестовое сообщение", "мой тест", true);
+        mailService.sendMail("solo-yes@mail.ru", "тестовое сообщение", "мой тест", true);
         Assert.assertTrue(true);
     }
-
-
 }

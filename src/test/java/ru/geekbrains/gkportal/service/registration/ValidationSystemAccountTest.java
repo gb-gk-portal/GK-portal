@@ -1,4 +1,4 @@
-package ru.geekbrains.gkportal;
+package ru.geekbrains.gkportal.service.registration;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,10 +11,10 @@ import ru.geekbrains.gkportal.dto.FlatRegDTO;
 import ru.geekbrains.gkportal.dto.SystemAccount;
 import ru.geekbrains.gkportal.entity.ContactType;
 
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import javax.validation.Validator;
 import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

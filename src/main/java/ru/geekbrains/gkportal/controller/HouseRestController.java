@@ -25,12 +25,11 @@ public class HouseRestController {
     }
 
     @PutMapping(value = "/flat")
-    public int changeFlat (@RequestBody FlatDTO flatDTO, HttpServletResponse response) {
-        System.out.println(flatDTO);
-        if(houseService.changeFlat(flatDTO)!=null){
+    public int changeFlat(@RequestBody FlatDTO flatDTO, HttpServletResponse response) {
+        logger.debug("flatDTO: " + flatDTO);
+        if (houseService.changeFlat(flatDTO) != null) {
             return HttpStatus.OK.value();
-        }
-        else {
+        } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return HttpStatus.BAD_REQUEST.value();
         }
