@@ -8,13 +8,11 @@
 </header>
 <body>
 <div th:fragment="body">
+
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Добро пожаловать на сайт ЖК Город',description='сайт для собственников недвижимости в ЖК Город',iconClass='ion-ios-people-outline') "/>
+
     <div class="d-sm-flex align-items-center pd-t-15 pd-sm-t-25 pd-x-20 pd-sm-x-30">
-        <i class="icon ion-ios-filing-outline tx-70 lh-0 tx-gray-800"></i>
-        <div class="pd-sm-l-20">
-            <h4 class="tx-gray-800 mg-b-5">Добро пожаловать на сайт "ЖК Город"</h4>
-            <p class="mg-b-0">сайт собственников недвижимости в ЖК Город</p>
-        </div>
-    </div><!-- d-flex -->
 
     <img class="img-fit-cover " th:src="@{/img/main.jpg}">
 

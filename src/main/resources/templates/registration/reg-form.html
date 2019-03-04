@@ -54,7 +54,7 @@
 
 </header>
 <body>
-<div class="card shadow-base container" th:fragment="body">
+<div class="card br-pagebody container" th:fragment="body">
 
 
     <div th:replace="fragment/page-content::pageTitle
@@ -184,8 +184,8 @@
                 </div>
             </div>
             <div class="gk-button-group">
-                <button id="add-flat" class="btn-outline-success" type="button"> Добавить квартиру</button>
-                <button id="del-flat" class="btn-outline-danger" type="button">Удалить квартиру</button>
+                <button class="btn btn-success" id="add-flat" type="button"> Добавить квартиру</button>
+                <button class="btn btn-danger" id="del-flat" type="button">Удалить квартиру</button>
             </div>
 
             <div class="form-group row"><label class="col-form-label col-sm-2">Ваш статус</label>

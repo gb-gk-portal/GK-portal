@@ -8,55 +8,79 @@
 <body>
 <br>
 <div class="container" th:fragment="body">
-    <h3> Личный кабинет - история голосований</h3>
-    <hr>
 
-    <!--<p th:text="${questionnaireContactResultList.get(0).getLastNameContact()+ ' '+questionnaireContactResultList.get(0).getMiddleNameContact() +' '+ questionnaireContactResultList.get(0).getFirstNameContact()}"></p>-->
 
-    <div class="row">
-        <div class="panel panel-primary filterable">
-            <div class="panel-heading">
-                <div class="pull-right">
-                    <button class="btn btn-outline-primary btn-filter"><span class="fa fa-filter"></span>Фильтр</button>
-                </div>
-            </div>
-            <table class="table">
-                <thead>
-                <tr class="filters table-primary table-header">
-                    <th><input type="text" class="form-control font-weight-bold" placeholder="Наименование" disabled></th>
-                    <th><input type="text" class="form-control font-weight-bold" placeholder="Дата" disabled></th>
-                    <th><input type="text" class="form-control font-weight-bold" placeholder="Описание" disabled></th>
-                    <th><input type="text" class="form-control font-weight-bold" placeholder="Вопрос" disabled></th>
-                    <th><input type="text" class="form-control font-weight-bold" placeholder="Ответ" disabled></th>
-                    <!--<th><input type="text" class="form-control" placeholder="Активный" disabled></th>-->
-                    <!--<th><input type="text" class="form-control" placeholder="Открытый" disabled></th>-->
-                    <!--<th><input type="text" class="form-control" placeholder="По номеру дома" disabled></th>-->
-                    <!--<th><input type="text" class="form-control" placeholder="Недвижимость" disabled></th>-->
-                    <!--<th><input type="text" class="form-control" placeholder="Номер вопроса " disabled><</th>-->
-                </tr>
-                 </thead>
-                <tbody>
-                <tr class="responsive-row" th:each="questionnaireContactResult : ${questionnaireContactResultList}">
-                    <td th:text="${questionnaireContactResult.getNameQuestionnaire()}"/>
-                    <td th:text="${questionnaireContactResult.getStartDateQuestionnaire()}"/>
-                    <!--<td th:text="${questionnaireContactResult.getEndDateQuestionnaire()}"/>-->
-                    <td th:text="${questionnaireContactResult.getDescriptionQuestionnaire()}"/>
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Личный кабинет - история голосований',description='пройденные Вами опросы',iconClass='icon ion-ios-wineglass') "/>
 
-                    <td th:text="${questionnaireContactResult.getNameQuestion()}"/>
-                    <td th:text="${questionnaireContactResult.getNameQuestionAnswer()}"/>
 
-                    <!--<td th:text="${questionnaireContactResult.isActiveQuestionnaire()} ? 'да' : 'нет'"/>-->
-                    <!--<td th:text="${questionnaireContactResult.isOpenQuestionnaire()} ? 'да' : 'нет'" />-->
-                    <!--<td th:text="${questionnaireContactResult.isInBuildNumQuestionnaire()} ? 'да' : 'нет'"/>-->
-                    <!--<td th:if="${questionnaireContactResult.isUseRealEstateQuestionnaire()} ? 'да' : 'нет'"/>-->
-                    <!--<td th:text="${questionnaireContactResult.getExternalNumberQuestion()}"/>-->
-                </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="ht-md-60 pd-x-20 bg-dark rounded d-flex align-items-center justify-content-center mg-t-20">
+        <ul class="nav nav-outline nav-outline-for-dark active-info align-items-center flex-column flex-md-row"
+            role="tablist">
+            <li class="nav-item"><a aria-selected="false" class="nav-link " role="tab"
+                                    th:href="@{/user/profile}">Home</a>
+            </li>
+            <li class="nav-item"><a aria-selected="true" class="nav-link  active show"
+                                    role="tab" th:href="@{/lk/questionnaire-answer-result}">Результаты Ваших
+                голосований</a></li>
+            <li class="nav-item"><a aria-selected="false" class="nav-link" href="#" role="tab">Шахматка</a></li>
+            <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
+                                    th:href="@{/lk/neighbors-message}">Соседи</a></li>
+        </ul>
     </div>
-    <hr>
-    <a type="button" class="btn btn-outline-primary" th:href="@{/user/profile}">Назад в личный кабинет</a>
+
+    <div class="card br-pagebody">
+        <!--<p th:text="${questionnaireContactResultList.get(0).getLastNameContact()+ ' '+questionnaireContactResultList.get(0).getMiddleNameContact() +' '+ questionnaireContactResultList.get(0).getFirstNameContact()}"></p>-->
+
+        <div class="row">
+            <div class="panel panel-primary filterable">
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <button class="btn btn-outline-primary btn-filter"><span class="icon-filter"></span>Фильтр
+                        </button>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr class="filters table-primary table-header">
+                        <th><input class="form-control font-weight-bold" disabled placeholder="Наименование"
+                                   type="text"></th>
+                        <th><input class="form-control font-weight-bold" disabled placeholder="Дата" type="text"></th>
+                        <th><input class="form-control font-weight-bold" disabled placeholder="Описание" type="text">
+                        </th>
+                        <th><input class="form-control font-weight-bold" disabled placeholder="Вопрос" type="text"></th>
+                        <th><input class="form-control font-weight-bold" disabled placeholder="Ответ" type="text"></th>
+                        <!--<th><input type="text" class="form-control" placeholder="Активный" disabled></th>-->
+                        <!--<th><input type="text" class="form-control" placeholder="Открытый" disabled></th>-->
+                        <!--<th><input type="text" class="form-control" placeholder="По номеру дома" disabled></th>-->
+                        <!--<th><input type="text" class="form-control" placeholder="Недвижимость" disabled></th>-->
+                        <!--<th><input type="text" class="form-control" placeholder="Номер вопроса " disabled><</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="responsive-row" th:each="questionnaireContactResult : ${questionnaireContactResultList}">
+                        <td th:text="${questionnaireContactResult.getNameQuestionnaire()}"/>
+                        <td th:text="${questionnaireContactResult.getStartDateQuestionnaire()}"/>
+                        <!--<td th:text="${questionnaireContactResult.getEndDateQuestionnaire()}"/>-->
+                        <td th:text="${questionnaireContactResult.getDescriptionQuestionnaire()}"/>
+
+                        <td th:text="${questionnaireContactResult.getNameQuestion()}"/>
+                        <td th:text="${questionnaireContactResult.getNameQuestionAnswer()}"/>
+
+                        <!--<td th:text="${questionnaireContactResult.isActiveQuestionnaire()} ? 'да' : 'нет'"/>-->
+                        <!--<td th:text="${questionnaireContactResult.isOpenQuestionnaire()} ? 'да' : 'нет'" />-->
+                        <!--<td th:text="${questionnaireContactResult.isInBuildNumQuestionnaire()} ? 'да' : 'нет'"/>-->
+                        <!--<td th:if="${questionnaireContactResult.isUseRealEstateQuestionnaire()} ? 'да' : 'нет'"/>-->
+                        <!--<td th:text="${questionnaireContactResult.getExternalNumberQuestion()}"/>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr>
+
+
+    </div>
 </div>
 </body>
 </html>

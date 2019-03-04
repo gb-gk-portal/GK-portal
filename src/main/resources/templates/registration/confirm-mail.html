@@ -5,15 +5,20 @@
 </header>
 <body>
 
-<div class="container card shadow-base" th:fragment="body">
-    <div style="width: 800px; margin-top: 50px;">
+<div class="container card br-pagebody" th:fragment="body">
+
+    <div th:if="${result == 1}">
         <div th:replace="fragment/page-content::pageTitle
-    (title='Спасибо, регистрация подтверждена!',description='Теперь можно авторизироваться',iconClass='ion-checkmark-round') "/>
-
-
-        <p></p>
-        <a th:href="@{/}">Вернуться на главную</a>
+            (title='Успех!',description=${resultString},iconClass='ion-checkmark-round') ">
+        </div>
     </div>
+
+    <div th:if="${result == 0}">
+        <div th:replace="fragment/page-content::pageTitle
+                (title='Операция не удалась!',description=${resultString},iconClass='ion-ios-close-outline') ">
+        </div>
+    </div>
+    <p></p>
 
 
 </div>

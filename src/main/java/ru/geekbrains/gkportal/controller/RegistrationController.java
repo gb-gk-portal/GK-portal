@@ -413,6 +413,7 @@ public class RegistrationController {
             confirm = true;
         }
         model.addAttribute("resultString", confirm ? "Подзравляю, Ваш аккаунт подтверждён!" : "Не удалось подтвердить емайл, попробуйте повторить!");
+        model.addAttribute("result", confirm ? 1 : 0);
         logger.info(" Подтверждение аккаунта: " + (confirm ? "успешно" : "нет"));
         return returnShablon(model, REGISTRATION_CONFIRM_MAIL_FORM);
     }
@@ -437,6 +438,7 @@ public class RegistrationController {
             }
         }
         model.addAttribute("resultString", confirm ? "Поздравляю, Ваш опрос подтверждён!" : "Не удалось подтвердить опрос, попробуйте повторить!");
+        model.addAttribute("result", confirm ? 1 : 0);
         logger.info("Подтверждение опроса: " + (confirm ? "Да" : "Нет"));
         return returnShablon(model, REGISTRATION_CONFIRM_MAIL_FORM);
     }

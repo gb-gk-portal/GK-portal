@@ -4,16 +4,15 @@
     <title>Подтверждение</title>
 </header>
 <body>
-<div class="container card shadow-base" th:fragment="body">
-    <div style="width: 800px; margin-top: 50px;">
+<div class="container card br-pagebody" th:fragment="body">
+
 
         <div th:replace="fragment/page-content::pageTitle
-    (title='Поздравляем. <br>Голосование успешно сохранено',description='Для завершения голосования проверьте почту',iconClass='icon ion-ios-email-outline') "/>
+    (title='Поздравляем, голосование успешно сохранено',description='Для завершения голосования проверьте почту',iconClass='icon ion-ios-email-outline') "/>
 
         <p></p>
         <a class="btn btn-primary" role="button" th:href="@{/regQuestion(uuid=${uuid})}">Заполнить за ещё одного
             собственника</a>
-    </div>
 
 
 </div>

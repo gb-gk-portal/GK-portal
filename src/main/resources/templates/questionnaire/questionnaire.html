@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <header th:fragment="header">
     <title>Список голосований</title>
 </header>
 <body>
-<div class="container card " th:fragment="body">
+
+<div class="container card br-pagebody " th:fragment="body">
+
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Опросы',description='участвуем, смотрим результаты и тд',iconClass='ion-help') ">
+    </div>
+
+
     <div class="padding-site">
         <p th:if="${completed} != null"></p>
         <th:block th:if="${questionnaireList} != null">
             <ul style="margin-top: 100px">
+                <div sec:authorize="hasAuthority('admin')">
+                    <p>
+                        <a th:href="@{/questionnaire/add}">Создать новый опрос</a><br>
+
+                </div>
+
                 <li th:each="item :${questionnaireList}">
                     <p th:text="${item.name}"></p>
                     <p>
@@ -29,7 +44,7 @@
         <th:block th:if="${questionnaire} != null">
             <h1 th:text="${questionnaire.name}"></h1>
             <p style="font-style: italic" th:text="${questionnaire.description}"></p>
-            <form class="questionnaire-form" method="POST" th:action="@{/templates/questionnaire}" th:object="${form}">
+            <form class="questionnaire-form" method="POST" th:action="@{/questionnaire}" th:object="${form}">
                 <input th:field="*{questionnaireId}" th:value="${form.questionnaireId}" type="hidden">
 
 

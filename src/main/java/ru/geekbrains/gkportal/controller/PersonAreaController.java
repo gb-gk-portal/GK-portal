@@ -6,15 +6,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.geekbrains.gkportal.dto.FilterUserProfileFlat;
 import ru.geekbrains.gkportal.dto.QuestionnaireContactResult;
 import ru.geekbrains.gkportal.entity.*;
 import ru.geekbrains.gkportal.repository.AccountRepository;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.AnswerResultService;
 import ru.geekbrains.gkportal.service.AuthenticateService;
+import ru.geekbrains.gkportal.service.FlatsService;
+import ru.geekbrains.gkportal.service.HouseService;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static ru.geekbrains.gkportal.config.TemplateNameConst.*;
 
@@ -27,10 +32,22 @@ public class PersonAreaController {
     private AccountRepository accountRepository;
     private AuthenticateService authenticateService;
     private AnswerResultService answerResultService;
+    private HouseService houseService;
+    private FlatsService flatsService;
 
     @Autowired
     public void setAuthenticateService(AuthenticateService authenticateService) {
         this.authenticateService = authenticateService;
+    }
+
+    @Autowired
+    public void setHouseService(HouseService houseService) {
+        this.houseService = houseService;
+    }
+
+    @Autowired
+    public void setFlatsService(FlatsService flatsService) {
+        this.flatsService = flatsService;
     }
 
     @Autowired
@@ -101,4 +118,29 @@ public class PersonAreaController {
 
         return returnShablon(model, LK_QUESTIONNAIRE_RESULT);
     }
+
+
+    @IsAuthenticated
+    @GetMapping("/lk/neighbors-message")
+    public String showNeighborsMessagePage(Model model) {
+
+        Account account = accountRepository.findOneByLogin(authenticateService.getCurrentUser().getUsername());
+        if (account == null) {
+            return "redirect:/login";
+        }
+
+        Map<Integer, String> filterTypeMap = new HashMap<>();
+        filterTypeMap.put(FilterUserProfileFlat.FLOOR, "Соседи по этажу");
+
+        if (account.getRoles().stream().anyMatch(x -> x.getDescription().equals("admin"))) {
+            filterTypeMap.put(FilterUserProfileFlat.RISER, "Соседи по стояку");
+            filterTypeMap.put(FilterUserProfileFlat.PORCH, "Соседи по подъезду");
+            filterTypeMap.put(FilterUserProfileFlat.HOUSE, "Соседи по дому");
+        }
+
+        model.addAttribute("filterTypeMap", filterTypeMap);
+
+        return returnShablon(model, LK_NEIGHBORS_MESSAGE_FORM);
+    }
+
 }

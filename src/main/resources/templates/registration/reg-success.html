@@ -4,13 +4,10 @@
     <title>Подтверждение</title>
 </header>
 <body>
-<div class="container card shadow-base" th:fragment="body">
-    <div style="width: 800px; margin-top: 50px;">
-        <div th:replace="fragment/page-content::pageTitle
-    (title='Поздравляем. <br>Регистрация прошла успешно',description='Для завершения регистрации проверьте почту',iconClass='icon ion-ios-email-outline') "/>
+<div class="container card br-pagebody mr" th:fragment="body">
 
-
-    </div>
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Поздравляем, регистрация прошла успешно',description='Для завершения регистрации проверьте почту',iconClass='icon ion-ios-email-outline') "/>
 
 
 </div>
