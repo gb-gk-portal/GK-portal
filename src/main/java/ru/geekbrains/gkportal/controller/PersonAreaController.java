@@ -39,6 +39,16 @@ public class PersonAreaController {
     }
 
     @Autowired
+    public void setHouseService(HouseService houseService) {
+        this.houseService = houseService;
+    }
+
+    @Autowired
+    public void setFlatsService(FlatsService flatsService) {
+        this.flatsService = flatsService;
+    }
+
+    @Autowired
     public void setAccountRepository(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }

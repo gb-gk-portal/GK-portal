@@ -23,6 +23,8 @@ public class TemplateNameConst {
     public static final String REGISTRATION_MAIL = "registration/reg-question-success";
 
     // ============= регистрация с опросом ======================
+    //Форма создания опроса
+    public static final String QUESTIONNAIRE_ADD_FORM = "questionnaire/add-questionnaire";
     // Форма регистрации с опросом
     public static final String REGISTRATION_QUESTIONNAIRE_FORM = "registration/reg-question-form";
     // Письмо для подтверждения регистрации с опросом
@@ -50,6 +52,10 @@ public class TemplateNameConst {
     public static final String LK_MAIN_FORM = "lk/lk";
     // результаты опросов в лк
     public static final String LK_QUESTIONNAIRE_RESULT = "lk/lk-questionnaire-answer-result";
+    // шаблон письма от пользователя к пользователю
+    public static final String LK_MESSAGE_USER_TO_USER_MAIL = "lk/lk-message-user-to-user";
+    // форма отправки сообщений соседям
+    public static final String LK_NEIGHBORS_MESSAGE_FORM = "lk/lk-neighbors-message";
 
     /**
      * Автоматизация возврата шаблона

@@ -9,18 +9,15 @@
 </header>
 
 <body>
-<div class="container card shadow-base" th:fragment="body">
-    <div class="d-sm-flex align-items-center pd-t-15 pd-sm-t-25 pd-x-20 pd-sm-x-30 ">
-        <i class="icon ion-android-contact tx-70 lh-0 tx-gray-800"></i>
-        <div class="pd-sm-l-20">
-            <h4 class="tx-gray-800 mg-b-5 card-title">Авторизация</h4>
-            <p class="mg-b-0">вход для зарегистрированных пользователей</p>
-        </div>
-    </div><!-- d-flex -->
+<div class="card br-pagebody" th:fragment="body">
 
-    <div class="padding-site">
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Авторизация',description='вход для зарегистрированных пользователей',iconClass='ion-android-contact') "/>
 
-        <form th:action="@{/authenticateTheUser}" method="POST" class="login-form">
+
+    <div class=" br-pagebody padding-site">
+
+        <form class="login-form row-mgb-25" method="POST" th:action="@{/authenticateTheUser}">
             <div class="col-xs-15">
                 <div>
                     <div th:if="${param.error} != null">
@@ -31,26 +28,32 @@
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <input class="form-control" id="inputLogin" name="username" type="text" value=""
-                           placeholder="Логин">
+
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-control-label"> Логин: <span class="tx-danger">*</span></label>
+                    <input class="form-control" id="inputLogin" name="username" placeholder="Логин" type="text"
+                           value="">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label"> Пароль : <span class="tx-danger">*</span></label>
                     <input class="form-control" id="inputPassword" name="password" type="password" value="">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group">
                     <input class="form-check-input" id="inputRemember" name="remember-me" type="checkbox">
-                    <label class="form-check-label" for="inputRemember">
-                        Запомнить вход
-                    </label>
+                    <label class="form-check-label ckbox" for="inputRemember">Запомнить меня на этом устройстве</label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary btn-lg">Войти</button>
-            <a class="btn btn-outline-secondary btn-lg" role="button" th:href="@{/reg}">Регистрация</a>
+
+            <button class="btn btn-info" type="submit">Войти</button>
+            <a class="btn btn-success" role="button" th:href="@{/reg}">Регистрация</a>
 
         </form>
     </div>
+    <br>
+    <br>
+    <br>
+
 </div>
 
 

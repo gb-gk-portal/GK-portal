@@ -46,7 +46,7 @@
     </th:block>
 </header>
 <body>
-<div class="container" th:fragment="body">
+<div class="container br-pagebody" th:fragment="body">
         <th:block th:if="${questionnaire} != null">
             <h1 th:text="${questionnaire.name}"></h1>
             <p style="font-style: italic" th:text="${questionnaire.description}"></p>

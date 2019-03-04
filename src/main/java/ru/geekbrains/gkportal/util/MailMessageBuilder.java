@@ -44,11 +44,8 @@ public class MailMessageBuilder {
         return templateEngine.process(TemplateNameConst.REGISTRATION_QUESTIONNAIRE_MAIL, context);
     }
 
-// TODO: 22.01.19 раскометировать после появления сущьности User
-//    public String buildRegistrationEmail(User user) {
-//        Context context = new Context();
-//        context.setVariable(VARIABLE_REGISTRATION_USER, user);
-//        context.setVariable(VARIABLE_REGISTRATION_PASSWORD, password);
-//        return templateEngine.process(MAIL_REGISTRATION_PAGE, context);
-//    }
+    public String buildUserToUserMessage() {
+        return "";
+    }
+
 }

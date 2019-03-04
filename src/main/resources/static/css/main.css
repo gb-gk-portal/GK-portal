@@ -198,3 +198,14 @@ body {
 .question-create-block {
     margin-bottom: 30px;
 }
+
+.add-answer-properties-group {
+    margin-bottom: 10px;
+    background-color: #e9ecef;
+    padding: 0 10px;
+}
+
+.input-question-sort-number {
+    width: 5em;
+    text-align: center;
+}

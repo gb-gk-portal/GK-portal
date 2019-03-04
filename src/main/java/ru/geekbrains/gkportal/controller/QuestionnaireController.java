@@ -14,6 +14,7 @@ import ru.geekbrains.gkportal.security.IsAdmin;
 import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.*;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -134,6 +135,40 @@ public class QuestionnaireController {
     }
 
 
+    //    @IsAdmin
+    @GetMapping("add")
+    public String addQuestionnaire(Model model) {
+        model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(2, 2));
+        return returnShablon(model, QUESTIONNAIRE_ADD_FORM);
+    }
+
+    @PostMapping("saveQuestionnaire")
+    public String saveQuestionnaire(@ModelAttribute("questionnaire") Questionnaire questionnaire, Model model) {
+
+        if (questionnaire.getFrom().isBefore(LocalDateTime.now()) && questionnaire.getTo().isAfter(LocalDateTime.now())) {
+            questionnaire.setActive(true);
+        }
+
+        int[] idxQuestion = {1};
+        questionnaire.getQuestions().forEach(question -> {
+            question.setSingle(true);
+            question.setQuestionnaire(questionnaire);
+            question.setExternalNumber(idxQuestion[0]);
+            idxQuestion[0]++;
+
+            int[] idxAnswer = {1};
+            question.getAnswers().forEach(answer -> {
+                answer.setQuestion(question);
+                answer.setSortNumber(idxAnswer[0]);
+                idxAnswer[0]++;
+            });
+        });
+
+        questionnaireService.checkedAndSave(questionnaire);
+
+
+        return returnShablon(model, QUESTIONNAIRE_LIST_FORM);
+    }
 
 }
 

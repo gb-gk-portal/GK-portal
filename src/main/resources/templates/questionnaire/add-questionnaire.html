@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script type="text/javascript" th:src="@{/js/add-questionnaire.js}"></script>
+    <script id="questionTemplate" type="text/x-jsrender">
+      <div class="question-create-block question-template" questionnumber="{{:questionIndex}}">
+        <div class="add-answer-properties-group">
+          <div class="form-group">
+            <label for="questions{{:questionIndex}}.name">Вопрос</label>
+            <input class="form-question form-control" type="text" id="questions{{:questionIndex}}.name" name="questions[{{:questionIndex}}].name" value="">
+          </div>
+          <div class="form-group">
+            <label for="questions{{:questionIndex}}.sortNumber" >Сортировка</label>
+            <input type="number" min="1" max="99" id="questions{{:questionIndex}}.sortNumber" name="questions[{{:questionIndex}}].sortNumber" value="{{:questionIndex}}">
+          </div>
+          <div class="form-group form-check">
+            <input class="form-check-input" type="checkbox" id="questions{{:questionIndex}}.required1" name="questions[{{:questionIndex}}].required">
+            <input type="hidden" name="_questions[{{:questionIndex}}].required" value="on">
+            <label for="questions{{:questionIndex}}.required1">Обязательный</label>
+          </div>
+         </div>
+        <button class="btn btn-outline-primary add-answer-button" type="button"><i class="fas fa-plus-circle">Добавить вариант</i></button>
+      </div>
+    </script>
+    <script id="answerTemplate" type="text/x-jsrender">
+        <div class="input-group mb-2 answer-container" answerindex="{{:answerIndex}}">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Вариант {{:answerIndex+1}}</div>
+                            </div>
+                            <input class="form-answer form-control" type="text" id="questions{{:questionIndex}}.answers{{:answerIndex}}.name" name="questions[{{:questionIndex}}].answers[{{:answerIndex}}].name" value="">
+                        </div>
+    </script>
+</header>
+<body>
+<div class="container-gk-portal card" th:fragment="body">
+    <div class="padding-site">
+        <h1>Создание анкеты</h1>
+        <form method="post" th:action="@{questionnaire/saveQuestionnaire}" th:object="${questionnaire}">
+
+            <div class="form-group">
+                <input class="form-control" id="questionnaire-uuid" type="text" th:field="*{uuid}">
+            </div>
+
+            <div class="form-group">
+                <label for="questionnaire-name">Название</label>
+                <input class="form-control" id="questionnaire-name" type="text" th:field="*{name}">
+            </div>
+
+            <!--Блок ввода дат проведения опроса-->
+            <div class="form-row align-items-center add-questionnaire-date-group">
+                <div class="col-auto">
+                    <label class="sr-only" for="from">Начало</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Начало</div>
+                        </div>
+                        <input class="form-control" type="datetime-local" id="from" th:field="*{from}">
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label class="sr-only" for="to">Окончание</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Окончание</div>
+                        </div>
+                        <input class="form-control" id="to" type="datetime-local" th:field="*{to}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="questionnaire-description">Описание</label>
+                <textarea class="form-control" id="questionnaire-description" type="text" th:field="*{description}"
+                          rows="3"></textarea>
+            </div>
+
+
+            <div id="question-group">
+                <div th:each="question:${questionnaire.questions}" th:attr="questionNumber = ${questionStat.index}"
+                     class="question-create-block question-template">
+
+                    <div class="add-answer-properties-group">
+                        <div class="form-group">
+                            <label th:for="'questions'+${questionStat.index}+'.name'">Вопрос</label>
+                            <input class="form-question form-control" type="text"
+                                   th:field="*{questions[__${questionStat.index}__].name}">
+                        </div>
+                        <div class="form-group">
+                            <label th:for="'questions'+${questionStat.index}+'.sortNumber'">Сортировка</label>
+                            <input class="input-question-sort-number" type="number" min="1" max="99"
+                                   th:field="*{questions[__${questionStat.index}__].sortNumber}" required>
+                        </div>
+                        <div class="form-group form-check">
+                            <input class="form-check-input" type="checkbox"
+                                   th:field="*{questions[__${questionStat.index}__].required}">
+                            <label th:for="'questions'+${questionStat.index}+'.required1'">Обязательный</label>
+                        </div>
+                    </div>
+
+
+                    <div th:each="answer:${question.answers}" class="input-group mb-2 answer-container"
+                         th:attr="answerIndex = ${answerStat.index}">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" th:text="'Вариант ' + ${answerStat.index + 1}"></div>
+                        </div>
+                        <input class="form-answer form-control" type="text"
+                               th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].name}">
+                    </div>
+
+                    <button class="btn btn-outline-primary add-answer-button"
+                            type="button"><i class="fas fa-plus-circle">Добавить вариант</i></button>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <button class="btn btn-primary" type="submit">Отправить</button>
+                    <button id="add-question" class="btn btn-primary" type="button">Добавить вопрос</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

@@ -432,7 +432,7 @@ public class RegistrationController {
         Contact contact = contactService.getContactByID(contact_uuid);
         boolean confirm = false;
         if (contact != null) {
-            if (questionnaireService.confirmQuetionnaire(contact, code)) {//accountService.confirmAccount(contact);
+            if (questionnaireService.confirmQuestionnaire(contact, code)) {//accountService.confirmAccount(contact);
                 confirm = true;
             }
         }

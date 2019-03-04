@@ -26,6 +26,7 @@ public interface FlatRepository extends JpaRepository<Flat, String> {
 
     Flat findByHouseAndFlatNumber(int house, int flatNumber);
 
+
     Flat findByUuid(String id);
 
     List<Flat> findAllByHouseAndPorchAndFloorAndAccountCountAndFlatNumberNot(int house, int porch, int floor, int acconuntCount, int flatNumber);

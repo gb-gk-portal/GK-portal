@@ -51,7 +51,7 @@ public class FlatsService {
                 : flatRepository.findByHouseAndFlatNumber(houseNum, flatNum);
     }
 
-    private void fillFlatDto(List<FlatDTO> flatDtos, List<Flat> flatList){
+    private void fillFlatDto(List<FlatDTO> flatDtos, List<Flat> flatList) {
 
         for (Flat flat : flatList) {
 
@@ -92,7 +92,7 @@ public class FlatsService {
         return flatDtos;
     }
 
-    public List<FlatDTO> getFlatContactByHouseByRiser(int houseNum, int riser , int accountCount, int flatNumber){
+    public List<FlatDTO> getFlatContactByHouseByRiser(int houseNum, int riser, int accountCount, int flatNumber) {
         List<FlatDTO> flatDtos = new ArrayList<>();
 
         List<Flat> flatList = flatRepository.findAllByHouseAndRiserAndAccountCountAndFlatNumberNot(houseNum, riser,
@@ -115,7 +115,7 @@ public class FlatsService {
         return flatDtos;
     }
 
-    public Flat getById(String id){
+    public Flat getById(String id) {
 
         return flatRepository.findByUuid(id);
     }

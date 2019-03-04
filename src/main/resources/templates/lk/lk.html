@@ -4,77 +4,80 @@
     <title>Личный кабинет</title>
 </header>
 <body>
-<div class="card" th:fragment="body">
-<p></p>
-<h1 align="center"> Добро пожаловать в личный кабинет </h1>
-<p></p>
+<div class="br-pagebody card" th:fragment="body">
 
-    <table class="table"  >
-        <tr>
-            <td align="center" class="btn-primary" colspan="8">ФИО :</td>
-        <tr>
-            <td>Фамилия:</td>
-            <td th:text="${contact.getLastName()}">...</td>
-        </tr>
-        <tr>
-            <td>Имя:</td>
-            <td th:text="${contact.getFirstName()}">...</td>
-        </tr>
-        <tr>
-            <td>Отчество:</td>
-            <td th:text="${contact.getMiddleName()}">...</td>
-        </tr>
-        <tr>
-            <td>Вы являетесь:</td>
-            <td th:text="${contact.getContactType().getDescription()}">...</td>
-        </tr>
-        <tr>
-            <td align="center" class="btn-primary" colspan="8">Контакты :</td>
-        </tr>
-        <tr th:each="communication : ${communications}" >
-            <td th:text="${communication.getCommunicationType().getDescription()}">...</td>
-            <td th:text="${communication.getIdentify()}">...</td>
-        </tr>
+    <div th:replace="fragment/page-content::pageTitle
+    (title='Добро пожаловать в личный кабинет',description='тут всё для Вас, распологайтесь удобнее...',iconClass='icon ion-ios-wineglass') "/>
 
-        <td align="center" class="btn-primary" colspan="8">Объекты :</td>
-        <tr th:each="ownership,iter : ${ownerships}">
-            <td th:utext="${iter.index+1} + '.'">...</td>
-            <td>Тип: <p th:text="${ownership.getOwnershipType().getDescription()}">...</p></td>
-            <div th:if="${ownership.is_build_num()}">
-                <td> Строительный номер дома:</td>
-                <td th:text="${ownership.getHouseBuildNum()}">...</td>
-                <td> Строительный номер объекта:</td>
-                <td th:text="${ownership.getBuildNumber()}">...</td>
+    <div class="ht-md-60 pd-x-20 bg-dark rounded d-flex align-items-center justify-content-center mg-t-20">
+        <ul class="nav nav-outline nav-outline-for-dark active-info align-items-center flex-column flex-md-row"
+            role="tablist">
+            <li class="nav-item"><a aria-selected="true" class="nav-link active show" data-toggle="tab" role="tab"
+                                    th:href="@{/user/profile}">Home</a></li>
+            <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
+                                    th:href="@{/lk/questionnaire-answer-result}">Результаты Ваших голосований</a></li>
+            <li class="nav-item"><a aria-selected="false" class="nav-link" href="#" role="tab">Шахматка</a></li>
+            <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
+                                    th:href="@{/lk/neighbors-message}">Соседи</a></li>
+        </ul>
+    </div>
+
+    <div>
+        <!-- card-->
+        <div class="card bd-0 br-pagebody">
+            <div class="card-header tx-medium bd-0 tx-white bg-info">
+                <p class="mg-b-0">Персональные данные</p>
+            </div><!-- card-header -->
+            <div class="card-body bd bd-t-0 rounded-bottom">
+                <p class="card-text"
+                   th:text="${contact.getLastName()} +' ' + ${contact.getFirstName()}+' '+ ${contact.getMiddleName()} ">
+                    ...</p>
+                <div th:each="communication : ${communications}">
+                    <p th:text="${communication.getCommunicationType().getDescription()}+' : '+${communication.getIdentify()}">
+                        ...</p>
             </div>
-            <div th:unless="${ownership.is_build_num()}">
-                <td> Номер дома:</td>
-                <td th:text="${ownership.getHouseNum()}">...</td>
-                <td> Номер объекта:</td>
-                <td th:text="${ownership.getNumber()}">...</td>
+
+            </div><!-- card-body -->
+        </div><!-- card -->
+    </div>
+
+    <div>
+        <div class="card bd-0 br-pagebody">
+            <div class="card-header tx-medium bd-0 tx-white bg-info">
+                <p class="mg-b-0">Квартиры</p>
+            </div><!-- card-header -->
+            <div class="card-body bd bd-t-0 rounded-bottom">
+                <div th:each="flat , iter : ${flats}">
+                    <p th:utext="${iter.index + 1 } + '.'+ ' д.'+${flat.getHouseBuild()}+' кв. '+ ${flat.getFlatNumber()} ">
+                        ...</p>
             </div>
-            <td>Доля владения:</td>
-            <td th:text="${ownership.getPercentageOfOwner()}">...%</td>
-        </tr>
+            </div><!-- card-body -->
+        </div><!-- card -->
+    </div>
 
-        <tr>
-            <td align="center" class="btn-primary" colspan="8">Квартиры :</td>
-        </tr>
-        <tr th:each="flat , iter : ${flats}" >
-            <td th:utext="${iter.index + 1 } + '.'">...</td>
-            <td>Номер Дома :</td>
-            <td th:text="${flat.getHouseBuild()}">...</td>
-            <td>Номер квартиры :</td>
-            <td th:text="${flat.getFlatNumber()}">...</td>
-        </tr>
+    <div>
+        <div class="card bd-0 br-pagebody">
+            <div class="card-header tx-medium bd-0 tx-white bg-info">
+                <p class="mg-b-0">Данные для подсчёта веса голоса</p>
+            </div><!-- card-header -->
+            <div class="card-body bd bd-t-0 rounded-bottom">
+                <div th:each="ownership,iter : ${ownerships}">
+                    <div th:if="${ownership.is_build_num()}">
+                        <p th:text="${iter.index+1} + '. ('+${ownership.getPercentageOfOwner()} +'%) '+ ${ownership.getOwnershipType().getDescription()}+ ' д. '+${ownership.getHouseBuildNum()}
+                    + ' № '+  ${ownership.getBuildNumber()}"></p>
+                    </div>
+                    <div th:unless="${ownership.is_build_num()}">
+                        <p th:text="${iter.index+1} + '. ('+${ownership.getPercentageOfOwner()} +'%) '+  ${ownership.getOwnershipType().getDescription()}+ ' д. '+${ownership.getHouseNum()}
+                    + ' № '+  ${ownership.getNumber()} "></p>
+                    </div>
+                </div>
+            </div><!-- card-body -->
+        </div><!-- card -->
+    </div>
 
-    </table>
-<br>
-<a type="button" class="btn btn-primary btn-sm btn-block" th:href="@{/lk/neighbors-message}">Показать соседей</a>
-<br>
-<a type="button" class="btn btn-primary btn-sm btn-block" th:href="@{/lk/questionnaire-answer-result}">Показать результаты ваших голосования</a>
 
     <p></p>
-<a href="/">Вернуться на главную</a>
+
 </div>
 
 </body>
