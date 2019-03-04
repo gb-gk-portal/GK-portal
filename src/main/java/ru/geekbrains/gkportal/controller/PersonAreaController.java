@@ -58,13 +58,6 @@ public class PersonAreaController {
         this.answerResultService = answerResultService;
     }
 
-    @Autowired
-    public void setHouseService(HouseService houseService){
-        this.houseService = houseService;
-    }
-
-    @Autowired
-    public void setFlatsService(FlatsService flatsService) {this.flatsService = flatsService;}
 
     @GetMapping("/user/profile")
     public String showProfile(Model model) {
