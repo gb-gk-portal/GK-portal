@@ -86,7 +86,6 @@ public class PersonAreaRestController {
                            flat.getAccountCount(), flat.getFlatNumber()));
                     break;
             }
-
         }
 
         return flatList;
