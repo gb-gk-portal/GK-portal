@@ -47,7 +47,7 @@ function fillPorchChooser(caller, houseNum) {
         url: '/rest/house/' + houseNum + '/porches',
         success: function (data) {
             console.log(data.length);
-            //$('#div_porch').html(data);
+            //$('#div_porch').html(questionData);
             var jsonData = data;
             console.log(jsonData);
             var selector = caller.find('.gk-select-porch select');

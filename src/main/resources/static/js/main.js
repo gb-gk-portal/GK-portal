@@ -1,10 +1,10 @@
 function constructFlatObject(flat) {
     const fNumber = flat.children('.gk-flat-number').text();
-    const fId = flat.attr('data-flat-id');
+    const fId = flat.attr('questionData-flat-id');
     const fBuildNumber = flat.children('.gk-flat-build-number').text();
-    const fFloor = flat.parent().parent().attr('data-floor-number');
-    const fRizer = flat.parent().attr('data-rizer-number');
-    const fPorch = flat.parent().parent().parent().attr('data-porch-number');
+    const fFloor = flat.parent().parent().attr('questionData-floor-number');
+    const fRizer = flat.parent().attr('questionData-rizer-number');
+    const fPorch = flat.parent().parent().parent().attr('questionData-porch-number');
     var flatObject = {id : fId, porch : fPorch, floor : fFloor, flatNumber : fNumber, riser : fRizer, flatNumberBuild : fBuildNumber};
     return flatObject;
 }

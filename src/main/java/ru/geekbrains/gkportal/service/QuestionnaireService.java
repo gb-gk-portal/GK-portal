@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.gkportal.dto.AnswerFromViewDTO;
 import ru.geekbrains.gkportal.dto.QuestionResultFromView;
 import ru.geekbrains.gkportal.dto.SystemAccountToOwnerShip;
+import ru.geekbrains.gkportal.dto.interfaces.QuestionDTO;
 import ru.geekbrains.gkportal.dto.interfaces.QuestionnaireContactConfirmDTO;
 import ru.geekbrains.gkportal.dto.interfaces.QuestionnaireDTO;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.questionnaire.*;
 import ru.geekbrains.gkportal.exception.QuestionnaireContactConfirmNotFoundException;
+import ru.geekbrains.gkportal.repository.QuestionRepository;
 import ru.geekbrains.gkportal.repository.QuestionnaireConfirmedTypeRepository;
 import ru.geekbrains.gkportal.repository.QuestionnaireContactConfirmRepository;
 import ru.geekbrains.gkportal.repository.QuestionnaireRepository;
@@ -32,7 +34,7 @@ public class QuestionnaireService {
     private QuestionnaireConfirmedTypeRepository questionnaireConfirmedTypeRepository;
     private AnswerResultService answerResultService;
     private MailService mailService;
-
+    private QuestionRepository questionRepository;
 
     @Autowired
     public void setAnswerResultService(AnswerResultService answerResultService) {
@@ -87,6 +89,11 @@ public class QuestionnaireService {
     @Autowired
     public void setQuestionnaireConfirmedTypeRepository(QuestionnaireConfirmedTypeRepository questionnaireConfirmedTypeRepository) {
         this.questionnaireConfirmedTypeRepository = questionnaireConfirmedTypeRepository;
+    }
+
+    @Autowired
+    public void setQuestionRepository(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
     }
 
     public List<Contact> findAllContactByQuestionnaireID(String questionnaireID) {
@@ -218,4 +225,13 @@ public class QuestionnaireService {
 
         return questionnaire;
     }
+
+    public List<String> findQuestionNamesByQuestionnaireIdOrderBySortNumber(String questionnaireId) {
+        return questionRepository.findAllNamesByQuestionnaire_UuidOrderBySortNumber(questionnaireId);
+    }
+
+    public List<QuestionDTO> findAllByQuestionnaireIdOrderBySortNumber(String questionnaireId) {
+        return questionRepository.findAllByQuestionnaire_UuidOrderBySortNumber(questionnaireId);
+    }
+
 }

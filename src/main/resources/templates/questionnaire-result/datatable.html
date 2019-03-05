@@ -27,24 +27,13 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         var questionnaireId = /*[[${param.questionnaireId}]]*/ '';
+        var columns = /*[[${columns}]]*/ '';
+        var useRealEstate = /*[[${useRealEstate}]]*/ '';
         /*]]>*/
     </script>
-    <table id="resultTable" class="result-table display" style="width:100%">
-        <thead>
-        <tr>
-            <th>Собственник</th>
-            <th>Контакты</th>
-            <th style="width: 140px">Объекты</th>
-            <th>Вы проголосовали или будете игнорировать голосование? *</th>
-            <th>№ 8. Ваше решение о заключении договора с УК Еврогород ? *</th>
-            <th>№ 13. Ваше решение о ставке 34.90 руб./кв.м. ? *</th>
-            <th>№ 17. Ваше решение об охране за 17.5 руб./кв.м.? *</th>
-            <th>№ 22. Ваше решение об электронном голосовании ? *</th>
-            <th>Подтв.?</th>
-            <th>Проверен.?</th>
-        </tr>
-        </thead>
-    </table>
+
+    <table id="resultTable" class="result-table  display" width="100%"></table>
+
 </div>
 </body>
 </html>

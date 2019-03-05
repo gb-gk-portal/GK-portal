@@ -1,5 +1,8 @@
 package ru.geekbrains.gkportal.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.gkportal.dto.AnswerResultDTO;
 import ru.geekbrains.gkportal.dto.QuestionResultFromView;
+import ru.geekbrains.gkportal.dto.interfaces.QuestionDTO;
+import ru.geekbrains.gkportal.dto.interfaces.QuestionnaireDTO;
 import ru.geekbrains.gkportal.entity.Contact;
 import ru.geekbrains.gkportal.entity.questionnaire.Question;
 import ru.geekbrains.gkportal.entity.questionnaire.Questionnaire;
@@ -15,6 +20,7 @@ import ru.geekbrains.gkportal.security.IsAuthenticated;
 import ru.geekbrains.gkportal.service.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -84,15 +90,48 @@ public class QuestionnaireController {
     public String showQuestionnaireResultsDataTable(@RequestParam String questionnaireId, Model model) {
         long t = System.currentTimeMillis();
 
+        QuestionnaireDTO questionnaireDTO = questionnaireService.findQuestionnaireDTOById(questionnaireId);
+        boolean useRealEstate = questionnaireDTO.isUseRealEstate();
+        model.addAttribute("useRealEstate", useRealEstate);
+
         List<Contact> contactList = contactService.findAllByConfirmQuestionnaireId(questionnaireId);
 
-        model.addAttribute("questionnaireName", questionnaireService.findQuestionnaireNameById(questionnaireId));
+        model.addAttribute("questionnaireName", questionnaireDTO.getName());
         model.addAttribute("contactList", contactList);        // TODO: 20.02.19 облегчить запросы , вероятно сделать нативными
         model.addAttribute("confirmedCount", contactService.countQuestionnaireContactConfirm(contactList));
+
+
+        List<QuestionDTO> questionDTOList = questionnaireService.findAllByQuestionnaireIdOrderBySortNumber(questionnaireId);
+
+        List<Column> columnList = new ArrayList<>();
+        columnList.add(new Column("name", "Собственник"));
+        columnList.add(new Column("contacts", "Контакты"));
+        if (useRealEstate) columnList.add(new Column("ownership", "Объекты"));
+
+        for (QuestionDTO questionDTO : questionDTOList) {
+            String sortNumber = questionDTO.getSortNumber().toString();
+            String name = questionDTO.getName();
+            columnList.add(new Column(sortNumber, name));
+        }
+
+        if (useRealEstate) {
+            columnList.add(new Column("confirmedValue", "Подтв.?"));
+            columnList.add(new Column("checkButtons", "Проверен.?"));
+        }
+
+        model.addAttribute("columns", columnList.toArray());
 
         logger.info("Время обработки showQuestionnaireResultsDataTable " + (System.currentTimeMillis() - t));
 
         return returnShablon(model, QUESTIONNAIRE_RESULT_FIND_FORM);
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public class Column {
+        String data;
+        String title;
     }
 
     @GetMapping("pie")
@@ -144,7 +183,7 @@ public class QuestionnaireController {
     }
 
 
-    //    @IsAdmin
+    @IsAdmin
     @GetMapping("add")
     public String addQuestionnaire(Model model) { //todo добавить редактирование @RequestParam (required = false) String questionnaireId,
         model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(1, 2));
@@ -176,7 +215,7 @@ public class QuestionnaireController {
         questionnaireService.checkedAndSave(questionnaire);
 
 
-        return "redirect:/questionnaire?questionnaireId="+questionnaire.getUuid();
+        return "redirect:/questionnaire?questionnaireId=" + questionnaire.getUuid();
     }
 
 }

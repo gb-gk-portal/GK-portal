@@ -162,17 +162,17 @@ $(document).ready(function () {
     });
 
     // Initialize tooltip
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[questionData-toggle="tooltip"]').tooltip();
 
     // Initialize popover
-    $('[data-popover-color="default"]').popover();
+    $('[questionData-popover-color="default"]').popover();
 
 
     // By default, Bootstrap doesn't auto close popover after appearing in the page
     // resulting other popover overlap each other. Doing this will auto dismiss a popover
     // when clicking anywhere outside of it
     $(document).on('click', function (e) {
-        $('[data-toggle="popover"],[data-original-title]').each(function () {
+        $('[questionData-toggle="popover"],[questionData-original-title]').each(function () {
             //the 'is' for buttons that trigger popups
             //the 'has' for icons within a button that triggers a popup
             if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {

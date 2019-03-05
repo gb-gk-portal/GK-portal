@@ -6,7 +6,7 @@ public interface QuestionDTO {
 
 //    String getUuid();
 
-//    String getName();
+    String getName();
 
     Integer getSortNumber();
 //    List<AnswerDTO> getAnswers();

@@ -17,6 +17,8 @@ public interface QuestionnaireDTO {
 
     List<QuestionDTO> getQuestions();
 
+    boolean isUseRealEstate();
+
    //    @Column(name = "start_date")
 //    @NotNull(message = "Couldn't be empty!")
 //    private LocalDateTime from;

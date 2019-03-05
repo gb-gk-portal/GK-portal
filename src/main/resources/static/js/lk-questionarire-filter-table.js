@@ -17,7 +17,7 @@ $(document).ready(function(){
         /* Ignore tab key */
         var code = e.keyCode || e.which;
         if (code == '9') return;
-        /* Useful DOM data and selectors */
+        /* Useful DOM questionData and selectors */
         var $input = $(this),
             inputContent = $input.val().toLowerCase(),
             $panel = $input.parents('.filterable'),
