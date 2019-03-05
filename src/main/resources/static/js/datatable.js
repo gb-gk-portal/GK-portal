@@ -12,7 +12,7 @@ $.fn.dataTable.render.answerResult = function () {
 $(document).ready(function () {
     var table = $('#resultTable').DataTable({
         ajax: {
-            "url": "/rest/questionnaire-result?questionnaireId=bb2248ae-2d7e-427d-85ef-7b85888f0319",
+            "url": "/rest/questionnaire-result?questionnaireId=" + questionnaireId,
             "dataSrc": ""
         },
         deferRender: true,

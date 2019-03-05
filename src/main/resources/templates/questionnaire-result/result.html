@@ -5,22 +5,27 @@
 </header>
 <body>
 
-<div class="container card" th:fragment="body">
+<div class="container card br-pagebody" th:fragment="body">
     <h1 th:text="${questionnaire.name}"></h1>
     <h2>
-        <span th:text="'Проголосовало ' + ${contactList.size()} + ' человек, '"></span>
+        <span th:text="'Проголосовало ' + ${contactList.size()} + ' человек '"></span>
+        <div th:if="${questionnaire.useRealEstate}">
         <span style="color: green" th:text="'в т.ч. подтвержденные ' + ${confirmedCount}+ ', '"></span>
         <span style="color: red" th:text="'неподтвержденные ' + ${contactList.size()-confirmedCount}"></span>
+        </div>
     </h2>
     <p style="font-style: italic" th:text="${questionnaire.description}"></p>
     <table class="table-questionnaire-result">
         <thead>
         <tr>
             <th>Имя собственника</th>
-            <th>Контакты</th>
-            <th style="width: 150px;">Объекты</th>
+            <div th:if="${questionnaire.useRealEstate}">
+                <th>Контакты</th>
+                <th style="width: 150px;">Объекты</th>
+            </div>
             <th th:each="question : ${questionnaire.questions}"
                 th:text="${question.name}"></th>
+
         </tr>
         </thead>
 
@@ -28,32 +33,34 @@
         <tr th:styleappend="${contact.questionnaireContactConfirm.confirmed}==true? '': 'background-color: lightpink;'"
             th:each="contact: ${contactList}">
             <td th:text="${contact.lastName} + ' ' + ${contact.firstName} +  ' ' + ${contact.middleName}"></td>
-            <td>
-                <th:block th:each="communication : ${contact.communications}">
-                    <th:block th:switch="${communication.communicationType.description}">
-                        <a th:case="'Email'" th:text="${communication.identify}"
-                           th:href="'mailto:' + ${communication.identify}"></a>
-                        <a th:case="'Телефон'" th:text="${communication.identify}"
-                           th:href="'tel:+7' + ${communication.identify}"></a>
-                        <span th:case="*" th:text="${communication.identify}"></span>
+            <div th:if="${questionnaire.useRealEstate}">
+                <td>
+                    <th:block th:each="communication : ${contact.communications}">
+                        <th:block th:switch="${communication.communicationType.description}">
+                            <a th:case="'Email'" th:text="${communication.identify}"
+                               th:href="'mailto:' + ${communication.identify}"></a>
+                            <a th:case="'Телефон'" th:text="${communication.identify}"
+                               th:href="'tel:+7' + ${communication.identify}"></a>
+                            <span th:case="*" th:text="${communication.identify}"></span>
+                        </th:block>
                     </th:block>
-                </th:block>
-            </td>
-            <td>
-                <th:block th:each="ownership : ${contact.ownerships}">
-                    <th:block th:switch="${ownership.ownershipType.name} ">
-                        <i th:case="'Квартира'" class="far fa-building"></i>
-                        <i th:case="'Машиноместо'" class="fas fa-parking"></i>
-                        <i th:case="'Автомобиль'" class="fas fa-car"></i>
-                        <i th:case="'Нежилое помещение'" class="fas fa-briefcase"></i>
+                </td>
+                <td>
+                    <th:block th:each="ownership : ${contact.ownerships}">
+                        <th:block th:switch="${ownership.ownershipType.name} ">
+                            <i th:case="'Квартира'" class="far fa-building"></i>
+                            <i th:case="'Машиноместо'" class="fas fa-parking"></i>
+                            <i th:case="'Автомобиль'" class="fas fa-car"></i>
+                            <i th:case="'Нежилое помещение'" class="fas fa-briefcase"></i>
+                        </th:block>
+                        <div style="margin-bottom: 20px">
+                            <p th:text="${ownership.houseBuildNum} + ' корпус, '"></p>
+                            <p th:text="${ownership.buildNumber} + ' объект, '"></p>
+                            <p th:text="'(S' + ${ownership.square} + ' кв.м, ' + ${ownership.percentageOfOwner} + '%)' "></p>
+                        </div>
                     </th:block>
-                    <div style="margin-bottom: 20px">
-                        <p th:text="${ownership.houseBuildNum} + ' корпус, '"></p>
-                        <p th:text="${ownership.buildNumber} + ' объект, '"></p>
-                        <p th:text="'(S' + ${ownership.square} + ' кв.м, ' + ${ownership.percentageOfOwner} + '%)' "></p>
-                    </div>
-                </th:block>
-            </td>
+                </td>
+            </div>
             <th:block th:each="question: ${questionnaire.questions}">
                 <td>
                     <th:block th:each="answer: ${question.answers}">

@@ -1,5 +1,5 @@
 <div class="porch" id="porch" th:fragment="porch-view" xmlns:th="http://www.thymeleaf.org">
-    <h2 th:text="${porch.description.housingID}+ ' корпус '+ ${porch.description.porchID}+' подъезд'"></h2>
+    <h2 th:text="${porch. description.housingID}+ ' корпус '+ ${porch.description.porchID}+' подъезд'"></h2>
     <table>
         <tbody th:attr="data-porch-number=${porch.description.porchID}">
         <tr th:attr="data-floor-number=${floor.number}" th:each="floor:${porch.floors}">
@@ -10,8 +10,19 @@
                      th:class="gk-flat"
                      th:classappend="${flat.accountCount}>0 ? 'gk-occupied' : 'gk'" th:each="flat:${floor.flats}"
                      th:if="${flat.riser==iter }">
-                    <div class="gk-flat-number" th:text="${flat.flatNumber}"></div>
-                    <div class="gk-flat-build-number" th:text="${flat.flatNumberBuild}"></div>
+                    <div th:switch="${showType}">
+                        <div th:case="'build'">
+                            <div class="gk-flat-build-number" th:text="${flat.flatNumberBuild}"></div>
+                        </div>
+                        <div th:case="'post'">
+                            <div class="gk-flat-number" th:text="${flat.flatNumber}"></div>
+                        </div>
+
+                        <div th:case="*">
+                            <div class="gk-flat-number" th:text="${flat.flatNumber}"></div>
+                            <div class="gk-flat-build-number" th:text="${flat.flatNumberBuild}"></div>
+                        </div>
+                    </div>
                 </div>
             </td>
         </tr>

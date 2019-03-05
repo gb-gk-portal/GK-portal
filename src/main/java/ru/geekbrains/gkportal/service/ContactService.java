@@ -64,9 +64,10 @@ public class ContactService {
         return contactRepository.findAll();
     }
 
-    public List<Contact> findAllByQuestionnaireId(String questionnaireId) {
+    public List<Contact> findAllByConfirmQuestionnaireId(String questionnaireId) {
         return contactRepository.findAllByQuestionnaireContactConfirm_QuestionnaireUuid(questionnaireId);
     }
+
 
     public List<ContactDTO> findAllDTOByQuestionnaireId(String questionnaireUuid) {
         return contactRepository.findAllByQuestionnaireContactConfirm_QuestionnaireUuidOrderByLastNameAsc(questionnaireUuid);

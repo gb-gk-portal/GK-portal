@@ -62,11 +62,20 @@ public class QuestionnaireController {
     @IsAdmin
     @GetMapping("result")
     public String showQuestionnaireResults(@RequestParam String questionnaireId, Model model) {
-        List<Contact> contactList = contactService.findAllByQuestionnaireId(questionnaireId);
+        Questionnaire questionnaire = questionnaireService.findByIdAndSortQuestionsAndAnswers(questionnaireId);
 
-        model.addAttribute("questionnaire", questionnaireService.findByIdAndSortQuestionsAndAnswers(questionnaireId));
+        List<Contact> contactList;
+        if (questionnaire.isUseRealEstate()) {
+            contactList = contactService.findAllByConfirmQuestionnaireId(questionnaireId);
+        } else {
+            contactList = questionnaireService.findAllContactByQuestionnaireID(questionnaireId);
+        }
+
+
+        model.addAttribute("questionnaire", questionnaire);
         model.addAttribute("contactList", contactList);
-        model.addAttribute("confirmedCount", contactService.countQuestionnaireContactConfirm(contactList));
+        if (questionnaire.isUseRealEstate())
+            model.addAttribute("confirmedCount", contactService.countQuestionnaireContactConfirm(contactList));
         return returnShablon(model, QUESTIONNAIRE_RESULT_FORM);
     }
 
@@ -75,7 +84,7 @@ public class QuestionnaireController {
     public String showQuestionnaireResultsDataTable(@RequestParam String questionnaireId, Model model) {
         long t = System.currentTimeMillis();
 
-        List<Contact> contactList = contactService.findAllByQuestionnaireId(questionnaireId);
+        List<Contact> contactList = contactService.findAllByConfirmQuestionnaireId(questionnaireId);
 
         model.addAttribute("questionnaireName", questionnaireService.findQuestionnaireNameById(questionnaireId));
         model.addAttribute("contactList", contactList);        // TODO: 20.02.19 облегчить запросы , вероятно сделать нативными
@@ -138,7 +147,7 @@ public class QuestionnaireController {
     //    @IsAdmin
     @GetMapping("add")
     public String addQuestionnaire(Model model) { //todo добавить редактирование @RequestParam (required = false) String questionnaireId,
-        model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(2, 2));
+        model.addAttribute("questionnaire", questionnaireService.createEmptyQuestion(1, 2));
         return returnShablon(model, QUESTIONNAIRE_ADD_FORM);
     }
 

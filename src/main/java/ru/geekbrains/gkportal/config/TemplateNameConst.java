@@ -56,6 +56,8 @@ public class TemplateNameConst {
     public static final String LK_MESSAGE_USER_TO_USER_MAIL = "lk/lk-message-user-to-user";
     // форма отправки сообщений соседям
     public static final String LK_NEIGHBORS_MESSAGE_FORM = "lk/lk-neighbors-message";
+    // шахматка для ЛК
+    public static final String LK_SHOW_FLATS = "lk/lk-show-flats";
 
     /**
      * Автоматизация возврата шаблона

@@ -191,6 +191,13 @@ public class RegistrationController {
             errorText.append("Указанный логин уже существует");
         }
 
+        //todo  сделать нормальную валидацию всех полей
+        if (systemAccount.getFlats() == null || systemAccount.getFlats().size() == 0 || systemAccount.getFlats().get(0).getFlatNumber() == null) {
+            errorText.append("Не выбрано ни одной квартиры!");
+            isError = true;
+        }
+
+
         if (!isError) {
             try {
                 // создаём аккаунт

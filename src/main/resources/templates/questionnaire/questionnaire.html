@@ -24,14 +24,20 @@
                 </div>
 
                 <li th:each="item :${questionnaireList}">
-                    <p th:text="${item.name}"></p>
+                    <div class="card br-pagebody">
+                        <div th:replace="fragment/page-content::pageTitle
+    (title=${item.name},description='',iconClass='ion-help') ">
+                        </div>
+
+                        <p th:text="${item.name}"></p>
                     <p>
                         <a th:href="@{/questionnaire(questionnaireId = ${item.uuid})}">Участвовать </a><br>
                         <a th:href="@{/questionnaire/result(questionnaireId = ${item.uuid})}">Результаты </a><br>
-                        <a th:href="@{/questionnaire/questionnaire-result-datatable(questionnaireId = ${item.uuid})}">Результаты
-                            с поиском</a><br>
+                        <a th:href="@{/questionnaire/questionnaire-result-datatable(questionnaireId = ${item.uuid})}">Сверка
+                            с документами</a><br>
                         <a th:href="@{/questionnaire/pie(questionnaireId = ${item.uuid})}">Графики</a><br>
                     </p>
+                    </div>
                 </li>
             </ul>
         </th:block>

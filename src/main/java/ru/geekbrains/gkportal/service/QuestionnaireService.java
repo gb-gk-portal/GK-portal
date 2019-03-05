@@ -30,7 +30,14 @@ public class QuestionnaireService {
     private QuestionnaireRepository questionnaireRepository;
     private QuestionnaireContactConfirmRepository questionnaireContactConfirmRepository;
     private QuestionnaireConfirmedTypeRepository questionnaireConfirmedTypeRepository;
+    private AnswerResultService answerResultService;
     private MailService mailService;
+
+
+    @Autowired
+    public void setAnswerResultService(AnswerResultService answerResultService) {
+        this.answerResultService = answerResultService;
+    }
 
     @Autowired
     public void setMailService(MailService mailService) {
@@ -80,6 +87,11 @@ public class QuestionnaireService {
     @Autowired
     public void setQuestionnaireConfirmedTypeRepository(QuestionnaireConfirmedTypeRepository questionnaireConfirmedTypeRepository) {
         this.questionnaireConfirmedTypeRepository = questionnaireConfirmedTypeRepository;
+    }
+
+    public List<Contact> findAllContactByQuestionnaireID(String questionnaireID) {
+        return answerResultService.findAllContactByQuestionnaireID(questionnaireID);
+
     }
 
     public Questionnaire findByIdAndSortAnswers(String id) {

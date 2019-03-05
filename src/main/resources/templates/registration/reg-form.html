@@ -166,7 +166,7 @@
                         <div class="col-sm-3">
                             <input class="form-control"
                                    readonly="readonly"
-                                   th:field="*{flats[__${flatStat.index}__].flatNumber}">
+                                   required th:field="*{flats[__${flatStat.index}__].flatNumber}">
                             <div class="gk-error" th:errors="*{flats[__${flatStat.index}__].flatNumber}"></div>
                         </div>
                     </div>
@@ -194,28 +194,6 @@
                 </select></div>
             </div>
 
-            <!--/*<div><p>У меня есть место в подземном паркинге</p>
-                <label><input type="radio" th:field="*{boughtParkingPlace}" value="true">Да</label>
-                <label><input type="radio" th:field="*{boughtParkingPlace}" value="false" th:checked="checked">Нет</label>
-            </div>
-            <div><p>Мне инересны</p>
-                <ul>
-                    <li th:each="boxValue: ${interests}">
-                        <input type="checkbox" th:field="*{interestedIn}" th:value="${boxValue}"><label
-                            th:text="${boxValue}" th:for="${#ids.prev('interestedIn')}"></label>
-                    </li>
-                </ul>
-                <p>Дополнительные интересы</p>
-                <textarea th:field="*{extraInterests}"></textarea>
-            </div>
-            <div><label>Число автомобилей в семье<select th:field="*{carsInFamily}">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select></label></div>*/-->
             <div class="form-group row">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-6">

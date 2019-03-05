@@ -56,6 +56,7 @@ public class Contact extends AbstractEntity {
 //    private Collection<Ownership> realEstates;
 
 //    @Valid
+//todo  1 к многим !!!!
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "contact")
     @JoinColumn(name = "contact_id")
     @JsonIgnore

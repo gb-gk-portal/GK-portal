@@ -88,7 +88,6 @@ public class HouseService {
     public Porch build(int houseNumber, int porchNumber) {
         BuildPorchConfig porchConfig = porchConfigRepository.findAllByhousingIDAndPorchID(houseNumber, porchNumber);
         List<Flat> flats = flatRepository.findAllByHouseAndPorch(houseNumber, porchNumber);
-
         return makePorch(porchConfig, flats);
     }
 
