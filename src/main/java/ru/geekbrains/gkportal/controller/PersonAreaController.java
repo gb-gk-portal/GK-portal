@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.geekbrains.gkportal.dto.FilterUserProfileFlat;
+import ru.geekbrains.gkportal.dto.Porch;
 import ru.geekbrains.gkportal.dto.QuestionnaireContactResult;
 import ru.geekbrains.gkportal.entity.*;
 import ru.geekbrains.gkportal.repository.AccountRepository;
@@ -16,10 +17,7 @@ import ru.geekbrains.gkportal.service.AuthenticateService;
 import ru.geekbrains.gkportal.service.FlatsService;
 import ru.geekbrains.gkportal.service.HouseService;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ru.geekbrains.gkportal.config.TemplateNameConst.*;
 
@@ -141,6 +139,33 @@ public class PersonAreaController {
         model.addAttribute("filterTypeMap", filterTypeMap);
 
         return returnShablon(model, LK_NEIGHBORS_MESSAGE_FORM);
+    }
+
+    @IsAuthenticated
+    @GetMapping("/lk/show-flats")
+    public String showFlats(Model model) {
+        if (authenticateService.isCurrentUserAuthenticated()) {
+            Account account = accountRepository.findOneByLogin(authenticateService.getCurrentUser().getUsername());
+            if (account != null) {
+                Contact contact = account.getContact();
+                if (contact != null) {
+                    Collection<Flat> flats = contact.getFlats();
+                    List<Porch> porches = new ArrayList<>();
+                    for (Flat flat:flats) {
+                        porches.add(houseService.build(flat.getHouse(), flat.getPorch()));
+                    }
+//                    Porch porch = houseService.build(2, 1);
+                    model.addAttribute("porches", porches);
+                    return returnShablon(model, LK_SHOW_FLATS);
+                }
+            }
+            if (logger.isDebugEnabled()) {
+                logger.debug("404");
+            }
+            return "404";
+        } else {
+            return returnShablon(model, LOGIN_FORM);
+        }
     }
 
 }

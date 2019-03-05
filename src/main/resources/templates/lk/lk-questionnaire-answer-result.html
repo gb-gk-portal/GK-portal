@@ -17,13 +17,17 @@
     <div class="ht-md-60 pd-x-20 bg-dark rounded d-flex align-items-center justify-content-center mg-t-20">
         <ul class="nav nav-outline nav-outline-for-dark active-info align-items-center flex-column flex-md-row"
             role="tablist">
-            <li class="nav-item"><a aria-selected="false" class="nav-link " role="tab"
+            <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
                                     th:href="@{/user/profile}">Home</a>
             </li>
-            <li class="nav-item"><a aria-selected="true" class="nav-link  active show"
+
+            <li class="nav-item"><a aria-selected="true" class="nav-link active show"
                                     role="tab" th:href="@{/lk/questionnaire-answer-result}">Результаты Ваших
                 голосований</a></li>
-            <li class="nav-item"><a aria-selected="false" class="nav-link" href="#" role="tab">Шахматка</a></li>
+
+            <li class="nav-item"><a aria-selected="false" class="nav-link"
+                                    th:href="@{/lk/show-flats}" role="tab">Шахматка</a></li>
+
             <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
                                     th:href="@{/lk/neighbors-message}">Соседи</a></li>
         </ul>

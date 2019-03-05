@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/lk-show-flats.css}"/>
+    <title>Личный кабинет - Шахматка</title>
+</header>
+<body>
+<div class="br-pagebody card" th:fragment="body">
+
+    <div th:replace="fragment/page-content::pageTitle
+        (title='Шахматка',
+        description='тут увидеть подъезды, в которых расположены квартиры',
+        iconClass='icon ion-ios-wineglass')">
+    </div>
+
+    <div class="ht-md-60 pd-x-20 bg-dark rounded d-flex align-items-center justify-content-center mg-t-20">
+        <ul class="nav nav-outline nav-outline-for-dark active-info align-items-center flex-column flex-md-row"
+            role="tablist">
+            <li class="nav-item"><a aria-selected="true" class="nav-link" role="tab"
+                                    th:href="@{/user/profile}">Home</a></li>
+
+            <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
+                                    th:href="@{/lk/questionnaire-answer-result}">Результаты Ваших голосований</a></li>
+
+            <li class="nav-item"><a aria-selected="true" class="nav-link active show"
+                                    th:href="@{/lk/show-flats}" role="tab">Шахматка</a></li>
+
+            <li class="nav-item"><a aria-selected="false" class="nav-link" role="tab"
+                                    th:href="@{/lk/neighbors-message}">Соседи</a></li>
+        </ul>
+    </div>
+
+    <br>
+
+    <div class="porches">
+        <div th:each="porch : ${porches}">
+            <div th:insert="~{scheme/porch-form::porch-view}"></div>
+        </div>
+    </div>
+
+    <br>
+
+</div>
+
+</body>
+</html>
